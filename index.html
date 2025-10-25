@@ -28,9 +28,17 @@
             color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
         }
 
-        /* Параллакс фон */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Параллакс фон с анимированными градиентами */
         .parallax-bg {
             position: fixed;
             top: 0;
@@ -38,10 +46,18 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(240, 147, 251, 0.05) 0%, transparent 50%);
+                radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(240, 147, 251, 0.1) 0%, transparent 50%);
             z-index: -1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(-10px, -10px) scale(1.02); }
+            50% { transform: translate(0, -15px) scale(1); }
+            75% { transform: translate(10px, -5px) scale(1.02); }
         }
 
         /* Навигация */
@@ -49,8 +65,8 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(15, 15, 35, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 15, 35, 0.9);
+            backdrop-filter: blur(15px);
             z-index: 1000;
             padding: 1rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -71,6 +87,12 @@
             background: linear-gradient(45deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: logoGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            from { filter: drop-shadow(0 0 5px rgba(102, 126, 234, 0.5)); }
+            to { filter: drop-shadow(0 0 15px rgba(240, 147, 251, 0.8)); }
         }
 
         .nav-links {
@@ -83,25 +105,20 @@
             text-decoration: none;
             transition: all 0.3s ease;
             position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: linear-gradient(45deg, transparent, transparent);
+            transition: all 0.4s ease;
         }
 
         .nav-link:hover {
-            color: var(--accent);
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.2), rgba(240, 147, 251, 0.1));
+            transform: translateY(-2px);
         }
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
+        .nav-link.active {
             background: linear-gradient(45deg, var(--primary), var(--accent));
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
+            color: white;
         }
 
         /* Основной контент */
@@ -111,37 +128,46 @@
             padding: 80px 2rem 2rem;
         }
 
-        /* Герой секция */
-        .hero {
-            text-align: center;
-            padding: 6rem 0 4rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.5s forwards;
+        /* Страницы */
+        .page {
+            display: none;
+            animation: pageSlide 0.6s ease;
         }
 
-        @keyframes fadeInUp {
-            to {
+        @keyframes pageSlide {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
+        .page.active {
+            display: block;
+        }
+
+        /* Герой секция */
+        .hero {
+            text-align: center;
+            padding: 6rem 0 4rem;
+        }
+
         .hero h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--primary), var(--accent));
+            background: linear-gradient(45deg, var(--primary), var(--accent), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: glow 2s ease-in-out infinite alternate;
+            background-size: 200% 200%;
+            animation: textGradient 3s ease infinite;
         }
 
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
-            }
-            to {
-                text-shadow: 0 0 30px rgba(240, 147, 251, 0.8);
-            }
+        @keyframes textGradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .hero p {
@@ -156,15 +182,21 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 1rem;
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.2), rgba(240, 147, 251, 0.1));
+            padding: 0.8rem 1.5rem;
             border-radius: 25px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .author:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.3), rgba(240, 147, 251, 0.2));
             transform: translateY(-2px);
         }
 
@@ -178,14 +210,11 @@
 
         .project-card {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
             border-radius: 20px;
             padding: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            opacity: 0;
-            transform: translateY(50px);
-            animation: cardEntrance 0.8s ease forwards;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             cursor: pointer;
             position: relative;
             overflow: hidden;
@@ -208,19 +237,42 @@
 
         .project-card:hover {
             transform: translateY(-10px);
-            border-color: rgba(102, 126, 234, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(102, 126, 234, 0.2);
         }
 
-        @keyframes cardEntrance {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .project-card:nth-child(1) { animation-delay: 0.2s; }
-        .project-card:nth-child(2) { animation-delay: 0.4s; }
+        .project-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
 
         .project-icon {
             font-size: 2.5rem;
@@ -250,12 +302,18 @@
         }
 
         .tech-tag {
-            background: rgba(102, 126, 234, 0.2);
-            color: var(--primary);
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.3), rgba(240, 147, 251, 0.2));
+            color: var(--text);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
             font-size: 0.8rem;
             border: 1px solid rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            transform: scale(1.05);
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.4), rgba(240, 147, 251, 0.3));
         }
 
         .project-link {
@@ -271,111 +329,189 @@
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .project-link:hover::before {
+            left: 100%;
         }
 
         .project-link:hover {
             transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
 
-        /* Модальное окно */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(7, 7, 17, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        /* Детальная страница проекта */
+        .project-detail {
+            padding: 2rem 0;
         }
 
-        .modal.active {
-            display: flex;
-            opacity: 1;
-            animation: modalEnter 0.3s ease;
-        }
-
-        @keyframes modalEnter {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, rgba(30, 30, 60, 0.95) 0%, rgba(15, 15, 35, 0.98) 100%);
-            margin: auto;
-            padding: 3rem;
+        .project-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 800px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
         }
 
-        .modal.active .modal-content {
-            transform: scale(1);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close-modal:hover {
-            color: var(--accent);
-        }
-
-        .modal-header {
-            margin-bottom: 2rem;
-        }
-
-        .modal-header h2 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+        .project-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
             background: linear-gradient(45deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .modal-body {
-            line-height: 1.7;
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .modal-body p {
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+
+        .project-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .project-description {
+            line-height: 1.8;
+        }
+
+        .project-description p {
             margin-bottom: 1.5rem;
             color: var(--text-secondary);
         }
 
-        .modal-features {
+        .project-screenshots {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: 1fr;
             gap: 1rem;
+        }
+
+        .screenshot-placeholder {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border-radius: 15px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .project-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
             margin: 2rem 0;
         }
 
         .feature {
-            background: rgba(255, 255, 255, 0.05);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            border-left-color: var(--accent);
+        }
+
+        /* Страница "Обо мне" */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            padding: 2rem 0;
+        }
+
+        .about-text {
+            line-height: 1.8;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .about-image {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border-radius: 20px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Страница "Контакты" */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            padding: 2rem 0;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
             padding: 1rem;
             border-radius: 10px;
-            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(10px);
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         /* Футер */
@@ -400,15 +536,17 @@
             gap: 0.5rem;
             color: var(--text);
             text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.05);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .social-link:hover {
-            background: rgba(102, 126, 234, 0.2);
-            transform: translateY(-2px);
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.3), rgba(240, 147, 251, 0.2));
+            transform: translateY(-3px);
+            border-color: rgba(102, 126, 234, 0.3);
         }
     </style>
 </head>
@@ -421,31 +559,31 @@
         <div class="nav-container">
             <div class="logo">0ptim1st-DK</div>
             <div class="nav-links">
-                <a href="#projects" class="nav-link">Проекты</a>
-                <a href="#about" class="nav-link">Обо мне</a>
-                <a href="#contact" class="nav-link">Контакты</a>
+                <a href="#home" class="nav-link active" onclick="showPage('home')">Главная</a>
+                <a href="#projects" class="nav-link" onclick="showPage('projects')">Проекты</a>
+                <a href="#about" class="nav-link" onclick="showPage('about')">Обо мне</a>
+                <a href="#contact" class="nav-link" onclick="showPage('contact')">Контакты</a>
             </div>
         </div>
     </nav>
 
     <!-- Основной контент -->
     <div class="container">
-        <!-- Герой секция -->
-        <section class="hero">
-            <h1>Инновационные проекты</h1>
-            <p>Исследуйте мир программирования через призму креативных решений и передовых технологий</p>
-            <div class="author">
-                <i class="fas fa-code"></i>
-                <span>Проекты от 0ptim1st-DK</span>
-            </div>
-        </section>
+        <!-- Главная страница -->
+        <div id="home" class="page active">
+            <section class="hero">
+                <h1>Инновационные проекты</h1>
+                <p>Исследуйте мир программирования через призму креативных решений и передовых технологий</p>
+                <div class="author">
+                    <i class="fas fa-code"></i>
+                    <span>Проекты от 0ptim1st-DK</span>
+                </div>
+            </section>
 
-        <!-- Сетка проектов -->
-        <section id="projects">
-            <div class="projects-grid">
+            <section class="projects-grid">
                 <!-- AutoCraft AE2 -->
-                <div class="project-card" onclick="openModal('autocraft')">
-                    <div class="project-icon">
+                <div class="project-card" onclick="showProject('autocraft')">
+                    <div class="project-image">
                         <i class="fas fa-robot"></i>
                     </div>
                     <h3>AutoCraft AE2</h3>
@@ -456,14 +594,14 @@
                         <span class="tech-tag">Forge API</span>
                         <span class="tech-tag">Automation</span>
                     </div>
-                    <button class="project-link" onclick="event.stopPropagation(); openModal('autocraft')">
+                    <button class="project-link" onclick="event.stopPropagation(); showProject('autocraft')">
                         <i class="fas fa-info-circle"></i>Подробнее
                     </button>
                 </div>
 
-                <!-- Будущий проект -->
-                <div class="project-card" onclick="openModal('future')">
-                    <div class="project-icon">
+                <!-- Будущий проект 1 -->
+                <div class="project-card" onclick="showProject('future1')">
+                    <div class="project-image">
                         <i class="fas fa-star"></i>
                     </div>
                     <h3>Новые горизонты</h3>
@@ -473,89 +611,124 @@
                         <span class="tech-tag">Innovation</span>
                         <span class="tech-tag">Technology</span>
                     </div>
-                    <button class="project-link" onclick="event.stopPropagation(); openModal('future')">
+                    <button class="project-link" onclick="event.stopPropagation(); showProject('future1')">
                         <i class="fas fa-eye"></i>Скоро
                     </button>
                 </div>
-            </div>
-        </section>
-    </div>
 
-    <!-- Модальное окно AutoCraft AE2 -->
-    <div id="autocraft-modal" class="modal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('autocraft')">&times;</button>
-            <div class="modal-header">
-                <h2><i class="fas fa-robot"></i> AutoCraft AE2</h2>
-                <p>Умная система автоматизации для Minecraft</p>
-            </div>
-            <div class="modal-body">
-                <p>AutoCraft AE2 - это революционный мод для Minecraft, который выводит автоматизацию крафта на совершенно новый уровень. Проект расширяет функциональность Applied Energistics 2, предоставляя мощные инструменты для оптимизации производственных процессов.</p>
-                
-                <div class="modal-features">
-                    <div class="feature">
-                        <h4><i class="fas fa-bolt"></i> Интеллектуальный крафт</h4>
-                        <p>Автоматическое распределение задач и оптимизация ресурсов</p>
+                <!-- Будущий проект 2 -->
+                <div class="project-card" onclick="showProject('future2')">
+                    <div class="project-image">
+                        <i class="fas fa-gamepad"></i>
                     </div>
-                    <div class="feature">
-                        <h4><i class="fas fa-network-wired"></i> Расширенная логистика</h4>
-                        <p>Сложные цепочки крафта и умное управление предметами</p>
+                    <h3>Игровые механики</h3>
+                    <p>Эксперименты с игровыми движками и создание уникальных игровых механик</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Game Dev</span>
+                        <span class="tech-tag">Unity</span>
+                        <span class="tech-tag">C#</span>
                     </div>
-                    <div class="feature">
-                        <h4><i class="fas fa-chart-line"></i> Мониторинг в реальном времени</h4>
-                        <p>Детальная статистика и визуализация производственных процессов</p>
-                    </div>
-                    <div class="feature">
-                        <h4><i class="fas fa-cogs"></i> Гибкая настройка</h4>
-                        <p>Широкие возможности кастомизации под любые нужды</p>
-                    </div>
+                    <button class="project-link" onclick="event.stopPropagation(); showProject('future2')">
+                        <i class="fas fa-lightbulb"></i>В разработке
+                    </button>
                 </div>
 
-                <p>Проект активно развивается и постоянно пополняется новыми функциями. Присоединяйтесь к сообществу разработчиков и пользователей!</p>
+                <!-- Будущий проект 3 -->
+                <div class="project-card" onclick="showProject('future3')">
+                    <div class="project-image">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Инструменты разработки</h3>
+                    <p>Полезные утилиты и инструменты для упрощения процесса разработки</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Tools</span>
+                        <span class="tech-tag">Productivity</span>
+                        <span class="tech-tag">Automation</span>
+                    </div>
+                    <button class="project-link" onclick="event.stopPropagation(); showProject('future3')">
+                        <i class="fas fa-wrench"></i>В планах
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- Страница проектов -->
+        <div id="projects" class="page">
+            <a href="#home" class="back-button" onclick="showPage('home')">
+                <i class="fas fa-arrow-left"></i>Назад к проектам
+            </a>
+            <div id="project-content"></div>
+        </div>
+
+        <!-- Страница "Обо мне" -->
+        <div id="about" class="page">
+            <a href="#home" class="back-button" onclick="showPage('home')">
+                <i class="fas fa-arrow-left"></i>Назад на главную
+            </a>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h1>Обо мне</h1>
+                    <p>Привет! Я обычный энтузиаст и ценитель Minecraft, страстно увлечённый созданием интересных и полезных проектов. Моё путешествие в мир программирования началось с желания улучшить игровой опыт и создать что-то уникальное.</p>
+                    
+                    <p>AutoCraft AE2 - это результат моей любви к техническим аспектам Minecraft и стремления к автоматизации. Я верю, что даже самые сложные системы могут быть интуитивно понятными и эффективными.</p>
+                    
+                    <p>В свободное время я экспериментирую с новыми технологиями, изучаю передовые подходы в разработке и всегда открыт для сотрудничества с единомышленниками.</p>
+                    
+                    <p>Мой девиз: "Создавай то, что было бы интересно использовать самому!"</p>
+                </div>
                 
-                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                    <a href="https://github.com/0ptim1st-DK/autocraft-ae2" class="project-link" target="_blank">
-                        <i class="fab fa-github"></i> Исходный код
-                    </a>
-                    <a href="https://github.com/0ptim1st-DK/autocraft-ae2/blob/main/README.md" class="project-link" target="_blank">
-                        <i class="fas fa-book"></i> Документация
-                    </a>
+                <div class="about-image">
+                    <i class="fas fa-user-astronaut"></i>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Модальное окно будущего проекта -->
-    <div id="future-modal" class="modal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('future')">&times;</button>
-            <div class="modal-header">
-                <h2><i class="fas fa-star"></i> Новые горизонты</h2>
-                <p>Следующее поколение инновационных проектов</p>
-            </div>
-            <div class="modal-body">
-                <p>В разработке находятся несколько перспективных проектов, которые продолжат традиции инноваций и качественного кода.</p>
-                
-                <div class="modal-features">
-                    <div class="feature">
-                        <h4><i class="fas fa-code"></i> Современные технологии</h4>
-                        <p>Использование передовых фреймворков и методологий</p>
+        <!-- Страница "Контакты" -->
+        <div id="contact" class="page">
+            <a href="#home" class="back-button" onclick="showPage('home')">
+                <i class="fas fa-arrow-left"></i>Назад на главную
+            </a>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h1>Свяжитесь со мной</h1>
+                    <p>Всегда рад новым знакомствам и интересным предложениям!</p>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h3>Email</h3>
+                            <p>2dmrkalug@mail.ru</p>
+                        </div>
                     </div>
-                    <div class="feature">
-                        <h4><i class="fas fa-users"></i> Сообщество</h4>
-                        <p>Фокус на создании полезных инструментов для разработчиков</p>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <div>
+                            <h3>GitHub</h3>
+                            <p>github.com/0ptim1st-DK</p>
+                        </div>
                     </div>
-                    <div class="feature">
-                        <h4><i class="fas fa-rocket"></i> Инновации</h4>
-                        <p>Поиск нестандартных решений сложных проблем</p>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-code-branch"></i>
+                        </div>
+                        <div>
+                            <h3>Проекты</h3>
+                            <p>Открытый исходный код</p>
+                        </div>
                     </div>
                 </div>
-
-                <p>Следите за обновлениями в моём GitHub профиле, чтобы быть в курсе новых проектов!</p>
                 
-                <a href="https://github.com/0ptim1st-DK" class="project-link" target="_blank">
-                    <i class="fab fa-github"></i> Мой GitHub
-                </a>
+                <div class="about-image">
+                    <i class="fas fa-paper-plane"></i>
+                </div>
             </div>
         </div>
     </div>
@@ -568,6 +741,9 @@
                 <a href="https://github.com/0ptim1st-DK" class="social-link" target="_blank">
                     <i class="fab fa-github"></i>GitHub
                 </a>
+                <a href="mailto:2dmrkalug@mail.ru" class="social-link">
+                    <i class="fas fa-envelope"></i>Email
+                </a>
                 <a href="https://github.com/0ptim1st-DK/autocraft-ae2" class="social-link" target="_blank">
                     <i class="fas fa-robot"></i>AutoCraft AE2
                 </a>
@@ -577,25 +753,168 @@
     </footer>
 
     <script>
-        // Управление модальными окнами
-        function openModal(project) {
-            const modal = document.getElementById(`${project}-modal`);
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal(project) {
-            const modal = document.getElementById(`${project}-modal`);
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // Закрытие модального окна при клике вне контента
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal')) {
-                e.target.classList.remove('active');
-                document.body.style.overflow = 'auto';
+        // Данные проектов
+        const projects = {
+            autocraft: {
+                title: "AutoCraft AE2",
+                subtitle: "Умная система автоматизации для Minecraft",
+                description: `
+                    <p>AutoCraft AE2 - это революционный мод для Minecraft, который выводит автоматизацию крафта на совершенно новый уровень. Проект расширяет функциональность Applied Energistics 2, предоставляя мощные инструменты для оптимизации производственных процессов.</p>
+                    
+                    <p>Система интеллектуально распределяет задачи крафта, оптимизирует использование ресурсов и предоставляет детальную статистику в реальном времени. Это идеальное решение для сложных технических сборок и масштабных производств.</p>
+                    
+                    <div class="project-features">
+                        <div class="feature">
+                            <h4><i class="fas fa-bolt"></i> Интеллектуальный крафт</h4>
+                            <p>Автоматическое распределение задач и оптимизация ресурсов</p>
+                        </div>
+                        <div class="feature">
+                            <h4><i class="fas fa-network-wired"></i> Расширенная логистика</h4>
+                            <p>Сложные цепочки крафта и умное управление предметами</p>
+                        </div>
+                        <div class="feature">
+                            <h4><i class="fas fa-chart-line"></i> Мониторинг в реальном времени</h4>
+                            <p>Детальная статистика и визуализация производственных процессов</p>
+                        </div>
+                        <div class="feature">
+                            <h4><i class="fas fa-cogs"></i> Гибкая настройка</h4>
+                            <p>Широкие возможности кастомизации под любые нужды</p>
+                        </div>
+                    </div>
+                `,
+                links: [
+                    { url: "https://github.com/0ptim1st-DK/autocraft-ae2", text: "Исходный код", icon: "fab fa-github" },
+                    { url: "https://github.com/0ptim1st-DK/autocraft-ae2/blob/main/README.md", text: "Документация", icon: "fas fa-book" }
+                ]
+            },
+            future1: {
+                title: "Новые горизонты",
+                subtitle: "Следующее поколение инновационных проектов",
+                description: `
+                    <p>В разработке находятся несколько перспективных проектов, которые продолжат традиции инноваций и качественного кода.</p>
+                    
+                    <p>Следите за обновлениями в моём GitHub профиле, чтобы быть в курсе новых проектов!</p>
+                    
+                    <div class="project-features">
+                        <div class="feature">
+                            <h4><i class="fas fa-code"></i> Современные технологии</h4>
+                            <p>Использование передовых фреймворков и методологий</p>
+                        </div>
+                        <div class="feature">
+                            <h4><i class="fas fa-users"></i> Сообщество</h4>
+                            <p>Фокус на создании полезных инструментов для разработчиков</p>
+                        </div>
+                        <div class="feature">
+                            <h4><i class="fas fa-rocket"></i> Инновации</h4>
+                            <p>Поиск нестандартных решений сложных проблем</p>
+                        </div>
+                    </div>
+                `,
+                links: [
+                    { url: "https://github.com/0ptim1st-DK", text: "Мой GitHub", icon: "fab fa-github" }
+                ]
+            },
+            future2: {
+                title: "Игровые механики",
+                subtitle: "Эксперименты с игровыми движками",
+                description: `
+                    <p>Тут пока ничего нет :)</p>
+                    <p>Но скоро здесь появятся интересные проекты связанные с игровой разработкой!</p>
+                `,
+                links: [
+                    { url: "https://github.com/0ptim1st-DK", text: "Следить за обновлениями", icon: "fab fa-github" }
+                ]
+            },
+            future3: {
+                title: "Инструменты разработки",
+                subtitle: "Полезные утилиты для программистов",
+                description: `
+                    <p>Тут пока ничего нет :)</p>
+                    <p>Раздел в разработке. Скоро появятся полезные инструменты!</p>
+                `,
+                links: [
+                    { url: "https://github.com/0ptim1st-DK", text: "Будет скоро", icon: "fab fa-github" }
+                ]
             }
+        };
+
+        // Функции навигации
+        function showPage(pageId) {
+            // Скрыть все страницы
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Показать выбранную страницу
+            document.getElementById(pageId).classList.add('active');
+            
+            // Обновить активную ссылку в навигации
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function showProject(projectId) {
+            const project = projects[projectId];
+            const projectContent = document.getElementById('project-content');
+            
+            projectContent.innerHTML = `
+                <div class="project-detail">
+                    <div class="project-header">
+                        <h1>${project.title}</h1>
+                        <p>${project.subtitle}</p>
+                    </div>
+                    
+                    <div class="project-content">
+                        <div class="project-description">
+                            ${project.description}
+                            
+                            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                                ${project.links.map(link => `
+                                    <a href="${link.url}" class="project-link" target="_blank">
+                                        <i class="${link.icon}"></i>${link.text}
+                                    </a>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="project-screenshots">
+                            <div class="screenshot-placeholder">
+                                <i class="fas fa-image"></i>
+                                <span style="margin-left: 10px;">Скриншоты проекта</span>
+                            </div>
+                            <div class="screenshot-placeholder">
+                                <i class="fas fa-video"></i>
+                                <span style="margin-left: 10px;">Демонстрация работы</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            showPage('projects');
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            // Анимация появления элементов при скролле
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            // Наблюдаем за карточками проектов
+            document.querySelectorAll('.project-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
         });
 
         // Параллакс эффект для фона
@@ -603,32 +922,7 @@
             const parallax = document.querySelector('.parallax-bg');
             const x = (e.clientX / window.innerWidth) * 20;
             const y = (e.clientY / window.innerHeight) * 20;
-            parallax.style.transform = `translate(${x}px, ${y}px)`;
-        });
-
-        // Анимация появления элементов при скролле
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationPlayState = 'running';
-                }
-            });
-        }, { threshold: 0.1 });
-
-        // Наблюдаем за карточками проектов
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.project-card');
-            cards.forEach(card => observer.observe(card));
-        });
-
-        // Плавная прокрутка для навигации
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                targetElement.scrollIntoView({ behavior: 'smooth' });
-            });
+            parallax.style.transform = `translate(${x}px, ${y}px) scale(1.02)`;
         });
     </script>
 </body>
