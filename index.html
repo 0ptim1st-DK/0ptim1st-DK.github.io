@@ -24,11 +24,11 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, #1a1a2e 100%);
+            background: linear-gradient(-45deg, #0f0f23, #1a1a2e, #16213e, #070711);
+            background-size: 400% 400%;
             color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
-            background-size: 400% 400%;
             animation: gradientShift 15s ease infinite;
         }
 
@@ -88,6 +88,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: logoGlow 3s ease-in-out infinite alternate;
+            cursor: pointer;
         }
 
         @keyframes logoGlow {
@@ -227,7 +228,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
             transition: left 0.6s ease;
         }
 
@@ -387,6 +388,7 @@
             margin-bottom: 2rem;
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
         }
 
         .back-button:hover {
@@ -500,6 +502,24 @@
             padding: 1rem;
             border-radius: 10px;
             transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .contact-item:hover::before {
+            left: 100%;
         }
 
         .contact-item:hover {
@@ -507,11 +527,45 @@
             transform: translateX(10px);
         }
 
+        .contact-item .copy-text {
+            position: absolute;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 0.3rem 0.8rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .contact-item:hover .copy-text {
+            opacity: 1;
+        }
+
         .contact-icon {
             font-size: 1.5rem;
             background: linear-gradient(45deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        /* Уведомление */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 10000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
         }
 
         /* Футер */
@@ -541,6 +595,23 @@
             background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
         }
 
         .social-link:hover {
@@ -554,13 +625,17 @@
     <!-- Параллакс фон -->
     <div class="parallax-bg"></div>
 
+    <!-- Уведомление -->
+    <div id="notification" class="notification">
+        Email скопирован в буфер обмена!
+    </div>
+
     <!-- Навигация -->
     <nav class="nav">
         <div class="nav-container">
-            <div class="logo">0ptim1st-DK</div>
+            <div class="logo" onclick="showPage('home')">0ptim1st-DK</div>
             <div class="nav-links">
                 <a href="#home" class="nav-link active" onclick="showPage('home')">Главная</a>
-                <a href="#projects" class="nav-link" onclick="showPage('projects')">Проекты</a>
                 <a href="#about" class="nav-link" onclick="showPage('about')">Обо мне</a>
                 <a href="#contact" class="nav-link" onclick="showPage('contact')">Контакты</a>
             </div>
@@ -654,17 +729,17 @@
 
         <!-- Страница проектов -->
         <div id="projects" class="page">
-            <a href="#home" class="back-button" onclick="showPage('home')">
+            <button class="back-button" onclick="goBackToHome()">
                 <i class="fas fa-arrow-left"></i>Назад к проектам
-            </a>
+            </button>
             <div id="project-content"></div>
         </div>
 
         <!-- Страница "Обо мне" -->
         <div id="about" class="page">
-            <a href="#home" class="back-button" onclick="showPage('home')">
+            <button class="back-button" onclick="showPage('home')">
                 <i class="fas fa-arrow-left"></i>Назад на главную
-            </a>
+            </button>
             
             <div class="about-content">
                 <div class="about-text">
@@ -686,16 +761,16 @@
 
         <!-- Страница "Контакты" -->
         <div id="contact" class="page">
-            <a href="#home" class="back-button" onclick="showPage('home')">
+            <button class="back-button" onclick="showPage('home')">
                 <i class="fas fa-arrow-left"></i>Назад на главную
-            </a>
+            </button>
             
             <div class="contact-content">
                 <div class="contact-info">
                     <h1>Свяжитесь со мной</h1>
                     <p>Всегда рад новым знакомствам и интересным предложениям!</p>
                     
-                    <div class="contact-item">
+                    <div class="contact-item" onclick="copyEmail()">
                         <div class="contact-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
@@ -703,9 +778,10 @@
                             <h3>Email</h3>
                             <p>2dmrkalug@mail.ru</p>
                         </div>
+                        <div class="copy-text">Копировать</div>
                     </div>
                     
-                    <div class="contact-item">
+                    <div class="contact-item" onclick="window.open('https://github.com/0ptim1st-DK', '_blank')">
                         <div class="contact-icon">
                             <i class="fab fa-github"></i>
                         </div>
@@ -713,9 +789,10 @@
                             <h3>GitHub</h3>
                             <p>github.com/0ptim1st-DK</p>
                         </div>
+                        <div class="copy-text">Перейти</div>
                     </div>
                     
-                    <div class="contact-item">
+                    <div class="contact-item" onclick="showPage('home')">
                         <div class="contact-icon">
                             <i class="fas fa-code-branch"></i>
                         </div>
@@ -723,6 +800,7 @@
                             <h3>Проекты</h3>
                             <p>Открытый исходный код</p>
                         </div>
+                        <div class="copy-text">Перейти</div>
                     </div>
                 </div>
                 
@@ -741,11 +819,8 @@
                 <a href="https://github.com/0ptim1st-DK" class="social-link" target="_blank">
                     <i class="fab fa-github"></i>GitHub
                 </a>
-                <a href="mailto:2dmrkalug@mail.ru" class="social-link">
+                <a href="mailto:2dmrkalug@mail.ru" class="social-link" onclick="copyEmail(); return false;">
                     <i class="fas fa-envelope"></i>Email
-                </a>
-                <a href="https://github.com/0ptim1st-DK/autocraft-ae2" class="social-link" target="_blank">
-                    <i class="fas fa-robot"></i>AutoCraft AE2
                 </a>
             </div>
             <p>&copy; 2024 0ptim1st-DK. Все проекты с открытым исходным кодом.</p>
@@ -753,6 +828,10 @@
     </footer>
 
     <script>
+        // Переменные для хранения позиции скролла
+        let homeScrollPosition = 0;
+        let currentPage = 'home';
+
         // Данные проектов
         const projects = {
             autocraft: {
@@ -840,6 +919,11 @@
 
         // Функции навигации
         function showPage(pageId) {
+            // Сохраняем позицию скролла если уходим с главной
+            if (currentPage === 'home') {
+                homeScrollPosition = window.pageYOffset;
+            }
+
             // Скрыть все страницы
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
@@ -851,11 +935,23 @@
             // Обновить активную ссылку в навигации
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
+                if (link.getAttribute('href') === `#${pageId}`) {
+                    link.classList.add('active');
+                }
             });
-            event.target.classList.add('active');
+
+            // Прокрутить вверх для новой страницы
+            if (pageId !== 'home') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            currentPage = pageId;
         }
 
         function showProject(projectId) {
+            // Сохраняем позицию скролла главной страницы
+            homeScrollPosition = window.pageYOffset;
+
             const project = projects[projectId];
             const projectContent = document.getElementById('project-content');
             
@@ -894,6 +990,44 @@
             `;
             
             showPage('projects');
+            // Прокручиваем к началу страницы проекта
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goBackToHome() {
+            showPage('home');
+            // Возвращаем скролл на сохранённую позицию после анимации
+            setTimeout(() => {
+                window.scrollTo({ top: homeScrollPosition, behavior: 'smooth' });
+            }, 300);
+        }
+
+        // Функция копирования email
+        function copyEmail() {
+            const email = '2dmrkalug@mail.ru';
+            navigator.clipboard.writeText(email).then(() => {
+                showNotification('Email скопирован в буфер обмена!');
+            }).catch(() => {
+                // Fallback для старых браузеров
+                const textArea = document.createElement('textarea');
+                textArea.value = email;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification('Email скопирован в буфер обмена!');
+            });
+        }
+
+        // Функция показа уведомления
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
         }
 
         // Инициализация
