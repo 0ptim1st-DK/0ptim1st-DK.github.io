@@ -462,30 +462,29 @@
 
         /* НОВАЯ Анимация стеклянного градиента - из левого верхнего в правый нижний угол */
         .project-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent,
-                transparent,
-                rgba(255, 255, 255, 0.1),
-                rgba(255, 255, 255, 0.05),
-                transparent,
-                transparent
-            );
-            transform: rotate(45deg);
-            transition: all 0.8s ease;
-            opacity: 0;
-        }
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    background: linear-gradient(
+        135deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.05),
+        transparent
+    );
+    transition: all 0.6s ease;
+    opacity: 0;
+    border-radius: 20px;
+}
 
-        .project-card:hover::before {
-            opacity: 1;
-            transform: rotate(45deg) translate(50%, 50%);
-        }
+.project-card:hover::before {
+    opacity: 1;
+    width: 100%;
+    height: 100%;
+}
 
         .project-card:hover {
             transform: translateY(-10px);
