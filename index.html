@@ -866,6 +866,205 @@
             transform: translateY(-3px);
             border-color: rgba(102, 126, 234, 0.3);
         }
+
+                /* ==================== ВИДЕО И ГАЛЕРЕЯ ==================== */
+        
+        /* Стили для видео контейнера */
+        .video-container {
+            margin: 2rem 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.4),
+                0 0 30px rgba(102, 126, 234, 0.2);
+            position: relative;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.4s ease;
+        }
+
+        .video-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 25px 50px rgba(0,0,0,0.5),
+                0 0 40px rgba(102, 126, 234, 0.3);
+        }
+
+        .video-container iframe,
+        .video-container video {
+            width: 100%;
+            height: 400px;
+            border: none;
+            display: block;
+        }
+
+        /* Кастомные элементы управления для видео */
+        .video-container video::-webkit-media-controls-panel {
+            background: linear-gradient(135deg, rgba(30,30,60,0.9) 0%, rgba(15,15,35,0.95) 100%);
+        }
+
+        .video-container video::-webkit-media-controls-play-button,
+        .video-container video::-webkit-media-controls-volume-slider,
+        .video-container video::-webkit-media-controls-timeline {
+            filter: hue-rotate(220deg) brightness(1.2);
+        }
+
+                /* Галерея скриншотов */
+        .project-screenshots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .screenshot-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: all 0.4s ease;
+        }
+
+        .screenshot-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.4),
+                0 0 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .screenshot-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Иконка полноэкранного просмотра */
+        .screenshot-item::after {
+            content: '🔍';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .screenshot-item:hover::after {
+            opacity: 1;
+        }
+
+        /* Модальное окно для полноэкранного просмотра */
+        .screenshot-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(7, 7, 17, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .screenshot-modal.active {
+            display: flex;
+            opacity: 1;
+            animation: modalAppear 0.4s ease;
+        }
+
+        @keyframes modalAppear {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .screenshot-modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            margin: auto;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.4s ease;
+        }
+
+        .screenshot-modal.active .screenshot-modal-content {
+            transform: scale(1);
+        }
+
+        .screenshot-modal img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .close-modal:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+
+        /* Навигация в модальном окне */
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            transform: translateY(-50%);
+        }
+
+        .modal-nav button {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .modal-nav button:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
@@ -1043,6 +1242,18 @@
             <p>&copy; 2024 0ptim1st-DK. Все проекты с открытым исходным кодом.</p>
         </div>
     </footer>
+
+    <!-- Модальное окно для полноэкранного просмотра -->
+    <div id="screenshot-modal" class="screenshot-modal" onclick="closeGallery()">
+        <div class="screenshot-modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closeGallery()">&times;</button>
+            <img id="modal-image" src="" alt="Полноэкранный просмотр">
+            <div class="modal-nav">
+                <button onclick="event.stopPropagation(); prevImage()">❮</button>
+                <button onclick="event.stopPropagation(); nextImage()">❯</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // ==================== КОНФИГУРАЦИЯ ====================
@@ -1789,6 +2000,51 @@
             }, 100);
         });
 
+                // ==================== СИСТЕМА ГАЛЕРЕИ ====================
+        
+        // Система галереи для скриншотов
+        let currentGallery = [];
+        let currentImageIndex = 0;
+
+        function openGallery(images, index = 0) {
+            currentGallery = images;
+            currentImageIndex = index;
+            
+            const modal = document.getElementById('screenshot-modal');
+            const modalImg = document.getElementById('modal-image');
+            
+            modalImg.src = images[index];
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGallery() {
+            const modal = document.getElementById('screenshot-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function nextImage() {
+            if (currentGallery.length > 0) {
+                currentImageIndex = (currentImageIndex + 1) % currentGallery.length;
+                document.getElementById('modal-image').src = currentGallery[currentImageIndex];
+            }
+        }
+
+        function prevImage() {
+            if (currentGallery.length > 0) {
+                currentImageIndex = (currentImageIndex - 1 + currentGallery.length) % currentGallery.length;
+                document.getElementById('modal-image').src = currentGallery[currentImageIndex];
+            }
+        }
+
+        // Закрытие по ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeGallery();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
+
         // Параллакс эффект для фона
         document.addEventListener('mousemove', (e) => {
             const parallax = document.querySelector('.parallax-bg');
@@ -1796,7 +2052,6 @@
             const y = (e.clientY / window.innerHeight) * 20;
             parallax.style.transform = `translate(${x}px, ${y}px) scale(1.02)`;
         });
-
     </script>
 </body>
 </html>
