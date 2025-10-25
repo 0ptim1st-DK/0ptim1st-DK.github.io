@@ -458,6 +458,8 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
 
         /* НОВАЯ Анимация стеклянного градиента - из левого верхнего в правый нижний угол */
@@ -469,9 +471,9 @@
     width: 100%;
     height: 100%;
     background: 
-        linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%),
-        linear-gradient(45deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%),
-        linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%);
+        linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%),
+        linear-gradient(45deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%),
+        linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.02) 50%, transparent 100%);
     transition: all 0.6s ease;
     opacity: 0;
     transform: scale(1.1);
@@ -479,17 +481,18 @@
 }
 
 .project-card:hover::before {
-    opacity: 0.8;
+    opacity: 0.6;  /* Было 0.8 - стало более прозрачно */
     transform: scale(1);
 }
 
         .project-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(102, 126, 234, 0.5);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.3),
-                0 0 30px rgba(102, 126, 234, 0.2);
-        }
+    transform: translateY(-10px) rotateX(2deg) rotateY(2deg);
+    border-color: rgba(102, 126, 234, 0.5);
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(102, 126, 234, 0.3),
+        inset 0 0 30px rgba(255, 255, 255, 0.1);
+}
 
         .project-image {
             width: 100%;
@@ -533,6 +536,26 @@
             line-height: 1.6;
             margin-bottom: 1.5rem;
         }
+
+        /* Анимация текста внутри карточек */
+.project-card h3,
+.project-card p,
+.project-card .tech-stack,
+.project-card .project-link {
+    transition: transform 0.4s ease;
+}
+
+.project-card:hover h3 {
+    transform: translateY(-2px);
+}
+
+.project-card:hover p {
+    transform: translateY(-1px);
+}
+
+.project-card:hover .project-link {
+    transform: translateY(-3px) scale(1.05);
+}
 
         .tech-stack {
             display: flex;
