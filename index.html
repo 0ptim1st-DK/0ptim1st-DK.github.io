@@ -20,7 +20,6 @@
             --darker: #070711;
             --text: #e2e8f0;
             --text-secondary: #94a3b8;
-            --season-color: #667eea;
         }
 
         body {
@@ -31,113 +30,12 @@
             min-height: 100vh;
             overflow-x: hidden;
             animation: gradientShift 15s ease infinite;
-            position: relative;
         }
 
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
-        }
-
-        /* Сезонные анимации */
-        .season-effect {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        /* Лето - солнечные лучи */
-        .summer-sun {
-            position: fixed;
-            top: -100px;
-            right: -100px;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(255,255,0,0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: sunGlow 4s ease-in-out infinite;
-        }
-
-        .sun-ray {
-            position: absolute;
-            background: linear-gradient(90deg, transparent, rgba(255,255,0,0.2), transparent);
-            animation: rayMove 3s ease-in-out infinite;
-        }
-
-        @keyframes sunGlow {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.1); }
-        }
-
-        @keyframes rayMove {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(180deg); }
-        }
-
-        /* Осень - листья */
-        .autumn-leaf {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            background: linear-gradient(45deg, #ff6b6b, #ffa726);
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            animation: leafFall linear forwards;
-        }
-
-        @keyframes leafFall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Зима - снежинки */
-        .snowflake {
-            position: fixed;
-            color: white;
-            font-size: 1rem;
-            animation: snowFall linear forwards;
-            text-shadow: 0 0 5px rgba(255,255,255,0.5);
-        }
-
-        @keyframes snowFall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        .winter-tree {
-            position: fixed;
-            bottom: 0;
-            right: 50px;
-            font-size: 4rem;
-            color: #2e7d32;
-            animation: treeGlow 2s ease-in-out infinite;
-            z-index: 9998;
-        }
-
-        @keyframes treeGlow {
-            0%, 100% { filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); }
-            50% { filter: drop-shadow(0 0 15px rgba(255,255,255,0.7)); }
-        }
-
-        /* Весна - цветы */
-        .spring-flower {
-            position: fixed;
-            width: 15px;
-            height: 15px;
-            background: radial-gradient(circle, #ff6b6b 0%, #ffa726 100%);
-            border-radius: 50%;
-            animation: flowerBloom linear forwards;
-        }
-
-        @keyframes flowerBloom {
-            to {
-                transform: translateY(100vh) rotate(180deg);
-                opacity: 0;
-            }
         }
 
         /* Параллакс фон */
@@ -162,6 +60,39 @@
             75% { transform: translate(10px, -5px) scale(1.02); }
         }
 
+        /* Кнопка "Наверх" */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+            border: none;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
         /* Навигация */
         .nav {
             position: fixed;
@@ -181,6 +112,48 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .event-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-icon img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        .days-counter {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
 
         .logo {
@@ -296,11 +269,33 @@
             cursor: pointer;
             margin: 1rem 0;
             animation: pulse 2s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .projects-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .projects-btn:hover::before {
+            left: 100%;
         }
 
         .projects-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         /* Секции на главной */
@@ -310,6 +305,23 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.03), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .home-section:hover::before {
+            left: 100%;
         }
 
         .section-title {
@@ -375,6 +387,23 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
             border-radius: 15px;
             border-left: 4px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .category-header:hover::before {
+            left: 100%;
         }
 
         .category-icon {
@@ -431,19 +460,31 @@
             overflow: hidden;
         }
 
+        /* НОВАЯ Анимация стеклянного градиента - из левого верхнего в правый нижний угол */
         .project-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.6s ease;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0.05),
+                transparent,
+                transparent
+            );
+            transform: rotate(45deg);
+            transition: all 0.8s ease;
+            opacity: 0;
         }
 
         .project-card:hover::before {
-            left: 100%;
+            opacity: 1;
+            transform: rotate(45deg) translate(50%, 50%);
         }
 
         .project-card:hover {
@@ -824,8 +865,10 @@
     </style>
 </head>
 <body>
-    <!-- Сезонные эффекты -->
-    <div id="season-effects"></div>
+    <!-- Кнопка "Наверх" -->
+    <button class="back-to-top" onclick="scrollToTop()">
+        <i class="fas fa-chevron-up"></i>
+    </button>
 
     <!-- Параллакс фон -->
     <div class="parallax-bg"></div>
@@ -838,7 +881,12 @@
     <!-- Навигация -->
     <nav class="nav">
         <div class="nav-container">
-            <div class="logo" onclick="showPage('home')">0ptim1st-DK</div>
+            <div class="logo-container">
+                <div id="event-icon" class="event-icon">
+                    <!-- Иконка события будет загружена здесь -->
+                </div>
+                <div class="logo" onclick="showPage('home')">0ptim1st-DK</div>
+            </div>
             <div class="nav-links">
                 <a href="#home" class="nav-link active" onclick="showPage('home')">Главная</a>
                 <a href="#projects" class="nav-link" onclick="showPage('projects')">Проекты</a>
@@ -993,10 +1041,369 @@
     </footer>
 
     <script>
-        // Переменные для хранения позиции скролла
+        // ==================== КОНФИГУРАЦИЯ ====================
+        const CONFIG = {
+            GITHUB_USERNAME: '0ptim1st-DK',
+            GITHUB_TOKEN: 'YOUR_GITHUB_TOKEN_HERE' // ⚠️ ЗАМЕНИТЕ НА ВАШ ТОКЕН
+        };
+
+        // ==================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ====================
         let homeScrollPosition = 0;
         let projectsScrollPosition = 0;
         let currentPage = 'home';
+
+        // ==================== СИСТЕМА СОБЫТИЙ И ПРАЗДНИКОВ ====================
+        const EVENT_CONFIG = {
+            // Сезонные события
+            seasons: {
+                spring: { start: [3, 1], end: [5, 31], icon: 'spring.png' },
+                summer: { start: [6, 1], end: [8, 31], icon: 'summer.png' },
+                autumn: { start: [9, 1], end: [11, 30], icon: 'autumn.png' },
+                winter: { start: [12, 1], end: [2, 28], icon: 'winter.png' }
+            },
+            
+            // Праздники (имеют приоритет над сезонами)
+            holidays: {
+                halloween: { 
+                    start: [10, 28], end: [11, 2], 
+                    icon: 'halloween.png',
+                    replaces: 'autumn'
+                },
+                christmas: { 
+                    start: [12, 11], end: [1, 9], 
+                    icon: 'christmas.png',
+                    replaces: 'winter',
+                    countdown: { start: [12, 11], end: [12, 30] }
+                },
+                fatherland_defender_day: { 
+                    start: [2, 23], end: [2, 23], 
+                    icon: 'fatherland_defender_day.png',
+                    replaces: 'winter'
+                },
+                international_women_day: { 
+                    start: [3, 8], end: [3, 8], 
+                    icon: 'international_women_day.png',
+                    replaces: 'spring'
+                },
+                mir_trud_may: { 
+                    start: [5, 1], end: [5, 1], 
+                    icon: 'mir-trud-may.png',
+                    replaces: 'spring'
+                },
+                victory_day: { 
+                    start: [5, 9], end: [5, 9], 
+                    icon: '9may.png',
+                    replaces: 'spring'
+                },
+                russia_day: { 
+                    start: [6, 12], end: [6, 12], 
+                    icon: 'russia_day.png',
+                    replaces: 'summer'
+                },
+                programmer_day: { 
+                    start: [9, 12], end: [9, 13], 
+                    icon: 'programmer_day.png',
+                    replaces: 'autumn'
+                },
+                national_unity_day: { 
+                    start: [11, 4], end: [11, 4], 
+                    icon: 'national_unity_day.png',
+                    replaces: 'autumn'
+                },
+                happy_birthday: { 
+                    start: [5, 22], end: [5, 22], 
+                    icon: 'happy_birthday.png',
+                    replaces: 'spring'
+                }
+            }
+        };
+
+        // ==================== ФУНКЦИИ ДЛЯ РАБОТЫ С ДАТАМИ ====================
+        function getCurrentDate() {
+            return new Date();
+        }
+
+        function isDateInRange(date, start, end) {
+            const currentYear = date.getFullYear();
+            const startDate = new Date(currentYear, start[0] - 1, start[1]);
+            const endDate = new Date(currentYear, end[0] - 1, end[1]);
+            
+            // Обработка переходов через год (например, Новый год)
+            if (start[0] > end[0]) {
+                endDate.setFullYear(currentYear + 1);
+            }
+            
+            return date >= startDate && date <= endDate;
+        }
+
+        function getDaysUntilNewYear() {
+            const now = new Date();
+            const newYear = new Date(now.getFullYear() + 1, 0, 1);
+            const diff = newYear - now;
+            return Math.ceil(diff / (1000 * 60 * 60 * 24));
+        }
+
+        function getCurrentEvent() {
+            const now = getCurrentDate();
+            
+            // Сначала проверяем праздники
+            for (const [holidayName, holiday] of Object.entries(EVENT_CONFIG.holidays)) {
+                if (isDateInRange(now, holiday.start, holiday.end)) {
+                    let daysLeft = null;
+                    
+                    // Особый случай для Нового года - отсчёт дней
+                    if (holidayName === 'christmas' && isDateInRange(now, holiday.countdown.start, holiday.countdown.end)) {
+                        daysLeft = getDaysUntilNewYear();
+                    }
+                    
+                    return {
+                        type: 'holiday',
+                        name: holidayName,
+                        icon: holiday.icon,
+                        replaces: holiday.replaces,
+                        daysLeft: daysLeft
+                    };
+                }
+            }
+            
+            // Затем проверяем сезоны
+            for (const [seasonName, season] of Object.entries(EVENT_CONFIG.seasons)) {
+                if (isDateInRange(now, season.start, season.end)) {
+                    return {
+                        type: 'season',
+                        name: seasonName,
+                        icon: season.icon,
+                        daysLeft: null
+                    };
+                }
+            }
+            
+            // По умолчанию - текущий сезон по месяцу
+            const month = now.getMonth() + 1;
+            if (month >= 3 && month <= 5) return { type: 'season', name: 'spring', icon: 'spring.png' };
+            if (month >= 6 && month <= 8) return { type: 'season', name: 'summer', icon: 'summer.png' };
+            if (month >= 9 && month <= 11) return { type: 'season', name: 'autumn', icon: 'autumn.png' };
+            return { type: 'season', name: 'winter', icon: 'winter.png' };
+        }
+
+        function updateEventIcon() {
+            const event = getCurrentEvent();
+            const eventIcon = document.getElementById('event-icon');
+            
+            let iconHTML = '';
+            if (event.daysLeft !== null) {
+                iconHTML = `
+                    <img src="images/events/${event.icon}" alt="${event.name}" onerror="this.style.display='none'">
+                    <div class="days-counter">${event.daysLeft}</div>
+                `;
+            } else {
+                iconHTML = `<img src="images/events/${event.icon}" alt="${event.name}" onerror="this.style.display='none'">`;
+            }
+            
+            eventIcon.innerHTML = iconHTML;
+            
+            // Если изображение не загрузилось, показываем fallback
+            setTimeout(() => {
+                const img = eventIcon.querySelector('img');
+                if (img && img.naturalHeight === 0) {
+                    eventIcon.innerHTML = `<i class="fas fa-calendar-alt"></i>`;
+                    if (event.daysLeft !== null) {
+                        eventIcon.innerHTML += `<div class="days-counter">${event.daysLeft}</div>`;
+                    }
+                }
+            }, 1000);
+        }
+
+        // ==================== GITHUB API ИНТЕГРАЦИЯ ====================
+        async function githubAPI(endpoint) {
+            const headers = {
+                'Accept': 'application/vnd.github.v3+json',
+                'User-Agent': '0ptim1st-DK-Portfolio'
+            };
+            
+            // Добавляем токен если он есть
+            if (CONFIG.GITHUB_TOKEN && CONFIG.GITHUB_TOKEN !== 'YOUR_GITHUB_TOKEN_HERE') {
+                headers['Authorization'] = `token ${CONFIG.GITHUB_TOKEN}`;
+            }
+            
+            try {
+                const response = await fetch(`https://api.github.com${endpoint}`, { headers });
+                
+                if (!response.ok) {
+                    if (response.status === 403) {
+                        console.warn('GitHub API limit reached, using fallback data');
+                        return null;
+                    }
+                    throw new Error(`GitHub API error: ${response.status}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('GitHub API request failed:', error);
+                return null;
+            }
+        }
+
+        async function getRecentReleases() {
+            const releases = await githubAPI(`/users/${CONFIG.GITHUB_USERNAME}/repos?sort=updated&per_page=10`);
+            
+            if (!releases) {
+                return getFallbackReleases();
+            }
+            
+            const recentReleases = [];
+            const oneMonthAgo = new Date();
+            oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+            
+            for (const repo of releases) {
+                const repoReleases = await githubAPI(`/repos/${CONFIG.GITHUB_USERNAME}/${repo.name}/releases`);
+                
+                if (repoReleases && repoReleases.length > 0) {
+                    const latestRelease = repoReleases[0];
+                    const releaseDate = new Date(latestRelease.published_at || latestRelease.created_at);
+                    
+                    if (releaseDate > oneMonthAgo) {
+                        recentReleases.push({
+                            name: latestRelease.name || repo.name,
+                            description: latestRelease.body || repo.description || 'Новый релиз доступен!',
+                            url: latestRelease.html_url,
+                            repoUrl: repo.html_url,
+                            date: releaseDate,
+                            tag: latestRelease.tag_name
+                        });
+                    }
+                }
+            }
+            
+            return recentReleases.slice(0, 3);
+        }
+
+        function getFallbackReleases() {
+            return [
+                {
+                    name: "AutoCraft AE2 v1.2.0",
+                    description: "Добавлена поддержка новых версий Minecraft и улучшена производительность",
+                    url: "https://github.com/0ptim1st-DK/autocraft-ae2/releases/latest",
+                    repoUrl: "https://github.com/0ptim1st-DK/autocraft-ae2",
+                    date: new Date(),
+                    tag: "v1.2.0"
+                }
+            ];
+        }
+
+        // ==================== ОСНОВНЫЕ ФУНКЦИИ САЙТА ====================
+
+        // Загрузка новостей
+        async function loadNews() {
+            try {
+                const response = await fetch('news.md');
+                if (response.ok) {
+                    const newsText = await response.text();
+                    document.getElementById('news-content').innerHTML = parseMarkdown(newsText);
+                } else {
+                    document.getElementById('news-content').innerHTML = `
+                        <p>Новости скоро появятся! Следите за обновлениями.</p>
+                        <p><em>Создайте файл news.md в корне репозитория для отображения новостей</em></p>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('news-content').innerHTML = `
+                    <p>Не удалось загрузить новости. Проверьте подключение к интернету.</p>
+                    <p><em>Файл news.md должен находиться в корне репозитория</em></p>
+                `;
+            }
+        }
+
+        // Парсинг Markdown (упрощённый)
+        function parseMarkdown(text) {
+            return text
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+                .replace(/\*(.*)\*/gim, '<em>$1</em>')
+                .replace(/`(.*?)`/gim, '<code>$1</code>')
+                .replace(/\n\n/gim, '</p><p>')
+                .replace(/\n/gim, '<br>');
+        }
+
+        // Обновлённая функция загрузки обновлений
+        async function loadUpdates() {
+            const updatesContent = document.getElementById('updates-content');
+            
+            try {
+                updatesContent.innerHTML = `
+                    <div class="no-updates">
+                        <i class="fas fa-sync fa-spin"></i><br>
+                        Загрузка последних обновлений...
+                    </div>
+                `;
+                
+                const releases = await getRecentReleases();
+                
+                if (releases.length === 0) {
+                    updatesContent.innerHTML = `
+                        <div class="no-updates">
+                            <i class="fas fa-info-circle"></i><br>
+                            За последний месяц не было обновлений проектов
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let updatesHTML = '';
+                
+                releases.forEach(release => {
+                    updatesHTML += `
+                        <div class="project-card" onclick="window.open('${release.url}', '_blank')">
+                            <div class="project-image" style="background: linear-gradient(45deg, #28a745, #20c997);">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <h3>${release.name}</h3>
+                            <p>${release.description.substring(0, 120)}${release.description.length > 120 ? '...' : ''}</p>
+                            <div class="tech-stack">
+                                <span class="tech-tag" style="background: rgba(40, 167, 69, 0.3);">Новый релиз</span>
+                                <span class="tech-tag">${release.tag}</span>
+                            </div>
+                            <button class="project-link" onclick="event.stopPropagation(); window.open('${release.url}', '_blank')">
+                                <i class="fas fa-download"></i>Скачать
+                            </button>
+                        </div>
+                    `;
+                });
+                
+                updatesContent.innerHTML = updatesHTML;
+                
+                // Анимация для новых карточек
+                setTimeout(() => {
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.style.opacity = '1';
+                                entry.target.style.transform = 'translateY(0)';
+                            }
+                        });
+                    }, { threshold: 0.1 });
+                    
+                    document.querySelectorAll('#updates-content .project-card').forEach(card => {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(30px)';
+                        card.style.transition = 'all 0.6s ease';
+                        observer.observe(card);
+                    });
+                }, 100);
+                
+            } catch (error) {
+                console.error('Error loading updates:', error);
+                updatesContent.innerHTML = `
+                    <div class="no-updates">
+                        <i class="fas fa-exclamation-triangle"></i><br>
+                        Не удалось загрузить обновления<br>
+                        <small>Проверьте подключение к интернету</small>
+                    </div>
+                `;
+            }
+        }
 
         // Данные проектов по категориям
         const projectsData = {
@@ -1135,148 +1542,6 @@
                 }
             }
         };
-
-        // Сезонные эффекты
-        function initSeasonalEffects() {
-            const now = new Date();
-            const month = now.getMonth() + 1;
-            const effectsContainer = document.getElementById('season-effects');
-            
-            effectsContainer.innerHTML = '';
-
-            // Весна: Март, Апрель, Май
-            if (month >= 3 && month <= 5) {
-                createSpringEffects();
-            }
-            // Лето: Июнь, Июль, Август
-            else if (month >= 6 && month <= 8) {
-                createSummerEffects();
-            }
-            // Осень: Сентябрь, Октябрь, Ноябрь
-            else if (month >= 9 && month <= 11) {
-                createAutumnEffects();
-            }
-            // Зима: Декабрь, Январь, Февраль
-            else {
-                createWinterEffects();
-            }
-        }
-
-        function createSpringEffects() {
-            const container = document.getElementById('season-effects');
-            for (let i = 0; i < 15; i++) {
-                const flower = document.createElement('div');
-                flower.className = 'spring-flower';
-                flower.style.left = Math.random() * 100 + 'vw';
-                flower.style.animationDelay = Math.random() * 20 + 's';
-                flower.style.animationDuration = (15 + Math.random() * 10) + 's';
-                container.appendChild(flower);
-            }
-        }
-
-        function createSummerEffects() {
-            const container = document.getElementById('season-effects');
-            
-            // Солнце
-            const sun = document.createElement('div');
-            sun.className = 'summer-sun';
-            container.appendChild(sun);
-
-            // Солнечные лучи
-            for (let i = 0; i < 8; i++) {
-                const ray = document.createElement('div');
-                ray.className = 'sun-ray';
-                ray.style.width = '100px';
-                ray.style.height = '3px';
-                ray.style.top = '150px';
-                ray.style.left = '150px';
-                ray.style.transform = `rotate(${i * 45}deg)`;
-                ray.style.animationDelay = (i * 0.5) + 's';
-                container.appendChild(ray);
-            }
-        }
-
-        function createAutumnEffects() {
-            const container = document.getElementById('season-effects');
-            for (let i = 0; i < 20; i++) {
-                const leaf = document.createElement('div');
-                leaf.className = 'autumn-leaf';
-                leaf.style.left = Math.random() * 100 + 'vw';
-                leaf.style.animationDelay = Math.random() * 15 + 's';
-                leaf.style.animationDuration = (10 + Math.random() * 10) + 's';
-                container.appendChild(leaf);
-            }
-        }
-
-        function createWinterEffects() {
-            const container = document.getElementById('season-effects');
-            
-            // Ёлка
-            const tree = document.createElement('div');
-            tree.className = 'winter-tree';
-            tree.innerHTML = '🎄';
-            container.appendChild(tree);
-
-            // Снежинки
-            const snowflakes = ['❄️', '🌨️', '⛄'];
-            for (let i = 0; i < 25; i++) {
-                const snowflake = document.createElement('div');
-                snowflake.className = 'snowflake';
-                snowflake.innerHTML = snowflakes[Math.floor(Math.random() * snowflakes.length)];
-                snowflake.style.left = Math.random() * 100 + 'vw';
-                snowflake.style.animationDelay = Math.random() * 20 + 's';
-                snowflake.style.animationDuration = (10 + Math.random() * 15) + 's';
-                container.appendChild(snowflake);
-            }
-        }
-
-        // Загрузка новостей
-        async function loadNews() {
-            try {
-                const response = await fetch('https://raw.githubusercontent.com/0ptim1st-DK/0ptim1st-DK.github.io/main/news.md');
-                if (response.ok) {
-                    const newsText = await response.text();
-                    document.getElementById('news-content').innerHTML = parseMarkdown(newsText);
-                } else {
-                    document.getElementById('news-content').innerHTML = `
-                        <p>Новости скоро появятся! Следите за обновлениями.</p>
-                        <p><em>Создайте файл news.md в корне репозитория для отображения новостей</em></p>
-                    `;
-                }
-            } catch (error) {
-                document.getElementById('news-content').innerHTML = `
-                    <p>Не удалось загрузить новости. Проверьте подключение к интернету.</p>
-                    <p><em>Файл news.md должен находиться в корне репозитория</em></p>
-                `;
-            }
-        }
-
-        // Парсинг Markdown (упрощённый)
-        function parseMarkdown(text) {
-            return text
-                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-                .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
-                .replace(/\*(.*)\*/gim, '<em>$1</em>')
-                .replace(/`(.*?)`/gim, '<code>$1</code>')
-                .replace(/\n/gim, '<br>');
-        }
-
-        // Загрузка обновлений (заглушка - в реальности нужно использовать GitHub API)
-        async function loadUpdates() {
-            // В реальном приложении здесь будет запрос к GitHub API
-            // Для демонстрации используем заглушку
-            setTimeout(() => {
-                const updatesContent = document.getElementById('updates-content');
-                updatesContent.innerHTML = `
-                    <div class="no-updates">
-                        <i class="fas fa-info-circle"></i><br>
-                        За последний месяц не было обновлений проектов
-                    </div>
-                `;
-            }, 2000);
-        }
 
         // Функции навигации
         function showPage(pageId) {
@@ -1467,11 +1732,37 @@
             }, 3000);
         }
 
+        // Функция прокрутки наверх
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Обработчик скролла для кнопки "Наверх"
+        function handleScroll() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        }
+
+        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+
         // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
-            initSeasonalEffects();
+            // Инициализация системы событий
+            updateEventIcon();
+            
+            // Загрузка данных
             loadNews();
             loadUpdates();
+            
+            // Настройка обработчика скролла
+            window.addEventListener('scroll', handleScroll);
             
             // Анимация появления элементов при скролле
             const observer = new IntersectionObserver((entries) => {
@@ -1501,6 +1792,7 @@
             const y = (e.clientY / window.innerHeight) * 20;
             parallax.style.transform = `translate(${x}px, ${y}px) scale(1.02)`;
         });
+
     </script>
 </body>
 </html>
