@@ -121,24 +121,24 @@
         }
 
         .event-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    background: linear-gradient(45deg, var(--primary), var(--accent));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-    padding: 4px; /* Отступ для больших иконок */
-}
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 4px;
+        }
 
-.event-icon img {
-    width: 100%;        /* Занимает всю доступную ширину */
-    height: 100%;       /* Занимает всю доступную высоту */
-    object-fit: contain; /* Сохраняет пропорции */
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-}
+        .event-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
 
         .days-counter {
             position: absolute;
@@ -310,26 +310,26 @@
         }
 
         .home-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.04) 50%,
-        transparent 100%
-    );
-    transition: left 0.8s ease;
-    opacity: 0;
-}
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.04) 50%,
+                transparent 100%
+            );
+            transition: left 0.8s ease;
+            opacity: 0;
+        }
 
-.home-section:hover::before {
-    opacity: 1;
-    left: 100%;
-}
+        .home-section:hover::before {
+            opacity: 1;
+            left: 100%;
+        }
 
         .section-title {
             font-size: 2rem;
@@ -467,29 +467,28 @@
             overflow: hidden;
         }
 
-        /* НОВАЯ Анимация стеклянного градиента - из левого верхнего в правый нижний угол */
         .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.08) 50%,
-        transparent 100%
-    );
-    transition: left 1s ease;
-    opacity: 0;
-    border-radius: 20px;
-}
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.08) 50%,
+                transparent 100%
+            );
+            transition: left 1s ease;
+            opacity: 0;
+            border-radius: 20px;
+        }
 
-.project-card:hover::before {
-    opacity: 1;
-    left: 100%;
-}
+        .project-card:hover::before {
+            opacity: 1;
+            left: 100%;
+        }
 
         .project-card:hover {
             transform: translateY(-10px);
@@ -1035,143 +1034,143 @@
         .modal-nav {
             display: none;
         }
-        
+
         /* ==================== КАСТОМНЫЙ ВИДЕОПЛЕЕР ==================== */
-.custom-video-player {
-    position: relative;
-    background: #000;
-    border-radius: 15px;
-    overflow: hidden;
-    margin: 2rem 0;
-    border: 1px solid rgba(255,255,255,0.1);
-}
+        .custom-video-player {
+            position: relative;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 2rem 0;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
 
-.custom-video-player video {
-    width: 100%;
-    height: auto;
-    display: block;
-}
+        .custom-video-player video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
 
-.video-controls {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(15, 15, 35, 0.9));
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(15, 15, 35, 0.9));
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
-.custom-video-player:hover .video-controls {
-    opacity: 1;
-}
+        .custom-video-player:hover .video-controls {
+            opacity: 1;
+        }
 
-.control-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
 
-.control-btn:hover {
-    background: var(--primary);
-    transform: scale(1.1);
-}
+        .control-btn:hover {
+            background: var(--primary);
+            transform: scale(1.1);
+        }
 
-.progress-bar {
-    flex: 1;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
+        .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
 
-.progress {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    background: linear-gradient(45deg, var(--primary), var(--accent));
-    width: 0%;
-    transition: width 0.1s ease;
-}
+        .progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.1s ease;
+        }
 
-.time-display {
-    color: white;
-    font-size: 0.9rem;
-    min-width: 100px;
-    text-align: center;
-}
+        .time-display {
+            color: white;
+            font-size: 0.9rem;
+            min-width: 100px;
+            text-align: center;
+        }
 
-.volume-control {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-.volume-slider {
-    width: 80px;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 2px;
-    cursor: pointer;
-    position: relative;
-}
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
 
-.volume-level {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    background: var(--accent);
-    width: 100%;
-}
+        .volume-level {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: var(--accent);
+            width: 100%;
+        }
 
-/* Подписи к скриншотам */
-.screenshot-caption {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(15, 15, 35, 0.9));
-    color: white;
-    padding: 1rem;
-    transform: translateY(100%);
-    transition: transform 0.3s ease;
-    text-align: center;
-    font-size: 0.9rem;
-}
+        /* Подписи к скриншотам */
+        .screenshot-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(15, 15, 35, 0.9));
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            text-align: center;
+            font-size: 0.9rem;
+        }
 
-.screenshot-item:hover .screenshot-caption {
-    transform: translateY(0);
-}
+        .screenshot-item:hover .screenshot-caption {
+            transform: translateY(0);
+        }
 
-/* Подпись в модальном окне галереи */
-.modal-caption {
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    color: white;
-    background: rgba(0,0,0,0.7);
-    padding: 1rem;
-    border-radius: 0 0 20px 20px;
-    z-index: 10002;
-}
+        /* Подпись в модальном окне галереи */
+        .modal-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            background: rgba(0,0,0,0.7);
+            padding: 1rem;
+            border-radius: 0 0 20px 20px;
+            z-index: 10002;
+        }
     </style>
 </head>
 <body>
@@ -1742,104 +1741,101 @@
                         icon: "fas fa-cube",
                         projects: [
                             {
-    id: "autocraft",
-    title: "AutoCraft AE2",
-    description: "Продвинутая система автоматизации для Minecraft, расширяющая возможности Applied Energistics 2",
-    imageType: "file",
-    image: "images/projects/ac8/oblojka.png",
-    technologies: ["Java", "Minecraft", "Forge API", "Automation", "AE2"],
-    links: [
-        { url: "https://github.com/0ptim1st-DK/autocraft-ae2", text: "Исходный код", icon: "fab fa-github" },
-        { url: "https://github.com/0ptim1st-DK/autocraft-ae2/blob/main/README.md", text: "Документация", icon: "fas fa-book" }
-    ],
-    detailedDescription: `
-        <p>AutoCraft AE2 - это революционный мод для Minecraft, который выводит автоматизацию крафта на совершенно новый уровень. Проект расширяет функциональность Applied Energistics 2, предоставляя мощные инструменты для оптимизации производственных процессов.</p>
-        
-            <!-- ВИДЕО ДЕМОНСТРАЦИЯ -->
-    <div class="custom-video-player">
-        <video id="project-video" poster="images/projects/ac8/oblojka.png">
-            <source src="videos/titri.mp4" type="video/mp4">
-            Ваш браузер не поддерживает видео. Скачайте <a href="videos/titri.mp4">здесь</a>.
-        </video>
-        <div class="video-controls">
-            <button class="control-btn play-pause">
-                <i class="fas fa-play"></i>
-            </button>
-            <div class="progress-bar">
-                <div class="progress"></div>
-            </div>
-            <div class="time-display">00:00 / 00:00</div>
-            <div class="volume-control">
-                <button class="control-btn volume-btn">
-                    <i class="fas fa-volume-up"></i>
-                </button>
-                <div class="volume-slider">
-                    <div class="volume-level"></div>
-                </div>
-            </div>
-            <button class="control-btn fullscreen-btn">
-                <i class="fas fa-expand"></i>
-            </button>
-        </div>
-    </div>
-        
-        <div class="project-features">
-            <div class="feature">
-                <h4><i class="fas fa-bolt"></i> Интеллектуальный крафт</h4>
-                <p>Автоматическое распределение задач и оптимизация ресурсов</p>
-            </div>
-            <div class="feature">
-                <h4><i class="fas fa-network-wired"></i> Расширенная логистика</h4>
-                <p>Сложные цепочки крафта и умное управление предметами</p>
-            </div>
-            <div class="feature">
-                <h4><i class="fas fa-robot"></i> Автоматизация AE2</h4>
-                <p>Глубокая интеграция с Applied Energistics 2</p>
-            </div>
-            <div class="feature">
-                <h4><i class="fas fa-chart-line"></i> Мониторинг в реальном времени</h4>
-                <p>Детальная статистика производственных процессов</p>
-            </div>
-        </div>
-        
-        <!-- ГАЛЕРЕЯ СКРИНШОТОВ -->
-        <h3 style="margin: 2rem 0 1rem 0; background: linear-gradient(45deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">📸 Скриншоты проекта</h3>
-        
-                <!-- ГАЛЕРЕЯ СКРИНШОТОВ -->
-        <h3 style="margin: 2rem 0 1rem 0; background: linear-gradient(45deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">📸 Скриншоты проекта</h3>
-        
-        <div class="project-screenshots">
-            <div class="screenshot-item" 
-                 onclick="openGallery([
-                     {src: 'images/projects/ac8/screen1.png', caption: 'Интерфейс AutoCraft AE2 - главное меню'},
-                     {src: 'images/projects/ac8/screen2.png', caption: 'Процесс автоматического крафта'}
-                 ], 0)">
-                <img src="images/projects/ac8/screen1.png" alt="Интерфейс AutoCraft AE2">
-                <div class="screenshot-caption">Интерфейс AutoCraft AE2 - главное меню</div>
-            </div>
-            <div class="screenshot-item" 
-                 onclick="openGallery([
-                     {src: 'images/projects/ac8/screen1.png', caption: 'Интерфейс AutoCraft AE2 - главное меню'},
-                     {src: 'images/projects/ac8/screen2.png', caption: 'Процесс автоматического крафта'}
-                 ], 1)">
-                <img src="images/projects/ac8/screen2.png" alt="Процесс автоматического крафта">
-                <div class="screenshot-caption">Процесс автоматического крафта</div>
-            </div>
-        </div>
-        
-        <!-- ТЕХНИЧЕСКИЕ ДЕТАЛИ -->
-        <div style="background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%); padding: 1.5rem; border-radius: 15px; border-left: 4px solid var(--primary); margin: 2rem 0;">
-            <h4><i class="fas fa-cogs"></i> Технические особенности</h4>
-            <ul style="margin: 1rem 0; color: var(--text-secondary); line-height: 1.6;">
-                <li>Полная совместимость с Applied Energistics 2</li>
-                <li>Оптимизированная работа с большими сетками крафта</li>
-                <li>Гибкая система настройки автоматизации</li>
-                <li>Поддержка всех версий Minecraft 1.12.2+</li>
-            </ul>
-        </div>
-        
-        <p><strong>Проект активно развивается!</strong> Присоединяйтесь к сообществу разработчиков и пользователей для обсуждения новых функций и улучшений.</p>
-    `
+                                id: "autocraft",
+                                title: "AutoCraft AE2",
+                                description: "Продвинутая система автоматизации для Minecraft, расширяющая возможности Applied Energistics 2",
+                                imageType: "file",
+                                image: "images/projects/ac8/oblojka.png",
+                                technologies: ["Java", "Minecraft", "Forge API", "Automation", "AE2"],
+                                links: [
+                                    { url: "https://github.com/0ptim1st-DK/autocraft-ae2", text: "Исходный код", icon: "fab fa-github" },
+                                    { url: "https://github.com/0ptim1st-DK/autocraft-ae2/blob/main/README.md", text: "Документация", icon: "fas fa-book" }
+                                ],
+                                detailedDescription: `
+                                    <p>AutoCraft AE2 - это революционный мод для Minecraft, который выводит автоматизацию крафта на совершенно новый уровень. Проект расширяет функциональность Applied Energistics 2, предоставляя мощные инструменты для оптимизации производственных процессов.</p>
+                                    
+                                    <!-- ВИДЕО ДЕМОНСТРАЦИЯ -->
+                                    <div class="custom-video-player">
+                                        <video id="project-video" poster="images/projects/ac8/oblojka.png">
+                                            <source src="videos/titri.mp4" type="video/mp4">
+                                            Ваш браузер не поддерживает видео. Скачайте <a href="videos/titri.mp4">здесь</a>.
+                                        </video>
+                                        <div class="video-controls">
+                                            <button class="control-btn play-pause">
+                                                <i class="fas fa-play"></i>
+                                            </button>
+                                            <div class="progress-bar">
+                                                <div class="progress"></div>
+                                            </div>
+                                            <div class="time-display">00:00 / 00:00</div>
+                                            <div class="volume-control">
+                                                <button class="control-btn volume-btn">
+                                                    <i class="fas fa-volume-up"></i>
+                                                </button>
+                                                <div class="volume-slider">
+                                                    <div class="volume-level"></div>
+                                                </div>
+                                            </div>
+                                            <button class="control-btn fullscreen-btn">
+                                                <i class="fas fa-expand"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="project-features">
+                                        <div class="feature">
+                                            <h4><i class="fas fa-bolt"></i> Интеллектуальный крафт</h4>
+                                            <p>Автоматическое распределение задач и оптимизация ресурсов</p>
+                                        </div>
+                                        <div class="feature">
+                                            <h4><i class="fas fa-network-wired"></i> Расширенная логистика</h4>
+                                            <p>Сложные цепочки крафта и умное управление предметами</p>
+                                        </div>
+                                        <div class="feature">
+                                            <h4><i class="fas fa-robot"></i> Автоматизация AE2</h4>
+                                            <p>Глубокая интеграция с Applied Energistics 2</p>
+                                        </div>
+                                        <div class="feature">
+                                            <h4><i class="fas fa-chart-line"></i> Мониторинг в реальном времени</h4>
+                                            <p>Детальная статистика производственных процессов</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- ГАЛЕРЕЯ СКРИНШОТОВ -->
+                                    <h3 style="margin: 2rem 0 1rem 0; background: linear-gradient(45deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">📸 Скриншоты проекта</h3>
+                                    
+                                    <div class="project-screenshots">
+                                        <div class="screenshot-item" 
+                                             onclick="openGallery([
+                                                 {src: 'images/projects/ac8/screen1.png', caption: 'Интерфейс AutoCraft AE2 - главное меню'},
+                                                 {src: 'images/projects/ac8/screen2.png', caption: 'Процесс автоматического крафта'}
+                                             ], 0)">
+                                            <img src="images/projects/ac8/screen1.png" alt="Интерфейс AutoCraft AE2">
+                                            <div class="screenshot-caption">Интерфейс AutoCraft AE2 - главное меню</div>
+                                        </div>
+                                        <div class="screenshot-item" 
+                                             onclick="openGallery([
+                                                 {src: 'images/projects/ac8/screen1.png', caption: 'Интерфейс AutoCraft AE2 - главное меню'},
+                                                 {src: 'images/projects/ac8/screen2.png', caption: 'Процесс автоматического крафта'}
+                                             ], 1)">
+                                            <img src="images/projects/ac8/screen2.png" alt="Процесс автоматического крафта">
+                                            <div class="screenshot-caption">Процесс автоматического крафта</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- ТЕХНИЧЕСКИЕ ДЕТАЛИ -->
+                                    <div style="background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%); padding: 1.5rem; border-radius: 15px; border-left: 4px solid var(--primary); margin: 2rem 0;">
+                                        <h4><i class="fas fa-cogs"></i> Технические особенности</h4>
+                                        <ul style="margin: 1rem 0; color: var(--text-secondary); line-height: 1.6;">
+                                            <li>Полная совместимость с Applied Energistics 2</li>
+                                            <li>Оптимизированная работа с большими сетками крафта</li>
+                                            <li>Гибкая система настройки автоматизации</li>
+                                            <li>Поддержка всех версий Minecraft 1.12.2+</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <p><strong>Проект активно развивается!</strong> Присоединяйтесь к сообществу разработчиков и пользователей для обсуждения новых функций и улучшений.</p>
+                                `
                             }
                         ]
                     }
@@ -2181,8 +2177,10 @@
             
             const modal = document.getElementById('screenshot-modal');
             const modalImg = document.getElementById('modal-image');
+            const modalCaption = document.getElementById('modal-caption');
             
-            modalImg.src = images[index];
+            modalImg.src = images[index].src;
+            modalCaption.textContent = images[index].caption;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
             
@@ -2269,55 +2267,28 @@
             }
         }
 
+        function nextImage() {
+            if (currentGallery.length > 0) {
+                currentImageIndex = (currentImageIndex + 1) % currentGallery.length;
+                document.getElementById('modal-image').src = currentGallery[currentImageIndex].src;
+                document.getElementById('modal-caption').textContent = currentGallery[currentImageIndex].caption;
+            }
+        }
+
+        function prevImage() {
+            if (currentGallery.length > 0) {
+                currentImageIndex = (currentImageIndex - 1 + currentGallery.length) % currentGallery.length;
+                document.getElementById('modal-image').src = currentGallery[currentImageIndex].src;
+                document.getElementById('modal-caption').textContent = currentGallery[currentImageIndex].caption;
+            }
+        }
+
         // Закрытие по ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeGallery();
         });
 
-        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
-
-        // Инициализация при загрузке
-        document.addEventListener('DOMContentLoaded', function() {
-            // Инициализация системы событий
-            updateEventIcon();
-            
-            // Загрузка данных
-            loadNews();
-            loadUpdates();
-            
-            // Настройка обработчика скролла
-            window.addEventListener('scroll', handleScroll);
-            
-            // Анимация появления элементов при скролле
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            // Наблюдаем за карточками проектов
-            setTimeout(() => {
-                document.querySelectorAll('.project-card').forEach(card => {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(30px)';
-                    card.style.transition = 'all 0.6s ease';
-                    observer.observe(card);
-                });
-            }, 100);
-        });
-
-        // Параллакс эффект для фона
-        document.addEventListener('mousemove', (e) => {
-            const parallax = document.querySelector('.parallax-bg');
-            const x = (e.clientX / window.innerWidth) * 20;
-            const y = (e.clientY / window.innerHeight) * 20;
-            parallax.style.transform = `translate(${x}px, ${y}px) scale(1.02)`;
-        });
-        
-                // ==================== КАСТОМНЫЙ ВИДЕОПЛЕЕР ====================
+        // ==================== КАСТОМНЫЙ ВИДЕОПЛЕЕР ====================
         function initVideoPlayer() {
             const video = document.getElementById('project-video');
             if (!video) return; // Если видео нет на странице - выходим
@@ -2414,56 +2385,53 @@
             }
         }
 
-        // ==================== ОБНОВЛЁННАЯ ГАЛЕРЕЯ С ПОДПИСЯМИ ====================
-        let currentGallery = [];
-        let currentImageIndex = 0;
+        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
 
-        function openGallery(images, index = 0) {
-            currentGallery = images;
-            currentImageIndex = index;
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация системы событий
+            updateEventIcon();
             
-            const modal = document.getElementById('screenshot-modal');
-            const modalImg = document.getElementById('modal-image');
-            const modalCaption = document.getElementById('modal-caption');
+            // Загрузка данных
+            loadNews();
+            loadUpdates();
             
-            modalImg.src = images[index].src;
-            modalCaption.textContent = images[index].caption;
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            // Настройка обработчика скролла
+            window.addEventListener('scroll', handleScroll);
             
-            // Добавляем обработчики для зума
-            modalImg.addEventListener('mousedown', startDrag);
-            modalImg.addEventListener('mousemove', duringDrag);
-            modalImg.addEventListener('mouseup', stopDrag);
-            modalImg.addEventListener('mouseleave', stopDrag);
-            modalImg.addEventListener('contextmenu', toggleZoom);
-            
-            // Сбрасываем состояние зума
-            isZoomed = false;
-            modal.classList.remove('zoomed');
-            modalImg.style.transform = 'scale(1)';
-        }
+            // Анимация появления элементов при скролле
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
 
-        function nextImage() {
-            if (currentGallery.length > 0) {
-                currentImageIndex = (currentImageIndex + 1) % currentGallery.length;
-                document.getElementById('modal-image').src = currentGallery[currentImageIndex].src;
-                document.getElementById('modal-caption').textContent = currentGallery[currentImageIndex].caption;
-            }
-        }
+            // Наблюдаем за карточками проектов
+            setTimeout(() => {
+                document.querySelectorAll('.project-card').forEach(card => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(30px)';
+                    card.style.transition = 'all 0.6s ease';
+                    observer.observe(card);
+                });
+            }, 100);
 
-        function prevImage() {
-            if (currentGallery.length > 0) {
-                currentImageIndex = (currentImageIndex - 1 + currentGallery.length) % currentGallery.length;
-                document.getElementById('modal-image').src = currentGallery[currentImageIndex].src;
-                document.getElementById('modal-caption').textContent = currentGallery[currentImageIndex].caption;
-            }
-        }
+            // Инициализация видеоплеера
+            setTimeout(() => {
+                initVideoPlayer();
+            }, 500);
+        });
 
-        // Инициализация видеоплеера при загрузке страницы проекта
-        setTimeout(() => {
-            initVideoPlayer();
-        }, 500);
+        // Параллакс эффект для фона
+        document.addEventListener('mousemove', (e) => {
+            const parallax = document.querySelector('.parallax-bg');
+            const x = (e.clientX / window.innerWidth) * 20;
+            const y = (e.clientY / window.innerHeight) * 20;
+            parallax.style.transform = `translate(${x}px, ${y}px) scale(1.02)`;
+        });
     </script>
 </body>
 </html>
