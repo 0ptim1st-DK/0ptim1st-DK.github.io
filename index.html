@@ -1035,6 +1035,143 @@
         .modal-nav {
             display: none;
         }
+        
+        /* ==================== КАСТОМНЫЙ ВИДЕОПЛЕЕР ==================== */
+.custom-video-player {
+    position: relative;
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 2rem 0;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.custom-video-player video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.video-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(15, 15, 35, 0.9));
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.custom-video-player:hover .video-controls {
+    opacity: 1;
+}
+
+.control-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    background: var(--primary);
+    transform: scale(1.1);
+}
+
+.progress-bar {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    width: 0%;
+    transition: width 0.1s ease;
+}
+
+.time-display {
+    color: white;
+    font-size: 0.9rem;
+    min-width: 100px;
+    text-align: center;
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.volume-slider {
+    width: 80px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+}
+
+.volume-level {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--accent);
+    width: 100%;
+}
+
+/* Подписи к скриншотам */
+.screenshot-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(15, 15, 35, 0.9));
+    color: white;
+    padding: 1rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.screenshot-item:hover .screenshot-caption {
+    transform: translateY(0);
+}
+
+/* Подпись в модальном окне галереи */
+.modal-caption {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: white;
+    background: rgba(0,0,0,0.7);
+    padding: 1rem;
+    border-radius: 0 0 20px 20px;
+    z-index: 10002;
+}
     </style>
 </head>
 <body>
@@ -1218,6 +1355,7 @@
         <div class="screenshot-modal-content" onclick="event.stopPropagation()">
             <button class="close-modal" onclick="closeGallery()">&times;</button>
             <img id="modal-image" src="" alt="Полноэкранный просмотр">
+            <div id="modal-caption" class="modal-caption"></div>
             <div class="modal-nav">
                 <button onclick="event.stopPropagation(); prevImage()">❮</button>
                 <button onclick="event.stopPropagation(); nextImage()">❯</button>
@@ -1617,13 +1755,33 @@
     detailedDescription: `
         <p>AutoCraft AE2 - это революционный мод для Minecraft, который выводит автоматизацию крафта на совершенно новый уровень. Проект расширяет функциональность Applied Energistics 2, предоставляя мощные инструменты для оптимизации производственных процессов.</p>
         
-        <!-- ВИДЕО ДЕМОНСТРАЦИЯ -->
-        <div class="video-container">
-            <video controls poster="images/projects/ac8/oblojka.png">
-                <source src="videos/titri.mp4" type="video/mp4">
-                Ваш браузер не поддерживает видео. Скачайте <a href="videos/titri.mp4">здесь</a>.
-            </video>
+            <!-- ВИДЕО ДЕМОНСТРАЦИЯ -->
+    <div class="custom-video-player">
+        <video id="project-video" poster="images/projects/ac8/oblojka.png">
+            <source src="videos/titri.mp4" type="video/mp4">
+            Ваш браузер не поддерживает видео. Скачайте <a href="videos/titri.mp4">здесь</a>.
+        </video>
+        <div class="video-controls">
+            <button class="control-btn play-pause">
+                <i class="fas fa-play"></i>
+            </button>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <div class="time-display">00:00 / 00:00</div>
+            <div class="volume-control">
+                <button class="control-btn volume-btn">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                <div class="volume-slider">
+                    <div class="volume-level"></div>
+                </div>
+            </div>
+            <button class="control-btn fullscreen-btn">
+                <i class="fas fa-expand"></i>
+            </button>
         </div>
+    </div>
         
         <div class="project-features">
             <div class="feature">
@@ -1647,20 +1805,25 @@
         <!-- ГАЛЕРЕЯ СКРИНШОТОВ -->
         <h3 style="margin: 2rem 0 1rem 0; background: linear-gradient(45deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">📸 Скриншоты проекта</h3>
         
+                <!-- ГАЛЕРЕЯ СКРИНШОТОВ -->
+        <h3 style="margin: 2rem 0 1rem 0; background: linear-gradient(45deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">📸 Скриншоты проекта</h3>
+        
         <div class="project-screenshots">
             <div class="screenshot-item" 
                  onclick="openGallery([
-                     'images/projects/ac8/screen1.png',
-                     'images/projects/ac8/screen2.png'
+                     {src: 'images/projects/ac8/screen1.png', caption: 'Интерфейс AutoCraft AE2 - главное меню'},
+                     {src: 'images/projects/ac8/screen2.png', caption: 'Процесс автоматического крафта'}
                  ], 0)">
                 <img src="images/projects/ac8/screen1.png" alt="Интерфейс AutoCraft AE2">
+                <div class="screenshot-caption">Интерфейс AutoCraft AE2 - главное меню</div>
             </div>
             <div class="screenshot-item" 
                  onclick="openGallery([
-                     'images/projects/ac8/screen1.png',
-                     'images/projects/ac8/screen2.png'
+                     {src: 'images/projects/ac8/screen1.png', caption: 'Интерфейс AutoCraft AE2 - главное меню'},
+                     {src: 'images/projects/ac8/screen2.png', caption: 'Процесс автоматического крафта'}
                  ], 1)">
                 <img src="images/projects/ac8/screen2.png" alt="Процесс автоматического крафта">
+                <div class="screenshot-caption">Процесс автоматического крафта</div>
             </div>
         </div>
         
@@ -2153,6 +2316,154 @@
             const y = (e.clientY / window.innerHeight) * 20;
             parallax.style.transform = `translate(${x}px, ${y}px) scale(1.02)`;
         });
+        
+                // ==================== КАСТОМНЫЙ ВИДЕОПЛЕЕР ====================
+        function initVideoPlayer() {
+            const video = document.getElementById('project-video');
+            if (!video) return; // Если видео нет на странице - выходим
+            
+            const playPauseBtn = document.querySelector('.play-pause');
+            const progressBar = document.querySelector('.progress-bar');
+            const progress = document.querySelector('.progress');
+            const timeDisplay = document.querySelector('.time-display');
+            const volumeBtn = document.querySelector('.volume-btn');
+            const volumeSlider = document.querySelector('.volume-slider');
+            const volumeLevel = document.querySelector('.volume-level');
+            const fullscreenBtn = document.querySelector('.fullscreen-btn');
+
+            // Установить начальную громкость
+            video.volume = 1.0;
+            volumeLevel.style.width = '100%';
+
+            // Воспроизведение/пауза
+            playPauseBtn.addEventListener('click', () => {
+                if (video.paused) {
+                    video.play();
+                    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                } else {
+                    video.pause();
+                    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                }
+            });
+
+            // Обновление прогресса
+            video.addEventListener('timeupdate', () => {
+                const percent = (video.currentTime / video.duration) * 100;
+                progress.style.width = percent + '%';
+                
+                const currentTime = formatTime(video.currentTime);
+                const duration = formatTime(video.duration);
+                timeDisplay.textContent = `${currentTime} / ${duration}`;
+            });
+
+            // Перемотка по клику на прогресс-бар
+            progressBar.addEventListener('click', (e) => {
+                const rect = progressBar.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                video.currentTime = percent * video.duration;
+            });
+
+            // Управление громкостью
+            volumeSlider.addEventListener('click', (e) => {
+                const rect = volumeSlider.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                video.volume = percent;
+                volumeLevel.style.width = (percent * 100) + '%';
+                updateVolumeIcon(percent);
+            });
+
+            // Кнопка громкости - mute/unmute
+            volumeBtn.addEventListener('click', () => {
+                if (video.volume > 0) {
+                    video.volume = 0;
+                    volumeLevel.style.width = '0%';
+                } else {
+                    video.volume = 1.0;
+                    volumeLevel.style.width = '100%';
+                }
+                updateVolumeIcon(video.volume);
+            });
+
+            // Полноэкранный режим
+            fullscreenBtn.addEventListener('click', () => {
+                if (!document.fullscreenElement) {
+                    video.parentElement.requestFullscreen();
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+
+            // Событие окончания видео
+            video.addEventListener('ended', () => {
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            });
+
+            // Форматирование времени
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            // Обновление иконки громкости
+            function updateVolumeIcon(volume) {
+                let icon = 'fa-volume-up';
+                if (volume === 0) icon = 'fa-volume-mute';
+                else if (volume < 0.5) icon = 'fa-volume-down';
+                volumeBtn.innerHTML = `<i class="fas ${icon}"></i>`;
+            }
+        }
+
+        // ==================== ОБНОВЛЁННАЯ ГАЛЕРЕЯ С ПОДПИСЯМИ ====================
+        let currentGallery = [];
+        let currentImageIndex = 0;
+
+        function openGallery(images, index = 0) {
+            currentGallery = images;
+            currentImageIndex = index;
+            
+            const modal = document.getElementById('screenshot-modal');
+            const modalImg = document.getElementById('modal-image');
+            const modalCaption = document.getElementById('modal-caption');
+            
+            modalImg.src = images[index].src;
+            modalCaption.textContent = images[index].caption;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Добавляем обработчики для зума
+            modalImg.addEventListener('mousedown', startDrag);
+            modalImg.addEventListener('mousemove', duringDrag);
+            modalImg.addEventListener('mouseup', stopDrag);
+            modalImg.addEventListener('mouseleave', stopDrag);
+            modalImg.addEventListener('contextmenu', toggleZoom);
+            
+            // Сбрасываем состояние зума
+            isZoomed = false;
+            modal.classList.remove('zoomed');
+            modalImg.style.transform = 'scale(1)';
+        }
+
+        function nextImage() {
+            if (currentGallery.length > 0) {
+                currentImageIndex = (currentImageIndex + 1) % currentGallery.length;
+                document.getElementById('modal-image').src = currentGallery[currentImageIndex].src;
+                document.getElementById('modal-caption').textContent = currentGallery[currentImageIndex].caption;
+            }
+        }
+
+        function prevImage() {
+            if (currentGallery.length > 0) {
+                currentImageIndex = (currentImageIndex - 1 + currentGallery.length) % currentGallery.length;
+                document.getElementById('modal-image').src = currentGallery[currentImageIndex].src;
+                document.getElementById('modal-caption').textContent = currentGallery[currentImageIndex].caption;
+            }
+        }
+
+        // Инициализация видеоплеера при загрузке страницы проекта
+        setTimeout(() => {
+            initVideoPlayer();
+        }, 500);
     </script>
 </body>
 </html>
