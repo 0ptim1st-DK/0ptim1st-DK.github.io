@@ -996,6 +996,7 @@
             border-radius: 20px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.6);
             transition: transform 0.3s ease;
+            cursor: pointer;
         }
 
         .screenshot-modal.zoomed .screenshot-modal-content img {
@@ -1049,6 +1050,7 @@
             width: 100%;
             height: auto;
             display: block;
+            cursor: pointer;
         }
 
         .video-controls {
@@ -1063,9 +1065,14 @@
             gap: 1rem;
             opacity: 0;
             transition: opacity 0.3s ease;
+            z-index: 10;
         }
 
         .custom-video-player:hover .video-controls {
+            opacity: 1;
+        }
+
+        .custom-video-player.controls-visible .video-controls {
             opacity: 1;
         }
 
@@ -1755,7 +1762,7 @@
                                     <p>AutoCraft AE2 - это революционный мод для Minecraft, который выводит автоматизацию крафта на совершенно новый уровень. Проект расширяет функциональность Applied Energistics 2, предоставляя мощные инструменты для оптимизации производственных процессов.</p>
                                     
                                     <!-- ВИДЕО ДЕМОНСТРАЦИЯ -->
-                                    <div class="custom-video-player">
+                                    <div class="custom-video-player" id="autocraft-video-player">
                                         <video id="project-video" poster="images/projects/ac8/oblojka.png">
                                             <source src="videos/titri.mp4" type="video/mp4">
                                             Ваш браузер не поддерживает видео. Скачайте <a href="videos/titri.mp4">здесь</a>.
@@ -2104,6 +2111,11 @@
             
             // Прокручиваем к началу
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Инициализируем видеоплеер после загрузки страницы
+            setTimeout(() => {
+                initVideoPlayer();
+            }, 100);
         }
 
         function goBackToProjects() {
@@ -2185,16 +2197,14 @@
             document.body.style.overflow = 'hidden';
             
             // Добавляем обработчики для зума
-            modalImg.addEventListener('mousedown', startDrag);
-            modalImg.addEventListener('mousemove', duringDrag);
-            modalImg.addEventListener('mouseup', stopDrag);
-            modalImg.addEventListener('mouseleave', stopDrag);
-            modalImg.addEventListener('contextmenu', toggleZoom);
+            modalImg.addEventListener('click', toggleZoom);
+            modalImg.addEventListener('contextmenu', handleRightClick);
             
             // Сбрасываем состояние зума
             isZoomed = false;
             modal.classList.remove('zoomed');
             modalImg.style.transform = 'scale(1)';
+            modalImg.style.cursor = 'zoom-in';
         }
 
         function closeGallery() {
@@ -2202,36 +2212,51 @@
             const modalImg = document.getElementById('modal-image');
             
             // Убираем обработчики
-            modalImg.removeEventListener('mousedown', startDrag);
-            modalImg.removeEventListener('mousemove', duringDrag);
-            modalImg.removeEventListener('mouseup', stopDrag);
-            modalImg.removeEventListener('mouseleave', stopDrag);
-            modalImg.removeEventListener('contextmenu', toggleZoom);
+            modalImg.removeEventListener('click', toggleZoom);
+            modalImg.removeEventListener('contextmenu', handleRightClick);
             
             modal.classList.remove('active');
             document.body.style.overflow = 'auto';
             isZoomed = false;
         }
 
+        function handleRightClick(event) {
+            event.preventDefault();
+            toggleZoom(event);
+        }
+
         function toggleZoom(event) {
-            if (event.button === 2) { // Правая кнопка мыши
-                event.preventDefault();
-                const modal = document.getElementById('screenshot-modal');
-                const modalImg = document.getElementById('modal-image');
+            event.stopPropagation();
+            const modal = document.getElementById('screenshot-modal');
+            const modalImg = document.getElementById('modal-image');
+            
+            if (!isZoomed) {
+                // Включаем зум
+                modal.classList.add('zoomed');
+                modalImg.style.transform = 'scale(1.5)';
+                modalImg.style.cursor = 'grab';
+                isZoomed = true;
                 
-                if (!isZoomed) {
-                    // Включаем зум
-                    modal.classList.add('zoomed');
-                    modalImg.style.transform = 'scale(1.5)';
-                    modalImg.style.cursor = 'grab';
-                    isZoomed = true;
-                } else {
-                    // Выключаем зум
-                    modal.classList.remove('zoomed');
-                    modalImg.style.transform = 'scale(1)';
-                    modalImg.style.cursor = 'pointer';
-                    isZoomed = false;
-                }
+                // Добавляем обработчики для перетаскивания
+                modalImg.addEventListener('mousedown', startDrag);
+                modalImg.addEventListener('mousemove', duringDrag);
+                modalImg.addEventListener('mouseup', stopDrag);
+                modalImg.addEventListener('mouseleave', stopDrag);
+            } else {
+                // Выключаем зум
+                modal.classList.remove('zoomed');
+                modalImg.style.transform = 'scale(1)';
+                modalImg.style.cursor = 'zoom-in';
+                isZoomed = false;
+                
+                // Убираем обработчики перетаскивания
+                modalImg.removeEventListener('mousedown', startDrag);
+                modalImg.removeEventListener('mousemove', duringDrag);
+                modalImg.removeEventListener('mouseup', stopDrag);
+                modalImg.removeEventListener('mouseleave', stopDrag);
+                
+                // Сбрасываем позицию
+                modalImg.style.transform = 'scale(1) translate(0, 0)';
             }
         }
 
@@ -2290,45 +2315,63 @@
 
         // ==================== КАСТОМНЫЙ ВИДЕОПЛЕЕР ====================
         function initVideoPlayer() {
-            const video = document.getElementById('project-video');
-            if (!video) return; // Если видео нет на странице - выходим
-            
-            const playPauseBtn = document.querySelector('.play-pause');
-            const progressBar = document.querySelector('.progress-bar');
-            const progress = document.querySelector('.progress');
-            const timeDisplay = document.querySelector('.time-display');
-            const volumeBtn = document.querySelector('.volume-btn');
-            const volumeSlider = document.querySelector('.volume-slider');
-            const volumeLevel = document.querySelector('.volume-level');
-            const fullscreenBtn = document.querySelector('.fullscreen-btn');
+            const videoPlayer = document.querySelector('.custom-video-player');
+            if (!videoPlayer) return;
+
+            const video = videoPlayer.querySelector('video');
+            const playPauseBtn = videoPlayer.querySelector('.play-pause');
+            const progressBar = videoPlayer.querySelector('.progress-bar');
+            const progress = videoPlayer.querySelector('.progress');
+            const timeDisplay = videoPlayer.querySelector('.time-display');
+            const volumeBtn = videoPlayer.querySelector('.volume-btn');
+            const volumeSlider = videoPlayer.querySelector('.volume-slider');
+            const volumeLevel = videoPlayer.querySelector('.volume-level');
+            const fullscreenBtn = videoPlayer.querySelector('.fullscreen-btn');
+
+            // Проверяем, есть ли необходимые элементы
+            if (!video || !playPauseBtn) return;
 
             // Установить начальную громкость
             video.volume = 1.0;
             volumeLevel.style.width = '100%';
 
-            // Воспроизведение/пауза
-            playPauseBtn.addEventListener('click', () => {
+            // Воспроизведение/пауза по клику на видео
+            video.addEventListener('click', () => {
+                togglePlayPause();
+            });
+
+            // Воспроизведение/пауза по кнопке
+            playPauseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                togglePlayPause();
+            });
+
+            function togglePlayPause() {
                 if (video.paused) {
                     video.play();
                     playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    videoPlayer.classList.add('controls-visible');
                 } else {
                     video.pause();
                     playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
                 }
-            });
+            }
 
             // Обновление прогресса
             video.addEventListener('timeupdate', () => {
-                const percent = (video.currentTime / video.duration) * 100;
-                progress.style.width = percent + '%';
-                
-                const currentTime = formatTime(video.currentTime);
-                const duration = formatTime(video.duration);
-                timeDisplay.textContent = `${currentTime} / ${duration}`;
+                if (video.duration) {
+                    const percent = (video.currentTime / video.duration) * 100;
+                    progress.style.width = percent + '%';
+                    
+                    const currentTime = formatTime(video.currentTime);
+                    const duration = formatTime(video.duration);
+                    timeDisplay.textContent = `${currentTime} / ${duration}`;
+                }
             });
 
             // Перемотка по клику на прогресс-бар
             progressBar.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const rect = progressBar.getBoundingClientRect();
                 const percent = (e.clientX - rect.left) / rect.width;
                 video.currentTime = percent * video.duration;
@@ -2336,15 +2379,17 @@
 
             // Управление громкостью
             volumeSlider.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const rect = volumeSlider.getBoundingClientRect();
                 const percent = (e.clientX - rect.left) / rect.width;
-                video.volume = percent;
+                video.volume = Math.max(0, Math.min(1, percent));
                 volumeLevel.style.width = (percent * 100) + '%';
-                updateVolumeIcon(percent);
+                updateVolumeIcon(video.volume);
             });
 
             // Кнопка громкости - mute/unmute
-            volumeBtn.addEventListener('click', () => {
+            volumeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 if (video.volume > 0) {
                     video.volume = 0;
                     volumeLevel.style.width = '0%';
@@ -2356,9 +2401,12 @@
             });
 
             // Полноэкранный режим
-            fullscreenBtn.addEventListener('click', () => {
+            fullscreenBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 if (!document.fullscreenElement) {
-                    video.parentElement.requestFullscreen();
+                    videoPlayer.requestFullscreen().catch(err => {
+                        console.log(`Ошибка при переходе в полноэкранный режим: ${err.message}`);
+                    });
                 } else {
                     document.exitFullscreen();
                 }
@@ -2367,6 +2415,20 @@
             // Событие окончания видео
             video.addEventListener('ended', () => {
                 playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                videoPlayer.classList.remove('controls-visible');
+            });
+
+            // Показ контролов при наведении
+            videoPlayer.addEventListener('mouseenter', () => {
+                videoPlayer.classList.add('controls-visible');
+            });
+
+            videoPlayer.addEventListener('mouseleave', () => {
+                if (!video.paused) {
+                    setTimeout(() => {
+                        videoPlayer.classList.remove('controls-visible');
+                    }, 2000);
+                }
             });
 
             // Форматирование времени
@@ -2383,6 +2445,18 @@
                 else if (volume < 0.5) icon = 'fa-volume-down';
                 volumeBtn.innerHTML = `<i class="fas ${icon}"></i>`;
             }
+
+            // Обработка ошибок видео
+            video.addEventListener('error', (e) => {
+                console.error('Ошибка загрузки видео:', e);
+                videoPlayer.innerHTML = `
+                    <div style="padding: 2rem; text-align: center; color: var(--text-secondary);">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <p>Не удалось загрузить видео</p>
+                        <p><small>Проверьте путь к файлу: ${video.querySelector('source').src}</small></p>
+                    </div>
+                `;
+            });
         }
 
         // ==================== ИНИЦИАЛИЗАЦИЯ ====================
@@ -2418,11 +2492,6 @@
                     observer.observe(card);
                 });
             }, 100);
-
-            // Инициализация видеоплеера
-            setTimeout(() => {
-                initVideoPlayer();
-            }, 500);
         });
 
         // Параллакс эффект для фона
