@@ -655,36 +655,18 @@
         }
 
         .project-content {
-            display: block; /* ИЗМЕНЕНО: убрано разделение на колонки */
+            display: block;
             margin-bottom: 3rem;
         }
 
         .project-description {
             line-height: 1.8;
-            width: 100%; /* ИЗМЕНЕНО: теперь занимает всю ширину */
+            width: 100%;
         }
 
         .project-description p {
             margin-bottom: 1.5rem;
             color: var(--text-secondary);
-        }
-
-        .project-screenshots {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .screenshot-placeholder {
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            border-radius: 15px;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
         }
 
         .project-features {
@@ -878,87 +860,78 @@
             border-color: rgba(102, 126, 234, 0.3);
         }
 
-                /* ==================== ВИДЕО И ГАЛЕРЕЯ ==================== */
+        /* ==================== ВИДЕО И ГАЛЕРЕЯ В ОПИСАНИИ ПРОЕКТОВ ==================== */
         
-        /* Стили для видео контейнера */
-        .video-container {
+        /* Стили для видео контейнера ТОЛЬКО в описании проектов */
+        .project-description .video-container {
             margin: 2rem 0;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 
-                0 20px 40px rgba(0,0,0,0.4),
-                0 0 30px rgba(102, 126, 234, 0.2);
-            position: relative;
-            background: transparent; /* Убираем градиентный фон */
+            background: #000;
             border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.4s ease;
+            /* УБИРАЕМ все анимации и эффекты при наведении */
+            transition: none !important;
+            transform: none !important;
+            box-shadow: none !important;
         }
 
-        .video-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 
-                0 25px 50px rgba(0,0,0,0.5),
-                0 0 40px rgba(102, 126, 234, 0.3);
+        .project-description .video-container:hover {
+            transform: none !important;
+            box-shadow: none !important;
         }
 
-        .video-container iframe,
-        .video-container video {
+        .project-description .video-container iframe,
+        .project-description .video-container video {
             width: 100%;
-            height: 400px;
+            height: auto;
             border: none;
             display: block;
-            background: #000; /* Чёрный фон для видео */
+            background: #000;
         }
 
-        /* Кастомные элементы управления для видео */
-        .video-container video::-webkit-media-controls-panel {
-            background: linear-gradient(135deg, rgba(30,30,60,0.9) 0%, rgba(15,15,35,0.95) 100%);
-        }
-
-        .video-container video::-webkit-media-controls-play-button,
-        .video-container video::-webkit-media-controls-volume-slider,
-        .video-container video::-webkit-media-controls-timeline {
-            filter: hue-rotate(220deg) brightness(1.2);
-        }
-
-                /* Галерея скриншотов */
-        .project-screenshots {
+        /* Галерея скриншотов ТОЛЬКО в описании проектов */
+        .project-description .project-screenshots {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
             margin: 2rem 0;
         }
 
-        .screenshot-item {
+        .project-description .screenshot-item {
             position: relative;
             border-radius: 15px;
             overflow: hidden;
             cursor: pointer;
-            transition: all 0.4s ease;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            background: #000;
             border: 1px solid rgba(255,255,255,0.1);
+            /* Карточка подстраивается под размер фото */
+            height: auto;
+            min-height: 200px;
         }
 
-        .screenshot-item img {
+        .project-description .screenshot-item img {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: all 0.4s ease;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            /* Сохраняем пропорции оригинального изображения */
+            max-width: 100%;
+            max-height: 400px;
         }
 
-        .screenshot-item:hover {
+        .project-description .screenshot-item:hover {
             transform: translateY(-8px);
             box-shadow: 
                 0 20px 40px rgba(0,0,0,0.4),
                 0 0 30px rgba(102, 126, 234, 0.2);
         }
 
-        .screenshot-item:hover img {
-            transform: scale(1.05);
+        .project-description .screenshot-item:hover img {
+            transform: none; /* Убираем масштабирование при наведении */
         }
 
         /* Иконка полноэкранного просмотра */
-        .screenshot-item::after {
+        .project-description .screenshot-item::after {
             content: '🔍';
             position: absolute;
             top: 10px;
@@ -976,7 +949,7 @@
             transition: all 0.3s ease;
         }
 
-        .screenshot-item:hover::after {
+        .project-description .screenshot-item:hover::after {
             opacity: 1;
         }
 
@@ -998,17 +971,11 @@
         .screenshot-modal.active {
             display: flex;
             opacity: 1;
-            animation: modalAppear 0.4s ease;
             cursor: zoom-out;
         }
 
         .screenshot-modal:not(.zoomed) {
             cursor: zoom-in;
-        }
-
-        @keyframes modalAppear {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         .screenshot-modal-content {
@@ -1066,7 +1033,7 @@
 
         /* Навигация в модальном окне - СКРЫВАЕМ */
         .modal-nav {
-            display: none; /* Скрываем навигацию */
+            display: none;
         }
     </style>
 </head>
