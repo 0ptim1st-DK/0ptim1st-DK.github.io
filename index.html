@@ -38,7 +38,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Параллакс фон */
         .parallax-bg {
             position: fixed;
             top: 0;
@@ -60,7 +59,6 @@
             75% { transform: translate(10px, -5px) scale(1.02); }
         }
 
-        /* Кнопка "Наверх" */
         .back-to-top {
             position: fixed;
             bottom: 30px;
@@ -93,7 +91,6 @@
             box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
 
-        /* Навигация */
         .nav {
             position: fixed;
             top: 0;
@@ -121,22 +118,22 @@
         }
 
         .event-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    background: linear-gradient(45deg, var(--primary), var(--accent));
-    display: flex;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
-            padding: 4px; /* Отступ для больших иконок */
+            padding: 4px;
         }
 
         .event-icon img {
-            width: 100%;        /* Занимает всю доступную ширину */
-            height: 100%;       /* Занимает всю доступную высоту */
-            object-fit: contain; /* Сохраняет пропорции */
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
 
@@ -197,14 +194,12 @@
             color: white;
         }
 
-        /* Основной контент */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 80px 2rem 2rem;
         }
 
-        /* Страницы */
         .page {
             display: none;
             animation: pageSlide 0.6s ease;
@@ -225,7 +220,6 @@
             display: block;
         }
 
-        /* Герой секция */
         .hero {
             text-align: center;
             padding: 4rem 0 2rem;
@@ -298,7 +292,6 @@
             50% { transform: scale(1.05); }
         }
 
-        /* Секции на главной */
         .home-section {
             margin: 3rem 0;
             padding: 2rem;
@@ -309,28 +302,6 @@
             overflow: hidden;
         }
 
-        .home-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.04) 50%,
-        transparent 100%
-    );
-    transition: left 0.8s ease;
-    opacity: 0;
-}
-
-.home-section:hover::before {
-    opacity: 1;
-    left: 100%;
-}
-
         .section-title {
             font-size: 2rem;
             margin-bottom: 1.5rem;
@@ -339,7 +310,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Новости */
         .news-content {
             line-height: 1.8;
             color: var(--text-secondary);
@@ -365,7 +335,6 @@
             margin: 1rem 0;
         }
 
-        /* Обновления */
         .updates-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -380,7 +349,6 @@
             font-style: italic;
         }
 
-        /* Категории проектов */
         .category {
             margin: 3rem 0;
         }
@@ -394,23 +362,6 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
             border-radius: 15px;
             border-left: 4px solid var(--primary);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .category-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.05), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .category-header:hover::before {
-            left: 100%;
         }
 
         .category-icon {
@@ -447,7 +398,6 @@
             color: var(--text);
         }
 
-        /* Сетка проектов */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -467,30 +417,6 @@
             overflow: hidden;
         }
 
-        /* НОВАЯ Анимация стеклянного градиента - из левого верхнего в правый нижний угол */
-        .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.08) 50%,
-        transparent 100%
-    );
-    transition: left 1s ease;
-    opacity: 0;
-    border-radius: 20px;
-}
-
-.project-card:hover::before {
-    opacity: 1;
-    left: 100%;
-}
-
         .project-card:hover {
             transform: translateY(-10px);
             border-color: rgba(102, 126, 234, 0.5);
@@ -501,14 +427,12 @@
 
         .project-image {
             width: 100%;
-            height: 200px;
             border-radius: 15px;
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 3rem;
             position: relative;
             overflow: hidden;
             background: linear-gradient(45deg, var(--primary), var(--accent));
@@ -516,29 +440,16 @@
 
         .project-image.has-image {
             background: none !important;
+            height: auto;
+            min-height: 200px;
         }
 
         .project-image img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
+            object-fit: contain;
             border-radius: 15px;
-        }
-
-        .project-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            animation: shimmer 2s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0%, 100% { transform: translateX(-100%); }
-            50% { transform: translateX(100%); }
+            display: block;
         }
 
         .project-card h3 {
@@ -567,12 +478,6 @@
             border-radius: 20px;
             font-size: 0.8rem;
             border: 1px solid rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .tech-tag:hover {
-            transform: scale(1.05);
-            background: linear-gradient(45deg, rgba(102, 126, 234, 0.4), rgba(240, 147, 251, 0.3));
         }
 
         .project-link {
@@ -588,23 +493,6 @@
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .project-link:hover::before {
-            left: 100%;
         }
 
         .project-link:hover {
@@ -612,7 +500,6 @@
             box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
 
-        /* Детальная страница проекта */
         .project-detail {
             padding: 2rem 0;
         }
@@ -655,36 +542,18 @@
         }
 
         .project-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+            display: block;
             margin-bottom: 3rem;
         }
 
         .project-description {
             line-height: 1.8;
+            width: 100%;
         }
 
         .project-description p {
             margin-bottom: 1.5rem;
             color: var(--text-secondary);
-        }
-
-        .project-screenshots {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        .screenshot-placeholder {
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            border-radius: 15px;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
         }
 
         .project-features {
@@ -707,7 +576,6 @@
             border-left-color: var(--accent);
         }
 
-        /* Страница "Обо мне" */
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -737,7 +605,6 @@
             animation: float 3s ease-in-out infinite;
         }
 
-        /* Страница "Контакты" */
         .contact-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -761,23 +628,6 @@
             border-radius: 10px;
             transition: all 0.3s ease;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .contact-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .contact-item:hover::before {
-            left: 100%;
         }
 
         .contact-item:hover {
@@ -807,7 +657,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Уведомление */
         .notification {
             position: fixed;
             top: 100px;
@@ -826,7 +675,6 @@
             transform: translateX(0);
         }
 
-        /* Футер */
         .footer {
             text-align: center;
             padding: 3rem 0;
@@ -853,23 +701,6 @@
             background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .social-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .social-link:hover::before {
-            left: 100%;
         }
 
         .social-link:hover {
@@ -878,27 +709,12 @@
             border-color: rgba(102, 126, 234, 0.3);
         }
 
-                /* ==================== ВИДЕО И ГАЛЕРЕЯ ==================== */
-        
-        /* Стили для видео контейнера */
         .video-container {
             margin: 2rem 0;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 
-                0 20px 40px rgba(0,0,0,0.4),
-                0 0 30px rgba(102, 126, 234, 0.2);
-            position: relative;
-            background: transparent; /* Убираем градиентный фон */
+            background: #000;
             border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.4s ease;
-        }
-
-        .video-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 
-                0 25px 50px rgba(0,0,0,0.5),
-                0 0 40px rgba(102, 126, 234, 0.3);
         }
 
         .video-container iframe,
@@ -907,21 +723,8 @@
             height: 400px;
             border: none;
             display: block;
-            background: #000; /* Чёрный фон для видео */
         }
 
-        /* Кастомные элементы управления для видео */
-        .video-container video::-webkit-media-controls-panel {
-            background: linear-gradient(135deg, rgba(30,30,60,0.9) 0%, rgba(15,15,35,0.95) 100%);
-        }
-
-        .video-container video::-webkit-media-controls-play-button,
-        .video-container video::-webkit-media-controls-volume-slider,
-        .video-container video::-webkit-media-controls-timeline {
-            filter: hue-rotate(220deg) brightness(1.2);
-        }
-
-                /* Галерея скриншотов */
         .project-screenshots {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -935,15 +738,15 @@
             overflow: hidden;
             cursor: pointer;
             transition: all 0.4s ease;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            background: #000;
             border: 1px solid rgba(255,255,255,0.1);
         }
 
         .screenshot-item img {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: all 0.4s ease;
+            height: auto;
+            object-fit: contain;
+            display: block;
         }
 
         .screenshot-item:hover {
@@ -953,34 +756,6 @@
                 0 0 30px rgba(102, 126, 234, 0.2);
         }
 
-        .screenshot-item:hover img {
-            transform: scale(1.05);
-        }
-
-        /* Иконка полноэкранного просмотра */
-        .screenshot-item::after {
-            content: '🔍';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .screenshot-item:hover::after {
-            opacity: 1;
-        }
-
-        /* Модальное окно для полноэкранного просмотра */
         .screenshot-modal {
             display: none;
             position: fixed;
@@ -998,17 +773,11 @@
         .screenshot-modal.active {
             display: flex;
             opacity: 1;
-            animation: modalAppear 0.4s ease;
             cursor: zoom-out;
         }
 
         .screenshot-modal:not(.zoomed) {
             cursor: zoom-in;
-        }
-
-        @keyframes modalAppear {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         .screenshot-modal-content {
@@ -1064,27 +833,46 @@
             transform: scale(1.1);
         }
 
-        /* Навигация в модальном окне - СКРЫВАЕМ */
         .modal-nav {
-            display: none; /* Скрываем навигацию */
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .nav-container {
+                padding: 0 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Кнопка "Наверх" -->
     <button class="back-to-top" onclick="scrollToTop()">
         <i class="fas fa-chevron-up"></i>
     </button>
 
-    <!-- Параллакс фон -->
     <div class="parallax-bg"></div>
 
-    <!-- Уведомление -->
     <div id="notification" class="notification">
         Email скопирован в буфер обмена!
     </div>
 
-    <!-- Навигация -->
     <nav class="nav">
         <div class="nav-container">
             <div class="logo-container">
@@ -1102,9 +890,7 @@
         </div>
     </nav>
 
-    <!-- Основной контент -->
     <div class="container">
-        <!-- Главная страница -->
         <div id="home" class="page active">
             <section class="hero">
                 <h1>Добро пожаловать!</h1>
@@ -1114,7 +900,6 @@
                 </button>
             </section>
 
-            <!-- Новости -->
             <section class="home-section">
                 <h2 class="section-title">📰 Новости</h2>
                 <div id="news-content" class="news-content">
@@ -1122,7 +907,6 @@
                 </div>
             </section>
 
-            <!-- Обновления -->
             <section class="home-section">
                 <h2 class="section-title">↪ Последние обновления</h2>
                 <div id="updates-content" class="updates-grid">
@@ -1134,7 +918,6 @@
             </section>
         </div>
 
-        <!-- Страница проектов -->
         <div id="projects" class="page">
             <section class="hero">
                 <h1>Все проекты от 0ptim1st-DK</h1>
@@ -1146,7 +929,6 @@
             </div>
         </div>
 
-        <!-- Детальная страница проекта -->
         <div id="project-detail" class="page">
             <button class="back-button" onclick="goBackToProjects()">
                 <i class="fas fa-arrow-left"></i>Назад к проектам
@@ -1154,7 +936,6 @@
             <div id="project-detail-content"></div>
         </div>
 
-        <!-- Страница "Обо мне" -->
         <div id="about" class="page">
             <button class="back-button" onclick="showPage('home')">
                 <i class="fas fa-arrow-left"></i>Назад на главную
@@ -1178,7 +959,6 @@
             </div>
         </div>
 
-        <!-- Страница "Контакты" -->
         <div id="contact" class="page">
             <button class="back-button" onclick="showPage('home')">
                 <i class="fas fa-arrow-left"></i>Назад на главную
@@ -1230,7 +1010,6 @@
         </div>
     </div>
 
-    <!-- Футер -->
     <footer class="footer">
         <div class="container">
             <p>Создано с ❤️ и интересом к программированию</p>
@@ -1246,7 +1025,6 @@
         </div>
     </footer>
 
-    <!-- Модальное окно для полноэкранного просмотра -->
     <div id="screenshot-modal" class="screenshot-modal" onclick="closeGallery()">
         <div class="screenshot-modal-content" onclick="event.stopPropagation()">
             <button class="close-modal" onclick="closeGallery()">&times;</button>
@@ -1259,13 +1037,11 @@
     </div>
 
     <script>
-        // ==================== КОНФИГУРАЦИЯ ====================
         const CONFIG = {
             GITHUB_USERNAME: '0ptim1st-DK',
             GITHUB_TOKEN: 'YOUR_GITHUB_TOKEN_HERE' 
         };
 
-        // ==================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ====================
         let homeScrollPosition = 0;
         let projectsScrollPosition = 0;
         let currentPage = 'home';
@@ -1273,17 +1049,13 @@
         let isDragging = false;
         let startX, startY, scrollLeft, scrollTop;
 
-        // ==================== СИСТЕМА СОБЫТИЙ И ПРАЗДНИКОВ ====================
         const EVENT_CONFIG = {
-            // Сезонные события
             seasons: {
                 spring: { start: [3, 1], end: [5, 31], icon: 'spring.png' },
                 summer: { start: [6, 1], end: [8, 31], icon: 'summer.png' },
                 autumn: { start: [9, 1], end: [11, 30], icon: 'autumn.png' },
                 winter: { start: [12, 1], end: [2, 28], icon: 'winter.png' }
             },
-            
-            // Праздники (имеют приоритет над сезонами)
             holidays: {
                 halloween: { 
                     start: [10, 28], end: [11, 2], 
@@ -1339,7 +1111,6 @@
             }
         };
 
-        // ==================== ФУНКЦИИ ДЛЯ РАБОТЫ С ДАТАМИ ====================
         function getCurrentDate() {
             return new Date();
         }
@@ -1349,7 +1120,6 @@
             const startDate = new Date(currentYear, start[0] - 1, start[1]);
             const endDate = new Date(currentYear, end[0] - 1, end[1]);
             
-            // Обработка переходов через год (например, Новый год)
             if (start[0] > end[0]) {
                 endDate.setFullYear(currentYear + 1);
             }
@@ -1367,12 +1137,10 @@
         function getCurrentEvent() {
             const now = getCurrentDate();
             
-            // Сначала проверяем праздники
             for (const [holidayName, holiday] of Object.entries(EVENT_CONFIG.holidays)) {
                 if (isDateInRange(now, holiday.start, holiday.end)) {
                     let daysLeft = null;
                     
-                    // Особый случай для Нового года - отсчёт дней
                     if (holidayName === 'christmas' && isDateInRange(now, holiday.countdown.start, holiday.countdown.end)) {
                         daysLeft = getDaysUntilNewYear();
                     }
@@ -1387,7 +1155,6 @@
                 }
             }
             
-            // Затем проверяем сезоны
             for (const [seasonName, season] of Object.entries(EVENT_CONFIG.seasons)) {
                 if (isDateInRange(now, season.start, season.end)) {
                     return {
@@ -1399,7 +1166,6 @@
                 }
             }
             
-            // По умолчанию - текущий сезон по месяцу
             const month = now.getMonth() + 1;
             if (month >= 3 && month <= 5) return { type: 'season', name: 'spring', icon: 'spring.png' };
             if (month >= 6 && month <= 8) return { type: 'season', name: 'summer', icon: 'summer.png' };
@@ -1423,7 +1189,6 @@
             
             eventIcon.innerHTML = iconHTML;
             
-            // Если изображение не загрузилось, показываем fallback
             setTimeout(() => {
                 const img = eventIcon.querySelector('img');
                 if (img && img.naturalHeight === 0) {
@@ -1435,14 +1200,12 @@
             }, 1000);
         }
 
-        // ==================== GITHUB API ИНТЕГРАЦИЯ ====================
         async function githubAPI(endpoint) {
             const headers = {
                 'Accept': 'application/vnd.github.v3+json',
                 'User-Agent': '0ptim1st-DK-Portfolio'
             };
             
-            // Добавляем токен если он есть
             if (CONFIG.GITHUB_TOKEN && CONFIG.GITHUB_TOKEN !== 'YOUR_GITHUB_TOKEN_HERE') {
                 headers['Authorization'] = `token ${CONFIG.GITHUB_TOKEN}`;
             }
@@ -1512,9 +1275,6 @@
             ];
         }
 
-        // ==================== ОСНОВНЫЕ ФУНКЦИИ САЙТА ====================
-
-        // Загрузка новостей
         async function loadNews() {
             try {
                 const response = await fetch('news.md');
@@ -1535,7 +1295,6 @@
             }
         }
 
-        // Парсинг Markdown (упрощённый)
         function parseMarkdown(text) {
             return text
                 .replace(/^### (.*$)/gim, '<h3>$1</h3>')
@@ -1548,7 +1307,6 @@
                 .replace(/\n/gim, '<br>');
         }
 
-        // Обновлённая функция загрузки обновлений
         async function loadUpdates() {
             const updatesContent = document.getElementById('updates-content');
             
@@ -1595,7 +1353,6 @@
                 
                 updatesContent.innerHTML = updatesHTML;
                 
-                // Анимация для новых карточек
                 setTimeout(() => {
                     const observer = new IntersectionObserver((entries) => {
                         entries.forEach(entry => {
@@ -1626,7 +1383,6 @@
             }
         }
 
-        // Данные проектов по категориям
         const projectsData = {
             games: {
                 title: "Игры",
@@ -1650,7 +1406,6 @@
                                 detailedDescription: `
                                     <p>AutoCraft AE2 - это революционный мод для Minecraft, который выводит автоматизацию крафта на совершенно новый уровень. Проект расширяет функциональность Applied Energistics 2, предоставляя мощные инструменты для оптимизации производственных процессов.</p>
                                     
-                                    <!-- ВИДЕО ДЕМОНСТРАЦИЯ -->
                                     <div class="video-container">
                                         <video controls poster="images/projects/ac8/oblojka.png">
                                             <source src="videos/titri.mp4" type="video/mp4">
@@ -1677,7 +1432,6 @@
                                         </div>
                                     </div>
                                     
-                                    <!-- ГАЛЕРЕЯ СКРИНШОТОВ -->
                                     <h3 style="margin: 2rem 0 1rem 0; background: linear-gradient(45deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">📸 Скриншоты проекта</h3>
                                     
                                     <div class="project-screenshots">
@@ -1697,7 +1451,6 @@
                                         </div>
                                     </div>
                                     
-                                    <!-- ТЕХНИЧЕСКИЕ ДЕТАЛИ -->
                                     <div style="background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%); padding: 1.5rem; border-radius: 15px; border-left: 4px solid var(--primary); margin: 2rem 0;">
                                         <h4><i class="fas fa-cogs"></i> Технические особенности</h4>
                                         <ul style="margin: 1rem 0; color: var(--text-secondary); line-height: 1.6;">
@@ -1819,24 +1572,19 @@
             }
         };
 
-        // Функции навигации
         function showPage(pageId) {
-            // Сохраняем позицию скролла
             if (currentPage === 'home') {
                 homeScrollPosition = window.pageYOffset;
             } else if (currentPage === 'projects') {
                 projectsScrollPosition = window.pageYOffset;
             }
 
-            // Скрыть все страницы
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             
-            // Показать выбранную страницу
             document.getElementById(pageId).classList.add('active');
             
-            // Обновить активную ссылку в навигации
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href') === `#${pageId}`) {
@@ -1844,7 +1592,6 @@
                 }
             });
 
-            // Особые действия для страниц
             if (pageId === 'projects') {
                 loadProjectsPage();
                 setTimeout(() => {
@@ -1918,7 +1665,6 @@
 
             projectsContent.innerHTML = html;
             
-            // Анимация появления карточек
             setTimeout(() => {
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
@@ -1939,7 +1685,6 @@
         }
 
         function showProjectDetail(categoryKey, subKey, projectId) {
-            // Сохраняем позицию скролла страницы проектов
             projectsScrollPosition = window.pageYOffset;
 
             const category = projectsData[categoryKey];
@@ -1970,36 +1715,30 @@
                 </div>
             `;
 
-            // Показываем страницу деталей проекта
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             document.getElementById('project-detail').classList.add('active');
             
-            // Прокручиваем к началу
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function goBackToProjects() {
-            // Возвращаемся к странице проектов
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             document.getElementById('projects').classList.add('active');
             
-            // Возвращаем скролл на сохранённую позицию
             setTimeout(() => {
                 window.scrollTo({ top: projectsScrollPosition, behavior: 'smooth' });
             }, 300);
         }
 
-        // Функция копирования email
         function copyEmail() {
             const email = '2dmrkalug@mail.ru';
             navigator.clipboard.writeText(email).then(() => {
                 showNotification('Email скопирован в буфер обмена!');
             }).catch(() => {
-                // Fallback для старых браузеров
                 const textArea = document.createElement('textarea');
                 textArea.value = email;
                 document.body.appendChild(textArea);
@@ -2010,7 +1749,6 @@
             });
         }
 
-        // Функция показа уведомления
         function showNotification(message) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
@@ -2021,7 +1759,6 @@
             }, 3000);
         }
 
-        // Функция прокрутки наверх
         function scrollToTop() {
             window.scrollTo({
                 top: 0,
@@ -2029,7 +1766,6 @@
             });
         }
 
-        // Обработчик скролла для кнопки "Наверх"
         function handleScroll() {
             const backToTop = document.querySelector('.back-to-top');
             if (window.pageYOffset > 300) {
@@ -2039,9 +1775,6 @@
             }
         }
 
-        // ==================== СИСТЕМА ГАЛЕРЕИ ====================
-        
-        // Система галереи для скриншотов
         let currentGallery = [];
         let currentImageIndex = 0;
 
@@ -2056,14 +1789,12 @@
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Добавляем обработчики для зума
             modalImg.addEventListener('mousedown', startDrag);
             modalImg.addEventListener('mousemove', duringDrag);
             modalImg.addEventListener('mouseup', stopDrag);
             modalImg.addEventListener('mouseleave', stopDrag);
             modalImg.addEventListener('contextmenu', toggleZoom);
             
-            // Сбрасываем состояние зума
             isZoomed = false;
             modal.classList.remove('zoomed');
             modalImg.style.transform = 'scale(1)';
@@ -2073,7 +1804,6 @@
             const modal = document.getElementById('screenshot-modal');
             const modalImg = document.getElementById('modal-image');
             
-            // Убираем обработчики
             modalImg.removeEventListener('mousedown', startDrag);
             modalImg.removeEventListener('mousemove', duringDrag);
             modalImg.removeEventListener('mouseup', stopDrag);
@@ -2086,19 +1816,17 @@
         }
 
         function toggleZoom(event) {
-            if (event.button === 2) { // Правая кнопка мыши
+            if (event.button === 2) {
                 event.preventDefault();
                 const modal = document.getElementById('screenshot-modal');
                 const modalImg = document.getElementById('modal-image');
                 
                 if (!isZoomed) {
-                    // Включаем зум
                     modal.classList.add('zoomed');
                     modalImg.style.transform = 'scale(1.5)';
                     modalImg.style.cursor = 'grab';
                     isZoomed = true;
                 } else {
-                    // Выключаем зум
                     modal.classList.remove('zoomed');
                     modalImg.style.transform = 'scale(1)';
                     modalImg.style.cursor = 'pointer';
@@ -2108,7 +1836,7 @@
         }
 
         function startDrag(event) {
-            if (isZoomed && event.button === 0) { // Левая кнопка мыши при зуме
+            if (isZoomed && event.button === 0) {
                 event.preventDefault();
                 isDragging = true;
                 startX = event.pageX - event.target.offsetLeft;
@@ -2139,27 +1867,17 @@
             }
         }
 
-        // Закрытие по ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeGallery();
         });
 
-        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
-
-        // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
-            // Инициализация системы событий
             updateEventIcon();
-            
-            // Загрузка данных
             loadNews();
             loadUpdates();
-            
-            // Настройка обработчика скролла
             window.addEventListener('scroll', handleScroll);
         });
 
-        // Параллакс эффект для фона
         document.addEventListener('mousemove', (e) => {
             const parallax = document.querySelector('.parallax-bg');
             const x = (e.clientX / window.innerWidth) * 20;
