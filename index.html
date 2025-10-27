@@ -1152,6 +1152,9 @@
             /* Карточка подстраивается под размер фото */
             height: auto;
             min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .project-description .screenshot-item img {
@@ -1765,7 +1768,7 @@
             GITHUB_USERNAME: '0ptim1st-DK',
             GITHUB_TOKEN: 'YOUR_GITHUB_TOKEN_HERE',
             GITHUB_RAW_URL: 'https://raw.githubusercontent.com/0ptim1st-DK/0ptim1st-DK.github.io/main/',
-            LAZY_LOAD_OFFSET: 100 // Загрузка за 100px до появления элемента
+            LAZY_LOAD_OFFSET: 100
         };
 
         // ==================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ====================
@@ -1782,6 +1785,11 @@
 
         // ==================== СИСТЕМНЫЕ УВЕДОМЛЕНИЯ ====================
         function showSystemNotification(message, type = 'info', duration = 4000) {
+            // Отключаем лишние уведомления
+            if (message.includes('Добро пожаловать') || message.includes('Новости успешно загружены')) {
+                return;
+            }
+            
             const notification = document.createElement('div');
             notification.className = `system-notification ${type}`;
             
@@ -1801,12 +1809,10 @@
 
             document.body.appendChild(notification);
 
-            // Анимация появления
             requestAnimationFrame(() => {
                 notification.classList.add('show');
             });
 
-            // Автоматическое скрытие
             setTimeout(() => {
                 notification.classList.remove('show');
                 setTimeout(() => {
@@ -1832,7 +1838,6 @@
 
         // ==================== ПЛАВНАЯ ПРОКРУТКА ====================
         function initSmoothScroll() {
-            // Плавная прокрутка для всех внутренних ссылок
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -1853,7 +1858,6 @@
                 });
             });
 
-            // Плавная прокрутка для кнопки "Наверх"
             window.scrollToTop = function() {
                 window.scrollTo({
                     top: 0,
@@ -1864,7 +1868,6 @@
 
         // ==================== INTERSECTION OBSERVER ДЛЯ АНИМАЦИЙ ====================
         function initIntersectionObservers() {
-            // Observer для секций на главной
             const sectionObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1873,7 +1876,6 @@
                 });
             }, { threshold: 0.1, rootMargin: '50px' });
 
-            // Observer для карточек проектов
             const cardObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1882,7 +1884,6 @@
                 });
             }, { threshold: 0.1, rootMargin: '50px' });
 
-            // Observer для категорий
             const categoryObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1891,9 +1892,8 @@
                 });
             }, { threshold: 0.1, rootMargin: '50px' });
 
-            // Observer для ленивой загрузки изображений
             const lazyImageObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
+                entries.forEach(entry) => {
                     if (entry.isIntersecting) {
                         const img = entry.target;
                         img.src = img.dataset.src;
@@ -1903,7 +1903,6 @@
                 });
             }, { rootMargin: `${CONFIG.LAZY_LOAD_OFFSET}px` });
 
-            // Сохраняем observers для очистки
             observers.push(sectionObserver, cardObserver, categoryObserver, lazyImageObserver);
 
             return {
@@ -1931,15 +1930,12 @@
                     const img = e.target;
                     const parent = img.parentElement;
                     
-                    // Если это карточка проекта, показываем иконку
                     if (parent.classList.contains('project-image')) {
                         parent.classList.remove('has-image');
                         const project = parent.closest('.project-card');
                         const title = project ? project.querySelector('h3').textContent : 'Проект';
                         const fallbackIcon = getFallbackIcon(title);
                         parent.innerHTML = `<i class="${fallbackIcon}"></i>`;
-                        
-                        showSystemNotification(`Не удалось загрузить изображение для "${title}"`, 'warning', 3000);
                     }
                 }
             }, true);
@@ -2067,7 +2063,24 @@
         function getCurrentEvent() {
             const now = getCurrentDate();
             
+            // Исправляем даты для Хэллоуина (должен быть только в октябре)
             for (const [holidayName, holiday] of Object.entries(EVENT_CONFIG.holidays)) {
+                // Исправляем Хэллоуин - только 31 октября
+                if (holidayName === 'halloween') {
+                    const halloweenDate = new Date(now.getFullYear(), 9, 31); // 31 октября
+                    if (now.getDate() === 31 && now.getMonth() === 9) {
+                        let daysLeft = null;
+                        return {
+                            type: 'holiday',
+                            name: holidayName,
+                            icon: holiday.icon,
+                            replaces: holiday.replaces,
+                            daysLeft: daysLeft
+                        };
+                    }
+                    continue;
+                }
+                
                 if (isDateInRange(now, holiday.start, holiday.end)) {
                     let daysLeft = null;
                     
@@ -2216,7 +2229,7 @@
                 if (response.ok) {
                     const newsText = await response.text();
                     document.getElementById('news-content').innerHTML = parseMarkdown(newsText);
-                    showSystemNotification('Новости успешно загружены', 'success', 2000);
+                    // Убрано уведомление о загрузке новостей
                 } else {
                     document.getElementById('news-content').innerHTML = `
                         <p>Новости скоро появятся! Следите за обновлениями.</p>
@@ -2236,80 +2249,106 @@
 
         // Улучшенный парсинг Markdown (GitHub-подобный)
         function parseMarkdown(text) {
-            // Обработка блоков кода
-            text = text.replace(/```(\w+)?\n([\s\S]*?)```/g, function(match, lang, code) {
-                return `<div class="highlight"><pre><code class="language-${lang || 'text'}">${escapeHtml(code.trim())}</code></pre></div>`;
-            });
-
-            // Обработка inline кода
-            text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
-
-            // Заголовки
-            text = text.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-            text = text.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-            text = text.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-
-            // Жирный текст
-            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            text = text.replace(/__(.*?)__/g, '<strong>$1</strong>');
-
-            // Курсив
-            text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-            text = text.replace(/_(.*?)_/g, '<em>$1</em>');
-
-            // Зачеркнутый текст
-            text = text.replace(/~~(.*?)~~/g, '<del>$1</del>');
-
-            // Цитаты
-            text = text.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
-
-            // Горизонтальные линии
-            text = text.replace(/^\-\-\-$/gim, '<hr>');
-
-            // Списки
-            text = text.replace(/^\* (.*$)/gim, '<li>$1</li>');
-            text = text.replace(/^\- (.*$)/gim, '<li>$1</li>');
-            text = text.replace(/^\+ (.*$)/gim, '<li>$1</li>');
+            // Сохраняем оригинальные списки
+            const listStack = [];
+            let inOrderedList = false;
+            let inUnorderedList = false;
+            let output = '';
+            let currentList = '';
             
-            // Обертываем списки в ul
-            text = text.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
-
-            // Нумерованные списки
-            text = text.replace(/^\d+\. (.*$)/gim, '<li>$1</li>');
-            text = text.replace(/(<li>.*<\/li>)(?!\s*<li>)/g, '<ol>$1</ol>');
-
-            // Ссылки
-            text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
-
-            // Изображения
-            text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
-
-            // Таблицы (базовая поддержка)
-            text = text.replace(/\|([^\n]+)\|\n\|([\-\s\|]+)\|\n((?:\|[^\n]+\|\n)*)/g, function(match, headers, separator, rows) {
-                let table = '<table><thead><tr>';
-                headers.split('|').forEach(header => {
-                    if (header.trim()) table += `<th>${header.trim()}</th>`;
-                });
-                table += '</tr></thead><tbody>';
+            const lines = text.split('\n');
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
                 
-                rows.split('\n').forEach(row => {
-                    if (row.trim()) {
-                        table += '<tr>';
-                        row.split('|').forEach(cell => {
-                            if (cell.trim()) table += `<td>${cell.trim()}</td>`;
-                        });
-                        table += '</tr>';
+                // Заголовки
+                if (line.startsWith('#### ')) {
+                    output += `<h4>${line.substring(5)}</h4>`;
+                    continue;
+                } else if (line.startsWith('### ')) {
+                    output += `<h3>${line.substring(4)}</h3>`;
+                    continue;
+                } else if (line.startsWith('## ')) {
+                    output += `<h2>${line.substring(3)}</h2>`;
+                    continue;
+                } else if (line.startsWith('# ')) {
+                    output += `<h1>${line.substring(2)}</h1>`;
+                    continue;
+                }
+                
+                // Нумерованные списки
+                if (/^\d+\.\s/.test(line)) {
+                    if (!inOrderedList) {
+                        if (inUnorderedList) {
+                            output += `</ul>`;
+                            inUnorderedList = false;
+                        }
+                        output += `<ol>`;
+                        inOrderedList = true;
                     }
-                });
-                table += '</tbody></table>';
-                return table;
-            });
-
-            // Параграфы
-            text = text.replace(/\n\n/g, '</p><p>');
-            text = text.replace(/\n/g, '<br>');
+                    const content = line.replace(/^\d+\.\s/, '');
+                    output += `<li>${parseInlineMarkdown(content)}</li>`;
+                    continue;
+                }
+                
+                // Маркированные списки
+                if (/^[\-\*\+]\s/.test(line)) {
+                    if (!inUnorderedList) {
+                        if (inOrderedList) {
+                            output += `</ol>`;
+                            inOrderedList = false;
+                        }
+                        output += `<ul>`;
+                        inUnorderedList = true;
+                    }
+                    const content = line.substring(2);
+                    output += `<li>${parseInlineMarkdown(content)}</li>`;
+                    continue;
+                }
+                
+                // Закрываем списки если текущая строка не список
+                if ((inOrderedList || inUnorderedList) && line !== '') {
+                    if (inOrderedList) {
+                        output += `</ol>`;
+                        inOrderedList = false;
+                    }
+                    if (inUnorderedList) {
+                        output += `</ul>`;
+                        inUnorderedList = false;
+                    }
+                }
+                
+                // Пустые строки
+                if (line === '') {
+                    output += `<br>`;
+                    continue;
+                }
+                
+                // Обычные параграфы
+                output += `<p>${parseInlineMarkdown(line)}</p>`;
+            }
             
-            return `<p>${text}</p>`;
+            // Закрываем открытые списки в конце
+            if (inOrderedList) output += `</ol>`;
+            if (inUnorderedList) output += `</ul>`;
+            
+            return output;
+        }
+
+        function parseInlineMarkdown(text) {
+            return text
+                // Жирный текст
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/__(.*?)__/g, '<strong>$1</strong>')
+                // Курсив
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/_(.*?)_/g, '<em>$1</em>')
+                // Зачеркнутый текст
+                .replace(/~~(.*?)~~/g, '<del>$1</del>')
+                // Inline код
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                // Ссылки
+                .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
         }
 
         function escapeHtml(text) {
@@ -2365,7 +2404,6 @@
                 
                 updatesContent.innerHTML = updatesHTML;
                 
-                // Инициализация Intersection Observer для новых карточек
                 setTimeout(() => {
                     const { cardObserver } = initIntersectionObservers();
                     document.querySelectorAll('#updates-content .project-card').forEach(card => {
@@ -2605,23 +2643,19 @@
         function showPage(pageId) {
             showPageLoader();
             
-            // Сохраняем позицию скролла
             if (currentPage === 'home') {
                 homeScrollPosition = window.pageYOffset;
             } else if (currentPage === 'projects') {
                 projectsScrollPosition = window.pageYOffset;
             }
 
-            // Скрыть все страницы
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             
-            // Показать выбранную страницу
             const targetPage = document.getElementById(pageId);
             targetPage.classList.add('active');
             
-            // Обновить активную ссылку в навигации
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href') === `#${pageId}`) {
@@ -2629,7 +2663,6 @@
                 }
             });
 
-            // Особые действия для страниц
             if (pageId === 'projects') {
                 loadProjectsPage();
                 setTimeout(() => {
@@ -2645,7 +2678,6 @@
 
             currentPage = pageId;
             
-            // Инициализация observers для новой страницы
             setTimeout(() => {
                 initPageObservers();
                 hidePageLoader();
@@ -2681,18 +2713,24 @@
                             project.image : 
                             (project.imageType === 'file' ? project.image : '');
                         
+                        // ИСПРАВЛЕНИЕ: убираем дублирование иконок
+                        let imageContent = '';
+                        if (hasImage) {
+                            imageContent = `
+                                <img src="${imageUrl}" alt="${project.title}" 
+                                      onload="this.style.display='block'; this.parentElement.classList.add('has-image');" 
+                                      onerror="this.style.display='none'; this.parentElement.classList.remove('has-image'); this.parentElement.innerHTML = '<i class=\\'${getFallbackIcon(project.title)}\\'></i>';"
+                                      style="display: none;">
+                            `;
+                        } else {
+                            imageContent = `<i class="${project.image}"></i>`;
+                        }
+                        
                         html += `
                             <div class="project-card" onclick="showProjectDetail('${categoryKey}', '${subKey}', '${project.id}')">
                                 <div class="project-image ${hasImage ? 'has-image' : ''}" 
                                      style="${hasImage ? `background: url('${imageUrl}') center/cover;` : ''}">
-                                    ${hasImage ? 
-                                        `<img src="${imageUrl}" alt="${project.title}" 
-                                              onload="this.style.display='block'; this.parentElement.classList.add('has-image');" 
-                                              onerror="this.style.display='none'; this.parentElement.classList.remove('has-image'); this.parentElement.innerHTML = '<i class=\\'${getFallbackIcon(project.title)}\\'></i>';"
-                                              style="display: none;">` : 
-                                        `<i class="${project.image}"></i>`
-                                    }
-                                    ${!hasImage ? `<i class="${project.image}"></i>` : ''}
+                                    ${imageContent}
                                 </div>
                                 <h3>${project.title}</h3>
                                 <p>${project.description}</p>
@@ -2717,7 +2755,6 @@
 
             projectsContent.innerHTML = html;
             
-            // Инициализация observers для проектов
             setTimeout(() => {
                 const { categoryObserver, cardObserver } = initIntersectionObservers();
                 
@@ -2734,7 +2771,6 @@
         function showProjectDetail(categoryKey, subKey, projectId) {
             showPageLoader();
             
-            // Сохраняем позицию скролла страницы проектов
             projectsScrollPosition = window.pageYOffset;
 
             const category = projectsData[categoryKey];
@@ -2765,16 +2801,13 @@
                 </div>
             `;
 
-            // Показываем страницу деталей проекта
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             document.getElementById('project-detail').classList.add('active');
             
-            // Прокручиваем к началу
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // Инициализируем видеоплеер после загрузки страницы
             setTimeout(() => {
                 initVideoPlayer();
                 hidePageLoader();
@@ -2784,13 +2817,11 @@
         function goBackToProjects() {
             showPageLoader();
             
-            // Возвращаемся к странице проектов
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             document.getElementById('projects').classList.add('active');
             
-            // Возвращаем скролл на сохранённую позицию
             setTimeout(() => {
                 window.scrollTo({ top: projectsScrollPosition, behavior: 'smooth' });
                 hidePageLoader();
@@ -2801,17 +2832,14 @@
         function initPageObservers() {
             const { sectionObserver, cardObserver, categoryObserver } = initIntersectionObservers();
             
-            // Наблюдаем за секциями на главной
             document.querySelectorAll('.home-section').forEach(section => {
                 sectionObserver.observe(section);
             });
             
-            // Наблюдаем за карточками проектов
             document.querySelectorAll('.project-card').forEach(card => {
                 cardObserver.observe(card);
             });
             
-            // Наблюдаем за категориями
             document.querySelectorAll('.category').forEach(category => {
                 categoryObserver.observe(category);
             });
@@ -2823,7 +2851,6 @@
             navigator.clipboard.writeText(email).then(() => {
                 showSystemNotification('Email скопирован в буфер обмена!', 'success', 3000);
             }).catch(() => {
-                // Fallback для старых браузеров
                 const textArea = document.createElement('textarea');
                 textArea.value = email;
                 document.body.appendChild(textArea);
@@ -2858,7 +2885,6 @@
 
         // ==================== СИСТЕМА ГАЛЕРЕИ ====================
         
-        // Система галереи для скриншотов
         let currentGallery = [];
         let currentImageIndex = 0;
 
@@ -2878,7 +2904,6 @@
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Сбрасываем состояние зума и позиции
             isZoomed = false;
             zoomLevel = 1.5;
             currentTranslateX = 0;
@@ -2887,7 +2912,6 @@
             modalImg.style.transform = 'scale(1) translate(0, 0)';
             modalImg.style.cursor = 'zoom-in';
             
-            // Добавляем обработчики
             modalImg.addEventListener('click', toggleZoom);
             modalImg.addEventListener('wheel', handleWheelZoom);
             modalImg.addEventListener('mousedown', startDrag);
@@ -2895,7 +2919,6 @@
             modalImg.addEventListener('mouseup', stopDrag);
             modalImg.addEventListener('mouseleave', stopDrag);
             
-            // Добавляем обработчики клавиш
             document.addEventListener('keydown', handleGalleryKeydown);
         }
 
@@ -2903,7 +2926,6 @@
             const modal = document.getElementById('screenshot-modal');
             const modalImg = document.getElementById('modal-image');
             
-            // Убираем обработчики
             modalImg.removeEventListener('click', toggleZoom);
             modalImg.removeEventListener('wheel', handleWheelZoom);
             modalImg.removeEventListener('mousedown', startDrag);
@@ -2943,13 +2965,11 @@
             const modalImg = document.getElementById('modal-image');
             
             if (!isZoomed) {
-                // Включаем зум
                 modal.classList.add('zoomed');
                 modalImg.style.transform = `scale(${zoomLevel}) translate(${currentTranslateX}px, ${currentTranslateY}px)`;
                 modalImg.style.cursor = 'grab';
                 isZoomed = true;
             } else {
-                // Выключаем зум
                 modal.classList.remove('zoomed');
                 modalImg.style.transform = 'scale(1) translate(0, 0)';
                 modalImg.style.cursor = 'zoom-in';
@@ -2990,7 +3010,6 @@
             currentTranslateX = event.clientX - startX;
             currentTranslateY = event.clientY - startY;
             
-            // Ограничиваем перемещение
             const maxTranslate = 100 * (zoomLevel - 1);
             currentTranslateX = Math.max(-maxTranslate, Math.min(maxTranslate, currentTranslateX));
             currentTranslateY = Math.max(-maxTranslate, Math.min(maxTranslate, currentTranslateY));
@@ -3029,7 +3048,6 @@
             modalCaption.textContent = currentGallery[currentImageIndex].caption;
             galleryIndicator.textContent = `${currentImageIndex + 1} / ${currentGallery.length}`;
             
-            // Сбрасываем зум при смене изображения
             isZoomed = false;
             zoomLevel = 1.5;
             currentTranslateX = 0;
@@ -3054,19 +3072,15 @@
             const volumeLevel = videoPlayer.querySelector('.volume-level');
             const fullscreenBtn = videoPlayer.querySelector('.fullscreen-btn');
 
-            // Проверяем, есть ли необходимые элементы
             if (!video || !playPauseBtn) return;
 
-            // Установить начальную громкость
             video.volume = 1.0;
             volumeLevel.style.width = '100%';
 
-            // Воспроизведение/пауза по клику на видео
             video.addEventListener('click', () => {
                 togglePlayPause();
             });
 
-            // Воспроизведение/пауза по кнопке
             playPauseBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 togglePlayPause();
@@ -3083,7 +3097,6 @@
                 }
             }
 
-            // Обновление прогресса
             video.addEventListener('timeupdate', () => {
                 if (video.duration) {
                     const percent = (video.currentTime / video.duration) * 100;
@@ -3095,7 +3108,6 @@
                 }
             });
 
-            // Перемотка по клику на прогресс-бар
             progressBar.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const rect = progressBar.getBoundingClientRect();
@@ -3103,7 +3115,6 @@
                 video.currentTime = percent * video.duration;
             });
 
-            // Управление громкостью
             volumeSlider.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const rect = volumeSlider.getBoundingClientRect();
@@ -3113,7 +3124,6 @@
                 updateVolumeIcon(video.volume);
             });
 
-            // Кнопка громкости - mute/unmute
             volumeBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 if (video.volume > 0) {
@@ -3126,7 +3136,6 @@
                 updateVolumeIcon(video.volume);
             });
 
-            // Полноэкранный режим
             fullscreenBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 if (!document.fullscreenElement) {
@@ -3138,13 +3147,11 @@
                 }
             });
 
-            // Событие окончания видео
             video.addEventListener('ended', () => {
                 playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
                 videoPlayer.classList.remove('controls-visible');
             });
 
-            // Показ контролов при наведении
             videoPlayer.addEventListener('mouseenter', () => {
                 videoPlayer.classList.add('controls-visible');
             });
@@ -3157,14 +3164,12 @@
                 }
             });
 
-            // Форматирование времени
             function formatTime(seconds) {
                 const mins = Math.floor(seconds / 60);
                 const secs = Math.floor(seconds % 60);
                 return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
             }
 
-            // Обновление иконки громкости
             function updateVolumeIcon(volume) {
                 let icon = 'fa-volume-up';
                 if (volume === 0) icon = 'fa-volume-mute';
@@ -3172,7 +3177,6 @@
                 volumeBtn.innerHTML = `<i class="fas ${icon}"></i>`;
             }
 
-            // Обработка ошибок видео
             video.addEventListener('error', (e) => {
                 console.error('Ошибка загрузки видео:', e);
                 videoPlayer.innerHTML = `
@@ -3188,31 +3192,22 @@
 
         // ==================== ИНИЦИАЛИЗАЦИЯ ====================
 
-        // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
-            // Инициализация системы событий
             updateEventIcon();
             
-            // Инициализация основных систем
             initSmoothScroll();
             initIntersectionObservers();
             initLazyLoading();
             initImageErrorHandling();
             initPageObservers();
             
-            // Загрузка данных
             loadNews();
             loadUpdates();
             
-            // Настройка обработчиков
             window.addEventListener('scroll', handleScroll);
             
-            // Показываем системное уведомление о загрузке
-            setTimeout(() => {
-                showSystemNotification('Добро пожаловать на сайт-портфолио!', 'info', 3000);
-            }, 1000);
+            // Убрано приветственное уведомление
 
-            // Очистка observers при уходе со страницы
             window.addEventListener('beforeunload', () => {
                 observers.forEach(observer => {
                     observer.disconnect();
@@ -3220,7 +3215,6 @@
             });
         });
 
-        // Параллакс эффект для фона
         document.addEventListener('mousemove', (e) => {
             const parallax = document.querySelector('.parallax-bg');
             const x = (e.clientX / window.innerWidth) * 20;
@@ -3228,9 +3222,7 @@
             parallax.style.transform = `translate(${x}px, ${y}px) scale(1.02)`;
         });
 
-        // Обработка изменения размера окна
         window.addEventListener('resize', () => {
-            // Закрываем мобильное меню при изменении размера
             if (window.innerWidth > 768) {
                 closeMobileMenu();
             }
