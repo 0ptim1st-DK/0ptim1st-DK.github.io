@@ -26,6 +26,26 @@
             --info: #3b82f6;
         }
 
+        /* Кастомный скроллбар */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 15, 35, 0.8);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border-radius: 6px;
+            border: 2px solid rgba(15, 15, 35, 0.8);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(-45deg, #0f0f23, #1a1a2e, #16213e, #070711);
@@ -1481,6 +1501,39 @@
             width: 100%;
         }
 
+        /* Центральная кнопка воспроизведения */
+        .video-center-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(102, 126, 234, 0.8);
+            border: none;
+            color: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            z-index: 5;
+        }
+
+        .video-center-play.visible {
+            opacity: 1;
+        }
+
+        .video-center-play:hover {
+            background: var(--primary);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
         /* Стили для улучшенного markdown */
         .news-content .highlight {
             background: rgba(15, 15, 35, 0.8);
@@ -1499,6 +1552,267 @@
             display: block;
             padding: 0;
             background: none;
+        }
+
+        /* ==================== РЕДАКТОР ПРОЕКТОВ ==================== */
+        .admin-panel {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 9999;
+        }
+
+        .admin-toggle {
+            background: linear-gradient(45deg, var(--warning), var(--error));
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-toggle:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
+        }
+
+        .editor-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(7, 7, 17, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 10003;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .editor-modal.active {
+            display: block;
+        }
+
+        .editor-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .editor-title {
+            font-size: 2rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .editor-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .editor-close:hover {
+            background: var(--error);
+            transform: scale(1.1);
+        }
+
+        .editor-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .editor-tab {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .editor-tab.active {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+        }
+
+        .editor-tab:hover {
+            transform: translateY(-2px);
+        }
+
+        .editor-section {
+            display: none;
+        }
+
+        .editor-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-array {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .array-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        .array-item input {
+            flex: 1;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, var(--error), #f87171);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, var(--success), #34d399);
+        }
+
+        .projects-list {
+            max-height: 400px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .project-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .action-btn.edit:hover {
+            background: var(--info);
+        }
+
+        .action-btn.delete:hover {
+            background: var(--error);
         }
 
         /* Адаптивность */
@@ -1547,6 +1861,24 @@
                 left: 1rem;
                 max-width: none;
             }
+
+            .admin-panel {
+                bottom: 20px;
+                left: 20px;
+            }
+
+            .admin-toggle {
+                padding: 0.8rem 1.2rem;
+                font-size: 0.9rem;
+            }
+
+            .editor-modal {
+                padding: 1rem;
+            }
+
+            .editor-container {
+                padding: 1.5rem;
+            }
         }
 
         /* Тёмная тема системных элементов */
@@ -1584,6 +1916,13 @@
     <button class="back-to-top" onclick="scrollToTop()" aria-label="Наверх">
         <i class="fas fa-chevron-up"></i>
     </button>
+
+    <!-- Панель администратора -->
+    <div class="admin-panel">
+        <button class="admin-toggle" onclick="toggleEditor()">
+            <i class="fas fa-cog"></i>Редактор
+        </button>
+    </div>
 
     <!-- Параллакс фон -->
     <div class="parallax-bg"></div>
@@ -1767,13 +2106,181 @@
         <div id="gallery-indicator" class="gallery-indicator"></div>
     </div>
 
+    <!-- Редактор проектов -->
+    <div id="editor-modal" class="editor-modal">
+        <div class="editor-container">
+            <div class="editor-header">
+                <h2 class="editor-title">Редактор проектов</h2>
+                <button class="editor-close" onclick="toggleEditor()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="editor-tabs">
+                <button class="editor-tab active" onclick="switchEditorTab('categories')">Категории</button>
+                <button class="editor-tab" onclick="switchEditorTab('subcategories')">Подкатегории</button>
+                <button class="editor-tab" onclick="switchEditorTab('projects')">Проекты</button>
+                <button class="editor-tab" onclick="switchEditorTab('export')">Экспорт</button>
+            </div>
+
+            <div id="categories-section" class="editor-section active">
+                <h3>Управление категориями</h3>
+                <div class="form-group">
+                    <label class="form-label">Название категории</label>
+                    <input type="text" id="category-title" class="form-input" placeholder="Например: Игры">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Иконка категории</label>
+                    <input type="text" id="category-icon" class="form-input" placeholder="fas fa-gamepad">
+                    <small>Используйте классы Font Awesome (например: fas fa-gamepad)</small>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ключ категории</label>
+                    <input type="text" id="category-key" class="form-input" placeholder="games">
+                    <small>Уникальный идентификатор на английском (например: games)</small>
+                </div>
+                <button class="btn" onclick="addCategory()">
+                    <i class="fas fa-plus"></i>Добавить категорию
+                </button>
+
+                <div class="projects-list" id="categories-list">
+                    <!-- Список категорий будет здесь -->
+                </div>
+            </div>
+
+            <div id="subcategories-section" class="editor-section">
+                <h3>Управление подкатегориями</h3>
+                <div class="form-group">
+                    <label class="form-label">Родительская категория</label>
+                    <select id="parent-category" class="form-select">
+                        <!-- Категории будут загружены здесь -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Название подкатегории</label>
+                    <input type="text" id="subcategory-title" class="form-input" placeholder="Например: Minecraft">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Иконка подкатегории</label>
+                    <input type="text" id="subcategory-icon" class="form-input" placeholder="fas fa-cube">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ключ подкатегории</label>
+                    <input type="text" id="subcategory-key" class="form-input" placeholder="minecraft">
+                </div>
+                <button class="btn" onclick="addSubcategory()">
+                    <i class="fas fa-plus"></i>Добавить подкатегорию
+                </button>
+
+                <div class="projects-list" id="subcategories-list">
+                    <!-- Список подкатегорий будет здесь -->
+                </div>
+            </div>
+
+            <div id="projects-section" class="editor-section">
+                <h3>Управление проектами</h3>
+                <div class="form-group">
+                    <label class="form-label">Категория</label>
+                    <select id="project-category" class="form-select" onchange="updateSubcategories()">
+                        <!-- Категории будут загружены здесь -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Подкатегория</label>
+                    <select id="project-subcategory" class="form-select">
+                        <!-- Подкатегории будут загружены здесь -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">ID проекта</label>
+                    <input type="text" id="project-id" class="form-input" placeholder="autocraft">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Название проекта</label>
+                    <input type="text" id="project-title" class="form-input" placeholder="AutoCraft AE2">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Описание</label>
+                    <textarea id="project-description" class="form-textarea" placeholder="Краткое описание проекта"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Тип изображения</label>
+                    <select id="project-image-type" class="form-select">
+                        <option value="icon">Иконка</option>
+                        <option value="github">Изображение с GitHub</option>
+                        <option value="file">Локальное изображение</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Изображение/Иконка</label>
+                    <input type="text" id="project-image" class="form-input" placeholder="fab fa-python или URL изображения">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Технологии</label>
+                    <div id="technologies-container" class="form-array">
+                        <div class="array-item">
+                            <input type="text" class="form-input tech-input" placeholder="Java">
+                            <button class="action-btn delete" onclick="removeTech(this)">×</button>
+                        </div>
+                    </div>
+                    <button class="btn-secondary" onclick="addTech()">
+                        <i class="fas fa-plus"></i>Добавить технологию
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ссылки</label>
+                    <div id="links-container" class="form-array">
+                        <div class="array-item">
+                            <input type="text" class="form-input link-url" placeholder="URL">
+                            <input type="text" class="form-input link-text" placeholder="Текст">
+                            <input type="text" class="form-input link-icon" placeholder="fab fa-github">
+                            <button class="action-btn delete" onclick="removeLink(this)">×</button>
+                        </div>
+                    </div>
+                    <button class="btn-secondary" onclick="addLink()">
+                        <i class="fas fa-plus"></i>Добавить ссылку
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Детальное описание (HTML)</label>
+                    <textarea id="project-detailed-description" class="form-textarea" placeholder="Подробное описание проекта с HTML разметкой" rows="8"></textarea>
+                </div>
+                <button class="btn btn-success" onclick="addProject()">
+                    <i class="fas fa-save"></i>Сохранить проект
+                </button>
+
+                <div class="projects-list" id="projects-list">
+                    <!-- Список проектов будет здесь -->
+                </div>
+            </div>
+
+            <div id="export-section" class="editor-section">
+                <h3>Экспорт данных</h3>
+                <div class="form-group">
+                    <label class="form-label">Данные проектов (JSON)</label>
+                    <textarea id="export-data" class="form-textarea" rows="12" readonly></textarea>
+                </div>
+                <button class="btn" onclick="exportData()">
+                    <i class="fas fa-download"></i>Скопировать JSON
+                </button>
+                <button class="btn-secondary" onclick="importData()">
+                    <i class="fas fa-upload"></i>Импортировать JSON
+                </button>
+                <button class="btn-danger" onclick="resetData()">
+                    <i class="fas fa-trash"></i>Сбросить данные
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ==================== КОНФИГУРАЦИЯ ====================
         const CONFIG = {
             GITHUB_USERNAME: '0ptim1st-DK',
             GITHUB_TOKEN: 'YOUR_GITHUB_TOKEN_HERE',
             GITHUB_RAW_URL: 'https://raw.githubusercontent.com/0ptim1st-DK/0ptim1st-DK.github.io/main/',
-            LAZY_LOAD_OFFSET: 100
+            LAZY_LOAD_OFFSET: 100,
+            CONTROLS_HIDE_DELAY: 3000
         };
 
         // ==================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ====================
@@ -1787,6 +2294,8 @@
         let currentTranslateX = 0;
         let currentTranslateY = 0;
         let observers = [];
+        let controlsTimeout;
+        let isEditorOpen = false;
 
         // ==================== СИСТЕМНЫЕ УВЕДОМЛЕНИЯ ====================
         function showSystemNotification(message, type = 'info', duration = 4000) {
@@ -2430,7 +2939,7 @@
         }
 
         // Данные проектов по категориям
-        const projectsData = {
+        let projectsData = {
             games: {
                 title: "Игры",
                 icon: "fas fa-gamepad",
@@ -2459,6 +2968,9 @@
                                             <source src="videos/titri.mp4" type="video/mp4">
                                             Ваш браузер не поддерживает видео. Скачайте <a href="videos/titri.mp4">здесь</a>.
                                         </video>
+                                        <div class="video-center-play">
+                                            <i class="fas fa-play"></i>
+                                        </div>
                                         <div class="video-controls">
                                             <button class="control-btn play-pause">
                                                 <i class="fas fa-play"></i>
@@ -3069,6 +3581,7 @@
 
             const video = videoPlayer.querySelector('video');
             const playPauseBtn = videoPlayer.querySelector('.play-pause');
+            const centerPlayBtn = videoPlayer.querySelector('.video-center-play');
             const progressBar = videoPlayer.querySelector('.progress-bar');
             const progress = videoPlayer.querySelector('.progress');
             const timeDisplay = videoPlayer.querySelector('.time-display');
@@ -3082,23 +3595,58 @@
             video.volume = 1.0;
             volumeLevel.style.width = '100%';
 
+            // Скрытие контролов через 3 секунды
+            function hideControls() {
+                clearTimeout(controlsTimeout);
+                controlsTimeout = setTimeout(() => {
+                    videoPlayer.classList.remove('controls-visible');
+                    centerPlayBtn.classList.remove('visible');
+                }, CONFIG.CONTROLS_HIDE_DELAY);
+            }
+
+            function showControls() {
+                videoPlayer.classList.add('controls-visible');
+                centerPlayBtn.classList.add('visible');
+                hideControls();
+            }
+
+            // События для показа/скрытия контролов
+            videoPlayer.addEventListener('mousemove', showControls);
+            videoPlayer.addEventListener('mouseleave', () => {
+                if (!video.paused) {
+                    hideControls();
+                }
+            });
+
             video.addEventListener('click', () => {
                 togglePlayPause();
+                showControls();
+            });
+
+            centerPlayBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                togglePlayPause();
+                showControls();
             });
 
             playPauseBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 togglePlayPause();
+                showControls();
             });
 
             function togglePlayPause() {
                 if (video.paused) {
                     video.play();
                     playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    centerPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
                     videoPlayer.classList.add('controls-visible');
+                    hideControls();
                 } else {
                     video.pause();
                     playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    centerPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    videoPlayer.classList.add('controls-visible');
                 }
             }
 
@@ -3118,6 +3666,7 @@
                 const rect = progressBar.getBoundingClientRect();
                 const percent = (e.clientX - rect.left) / rect.width;
                 video.currentTime = percent * video.duration;
+                showControls();
             });
 
             volumeSlider.addEventListener('click', (e) => {
@@ -3127,6 +3676,7 @@
                 video.volume = Math.max(0, Math.min(1, percent));
                 volumeLevel.style.width = (percent * 100) + '%';
                 updateVolumeIcon(video.volume);
+                showControls();
             });
 
             volumeBtn.addEventListener('click', (e) => {
@@ -3139,6 +3689,7 @@
                     volumeLevel.style.width = '100%';
                 }
                 updateVolumeIcon(video.volume);
+                showControls();
             });
 
             fullscreenBtn.addEventListener('click', (e) => {
@@ -3150,23 +3701,20 @@
                 } else {
                     document.exitFullscreen();
                 }
+                showControls();
             });
 
             video.addEventListener('ended', () => {
                 playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                centerPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
                 videoPlayer.classList.remove('controls-visible');
+                centerPlayBtn.classList.add('visible');
             });
 
+            // Показываем центральную кнопку при наведении
             videoPlayer.addEventListener('mouseenter', () => {
-                videoPlayer.classList.add('controls-visible');
-            });
-
-            videoPlayer.addEventListener('mouseleave', () => {
-                if (!video.paused) {
-                    setTimeout(() => {
-                        videoPlayer.classList.remove('controls-visible');
-                    }, 2000);
-                }
+                centerPlayBtn.classList.add('visible');
+                showControls();
             });
 
             function formatTime(seconds) {
@@ -3193,6 +3741,501 @@
                 `;
                 showSystemNotification('Ошибка загрузки видео', 'error', 3000);
             });
+
+            // Инициализация скрытия контролов
+            hideControls();
+        }
+
+        // ==================== РЕДАКТОР ПРОЕКТОВ ====================
+
+        function toggleEditor() {
+            const editor = document.getElementById('editor-modal');
+            isEditorOpen = !isEditorOpen;
+            
+            if (isEditorOpen) {
+                editor.classList.add('active');
+                loadEditorData();
+                document.body.style.overflow = 'hidden';
+            } else {
+                editor.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function switchEditorTab(tabName) {
+            // Скрыть все вкладки
+            document.querySelectorAll('.editor-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Убрать активный класс со всех кнопок
+            document.querySelectorAll('.editor-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Показать выбранную вкладку
+            document.getElementById(`${tabName}-section`).classList.add('active');
+            
+            // Активировать кнопку
+            event.target.classList.add('active');
+            
+            // Обновить данные если нужно
+            if (tabName === 'export') {
+                updateExportData();
+            }
+        }
+
+        function loadEditorData() {
+            updateCategoriesList();
+            updateSubcategoriesList();
+            updateProjectsList();
+            loadCategorySelects();
+        }
+
+        function loadCategorySelects() {
+            const parentCategory = document.getElementById('parent-category');
+            const projectCategory = document.getElementById('project-category');
+            
+            parentCategory.innerHTML = '';
+            projectCategory.innerHTML = '';
+            
+            for (const [key, category] of Object.entries(projectsData)) {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = category.title;
+                parentCategory.appendChild(option.cloneNode(true));
+                projectCategory.appendChild(option);
+            }
+            
+            updateSubcategories();
+        }
+
+        function updateSubcategories() {
+            const categoryKey = document.getElementById('project-category').value;
+            const subcategorySelect = document.getElementById('project-subcategory');
+            
+            subcategorySelect.innerHTML = '';
+            
+            if (projectsData[categoryKey]) {
+                for (const [key, subcategory] of Object.entries(projectsData[categoryKey].subcategories)) {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.textContent = subcategory.title;
+                    subcategorySelect.appendChild(option);
+                }
+            }
+        }
+
+        function addCategory() {
+            const title = document.getElementById('category-title').value;
+            const icon = document.getElementById('category-icon').value;
+            const key = document.getElementById('category-key').value;
+            
+            if (!title || !icon || !key) {
+                showSystemNotification('Заполните все поля', 'error', 3000);
+                return;
+            }
+            
+            if (projectsData[key]) {
+                showSystemNotification('Категория с таким ключом уже существует', 'error', 3000);
+                return;
+            }
+            
+            projectsData[key] = {
+                title: title,
+                icon: icon,
+                subcategories: {}
+            };
+            
+            showSystemNotification('Категория добавлена', 'success', 3000);
+            loadEditorData();
+            clearCategoryForm();
+        }
+
+        function addSubcategory() {
+            const parentKey = document.getElementById('parent-category').value;
+            const title = document.getElementById('subcategory-title').value;
+            const icon = document.getElementById('subcategory-icon').value;
+            const key = document.getElementById('subcategory-key').value;
+            
+            if (!parentKey || !title || !icon || !key) {
+                showSystemNotification('Заполните все поля', 'error', 3000);
+                return;
+            }
+            
+            if (projectsData[parentKey].subcategories[key]) {
+                showSystemNotification('Подкатегория с таким ключом уже существует', 'error', 3000);
+                return;
+            }
+            
+            projectsData[parentKey].subcategories[key] = {
+                title: title,
+                icon: icon,
+                projects: []
+            };
+            
+            showSystemNotification('Подкатегория добавлена', 'success', 3000);
+            loadEditorData();
+            clearSubcategoryForm();
+        }
+
+        function addProject() {
+            const categoryKey = document.getElementById('project-category').value;
+            const subcategoryKey = document.getElementById('project-subcategory').value;
+            const id = document.getElementById('project-id').value;
+            const title = document.getElementById('project-title').value;
+            const description = document.getElementById('project-description').value;
+            const imageType = document.getElementById('project-image-type').value;
+            const image = document.getElementById('project-image').value;
+            const detailedDescription = document.getElementById('project-detailed-description').value;
+            
+            if (!categoryKey || !subcategoryKey || !id || !title || !description) {
+                showSystemNotification('Заполните обязательные поля', 'error', 3000);
+                return;
+            }
+            
+            // Сбор технологий
+            const technologies = [];
+            document.querySelectorAll('.tech-input').forEach(input => {
+                if (input.value.trim()) {
+                    technologies.push(input.value.trim());
+                }
+            });
+            
+            // Сбор ссылок
+            const links = [];
+            document.querySelectorAll('.array-item').forEach(item => {
+                const url = item.querySelector('.link-url').value;
+                const text = item.querySelector('.link-text').value;
+                const icon = item.querySelector('.link-icon').value;
+                
+                if (url && text) {
+                    links.push({
+                        url: url,
+                        text: text,
+                        icon: icon || 'fas fa-external-link-alt'
+                    });
+                }
+            });
+            
+            const project = {
+                id: id,
+                title: title,
+                description: description,
+                imageType: imageType,
+                image: image,
+                technologies: technologies,
+                links: links,
+                detailedDescription: detailedDescription
+            };
+            
+            // Проверяем, существует ли уже проект с таким ID
+            const existingIndex = projectsData[categoryKey].subcategories[subcategoryKey].projects.findIndex(p => p.id === id);
+            
+            if (existingIndex !== -1) {
+                // Обновляем существующий проект
+                projectsData[categoryKey].subcategories[subcategoryKey].projects[existingIndex] = project;
+                showSystemNotification('Проект обновлен', 'success', 3000);
+            } else {
+                // Добавляем новый проект
+                projectsData[categoryKey].subcategories[subcategoryKey].projects.push(project);
+                showSystemNotification('Проект добавлен', 'success', 3000);
+            }
+            
+            loadEditorData();
+            clearProjectForm();
+        }
+
+        function addTech() {
+            const container = document.getElementById('technologies-container');
+            const newItem = document.createElement('div');
+            newItem.className = 'array-item';
+            newItem.innerHTML = `
+                <input type="text" class="form-input tech-input" placeholder="Java">
+                <button class="action-btn delete" onclick="removeTech(this)">×</button>
+            `;
+            container.appendChild(newItem);
+        }
+
+        function removeTech(button) {
+            button.parentElement.remove();
+        }
+
+        function addLink() {
+            const container = document.getElementById('links-container');
+            const newItem = document.createElement('div');
+            newItem.className = 'array-item';
+            newItem.innerHTML = `
+                <input type="text" class="form-input link-url" placeholder="URL">
+                <input type="text" class="form-input link-text" placeholder="Текст">
+                <input type="text" class="form-input link-icon" placeholder="fab fa-github">
+                <button class="action-btn delete" onclick="removeLink(this)">×</button>
+            `;
+            container.appendChild(newItem);
+        }
+
+        function removeLink(button) {
+            button.parentElement.remove();
+        }
+
+        function updateCategoriesList() {
+            const list = document.getElementById('categories-list');
+            list.innerHTML = '';
+            
+            for (const [key, category] of Object.entries(projectsData)) {
+                const item = document.createElement('div');
+                item.className = 'project-item';
+                item.innerHTML = `
+                    <div>
+                        <strong>${category.title}</strong>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Ключ: ${key}</div>
+                    </div>
+                    <div class="project-actions">
+                        <button class="action-btn edit" onclick="editCategory('${key}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteCategory('${key}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                list.appendChild(item);
+            }
+        }
+
+        function updateSubcategoriesList() {
+            const list = document.getElementById('subcategories-list');
+            list.innerHTML = '';
+            
+            for (const [catKey, category] of Object.entries(projectsData)) {
+                for (const [subKey, subcategory] of Object.entries(category.subcategories)) {
+                    const item = document.createElement('div');
+                    item.className = 'project-item';
+                    item.innerHTML = `
+                        <div>
+                            <strong>${subcategory.title}</strong>
+                            <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                Категория: ${category.title} | Ключ: ${subKey}
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="action-btn edit" onclick="editSubcategory('${catKey}', '${subKey}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteSubcategory('${catKey}', '${subKey}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    list.appendChild(item);
+                }
+            }
+        }
+
+        function updateProjectsList() {
+            const list = document.getElementById('projects-list');
+            list.innerHTML = '';
+            
+            for (const [catKey, category] of Object.entries(projectsData)) {
+                for (const [subKey, subcategory] of Object.entries(category.subcategories)) {
+                    subcategory.projects.forEach(project => {
+                        const item = document.createElement('div');
+                        item.className = 'project-item';
+                        item.innerHTML = `
+                            <div>
+                                <strong>${project.title}</strong>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    ${category.title} → ${subcategory.title} | ID: ${project.id}
+                                </div>
+                            </div>
+                            <div class="project-actions">
+                                <button class="action-btn edit" onclick="editProject('${catKey}', '${subKey}', '${project.id}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteProject('${catKey}', '${subKey}', '${project.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        `;
+                        list.appendChild(item);
+                    });
+                }
+            }
+        }
+
+        function editCategory(key) {
+            const category = projectsData[key];
+            document.getElementById('category-title').value = category.title;
+            document.getElementById('category-icon').value = category.icon;
+            document.getElementById('category-key').value = key;
+            
+            switchEditorTab('categories');
+            showSystemNotification('Редактирование категории', 'info', 3000);
+        }
+
+        function editSubcategory(catKey, subKey) {
+            const subcategory = projectsData[catKey].subcategories[subKey];
+            document.getElementById('parent-category').value = catKey;
+            document.getElementById('subcategory-title').value = subcategory.title;
+            document.getElementById('subcategory-icon').value = subcategory.icon;
+            document.getElementById('subcategory-key').value = subKey;
+            
+            switchEditorTab('subcategories');
+            showSystemNotification('Редактирование подкатегории', 'info', 3000);
+        }
+
+        function editProject(catKey, subKey, projectId) {
+            const project = projectsData[catKey].subcategories[subKey].projects.find(p => p.id === projectId);
+            
+            document.getElementById('project-category').value = catKey;
+            updateSubcategories();
+            document.getElementById('project-subcategory').value = subKey;
+            document.getElementById('project-id').value = project.id;
+            document.getElementById('project-title').value = project.title;
+            document.getElementById('project-description').value = project.description;
+            document.getElementById('project-image-type').value = project.imageType;
+            document.getElementById('project-image').value = project.image;
+            document.getElementById('project-detailed-description').value = project.detailedDescription;
+            
+            // Загрузка технологий
+            const techContainer = document.getElementById('technologies-container');
+            techContainer.innerHTML = '';
+            project.technologies.forEach(tech => {
+                const newItem = document.createElement('div');
+                newItem.className = 'array-item';
+                newItem.innerHTML = `
+                    <input type="text" class="form-input tech-input" value="${tech}">
+                    <button class="action-btn delete" onclick="removeTech(this)">×</button>
+                `;
+                techContainer.appendChild(newItem);
+            });
+            
+            // Загрузка ссылок
+            const linksContainer = document.getElementById('links-container');
+            linksContainer.innerHTML = '';
+            project.links.forEach(link => {
+                const newItem = document.createElement('div');
+                newItem.className = 'array-item';
+                newItem.innerHTML = `
+                    <input type="text" class="form-input link-url" value="${link.url}">
+                    <input type="text" class="form-input link-text" value="${link.text}">
+                    <input type="text" class="form-input link-icon" value="${link.icon}">
+                    <button class="action-btn delete" onclick="removeLink(this)">×</button>
+                `;
+                linksContainer.appendChild(newItem);
+            });
+            
+            switchEditorTab('projects');
+            showSystemNotification('Редактирование проекта', 'info', 3000);
+        }
+
+        function deleteCategory(key) {
+            if (confirm(`Удалить категорию "${projectsData[key].title}"? Все подкатегории и проекты также будут удалены.`)) {
+                delete projectsData[key];
+                showSystemNotification('Категория удалена', 'success', 3000);
+                loadEditorData();
+            }
+        }
+
+        function deleteSubcategory(catKey, subKey) {
+            if (confirm(`Удалить подкатегорию "${projectsData[catKey].subcategories[subKey].title}"? Все проекты также будут удалены.`)) {
+                delete projectsData[catKey].subcategories[subKey];
+                showSystemNotification('Подкатегория удалена', 'success', 3000);
+                loadEditorData();
+            }
+        }
+
+        function deleteProject(catKey, subKey, projectId) {
+            const project = projectsData[catKey].subcategories[subKey].projects.find(p => p.id === projectId);
+            if (confirm(`Удалить проект "${project.title}"?`)) {
+                projectsData[catKey].subcategories[subKey].projects = 
+                    projectsData[catKey].subcategories[subKey].projects.filter(p => p.id !== projectId);
+                showSystemNotification('Проект удален', 'success', 3000);
+                loadEditorData();
+            }
+        }
+
+        function clearCategoryForm() {
+            document.getElementById('category-title').value = '';
+            document.getElementById('category-icon').value = '';
+            document.getElementById('category-key').value = '';
+        }
+
+        function clearSubcategoryForm() {
+            document.getElementById('subcategory-title').value = '';
+            document.getElementById('subcategory-icon').value = '';
+            document.getElementById('subcategory-key').value = '';
+        }
+
+        function clearProjectForm() {
+            document.getElementById('project-id').value = '';
+            document.getElementById('project-title').value = '';
+            document.getElementById('project-description').value = '';
+            document.getElementById('project-image').value = '';
+            document.getElementById('project-detailed-description').value = '';
+            document.getElementById('technologies-container').innerHTML = `
+                <div class="array-item">
+                    <input type="text" class="form-input tech-input" placeholder="Java">
+                    <button class="action-btn delete" onclick="removeTech(this)">×</button>
+                </div>
+            `;
+            document.getElementById('links-container').innerHTML = `
+                <div class="array-item">
+                    <input type="text" class="form-input link-url" placeholder="URL">
+                    <input type="text" class="form-input link-text" placeholder="Текст">
+                    <input type="text" class="form-input link-icon" placeholder="fab fa-github">
+                    <button class="action-btn delete" onclick="removeLink(this)">×</button>
+                </div>
+            `;
+        }
+
+        function updateExportData() {
+            document.getElementById('export-data').value = JSON.stringify(projectsData, null, 2);
+        }
+
+        function exportData() {
+            const exportData = document.getElementById('export-data');
+            exportData.select();
+            document.execCommand('copy');
+            showSystemNotification('Данные скопированы в буфер обмена', 'success', 3000);
+        }
+
+        function importData() {
+            const data = prompt('Вставьте JSON данные:');
+            if (data) {
+                try {
+                    const parsedData = JSON.parse(data);
+                    projectsData = parsedData;
+                    showSystemNotification('Данные успешно импортированы', 'success', 3000);
+                    loadEditorData();
+                } catch (e) {
+                    showSystemNotification('Ошибка при импорте данных', 'error', 3000);
+                }
+            }
+        }
+
+        function resetData() {
+            if (confirm('ВНИМАНИЕ! Это действие полностью сбросит все данные проектов. Продолжить?')) {
+                projectsData = {
+                    games: {
+                        title: "Игры",
+                        icon: "fas fa-gamepad",
+                        subcategories: {}
+                    },
+                    programs: {
+                        title: "Программы",
+                        icon: "fas fa-laptop-code", 
+                        subcategories: {}
+                    },
+                    apps: {
+                        title: "Приложения",
+                        icon: "fas fa-mobile-alt",
+                        subcategories: {}
+                    }
+                };
+                showSystemNotification('Данные сброшены', 'success', 3000);
+                loadEditorData();
+            }
         }
 
         // ==================== ИНИЦИАЛИЗАЦИЯ ====================
