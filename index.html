@@ -1511,8 +1511,9 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            opacity: 0;
+            opacity: 1;
             transition: opacity 0.3s ease;
+            pointer-events: auto;
             z-index: 10;
         }
 
@@ -2398,7 +2399,7 @@
             GITHUB_TOKEN: 'YOUR_GITHUB_TOKEN_HERE',
             GITHUB_RAW_URL: 'https://raw.githubusercontent.com/0ptim1st-DK/0ptim1st-DK.github.io/main/',
             LAZY_LOAD_OFFSET: 100,
-            CONTROLS_HIDE_DELAY: 3000,
+            CONTROLS_HIDE_DELAY: 2000,
             DEVELOPER_CODE: 'DKDEVELOPER1' // Секретный код для доступа к редактору
         };
 
@@ -3734,175 +3735,200 @@
 
         // ==================== КАСТОМНЫЙ ВИДЕОПЛЕЕР ====================
         function initVideoPlayer() {
-            const videoPlayer = document.querySelector('.custom-video-player');
-            if (!videoPlayer) return;
+    const videoPlayer = document.querySelector('.custom-video-player');
+    if (!videoPlayer) return;
 
-            const video = videoPlayer.querySelector('video');
-            const playPauseBtn = videoPlayer.querySelector('.play-pause');
-            const centerPlayBtn = videoPlayer.querySelector('.video-center-play');
-            const progressBar = videoPlayer.querySelector('.progress-bar');
-            const progress = videoPlayer.querySelector('.progress');
-            const timeDisplay = videoPlayer.querySelector('.time-display');
-            const volumeBtn = videoPlayer.querySelector('.volume-btn');
-            const volumeSlider = videoPlayer.querySelector('.volume-slider');
-            const volumeLevel = videoPlayer.querySelector('.volume-level');
-            const fullscreenBtn = videoPlayer.querySelector('.fullscreen-btn');
+    const video = videoPlayer.querySelector('video');
+    const playPauseBtn = videoPlayer.querySelector('.play-pause');
+    const centerPlayBtn = videoPlayer.querySelector('.video-center-play');
+    const videoControls = videoPlayer.querySelector('.video-controls'); // ДОБАВИТЬ эту строку
+    const progressBar = videoPlayer.querySelector('.progress-bar');
+    const progress = videoPlayer.querySelector('.progress');
+    const timeDisplay = videoPlayer.querySelector('.time-display');
+    const volumeBtn = videoPlayer.querySelector('.volume-btn');
+    const volumeSlider = videoPlayer.querySelector('.volume-slider');
+    const volumeLevel = videoPlayer.querySelector('.volume-level');
+    const fullscreenBtn = videoPlayer.querySelector('.fullscreen-btn');
 
-            if (!video || !playPauseBtn) return;
+    if (!video || !playPauseBtn) return;
 
-            video.volume = 1.0;
-            volumeLevel.style.width = '100%';
+    video.volume = 1.0;
+    volumeLevel.style.width = '100%';
 
-            // Скрытие контролов через 3 секунды
-            function hideControls() {
-                clearTimeout(controlsTimeout);
-                controlsTimeout = setTimeout(() => {
-                    videoPlayer.classList.remove('controls-visible');
-                    centerPlayBtn.classList.remove('visible');
-                }, CONFIG.CONTROLS_HIDE_DELAY);
+    // Скрытие контролов через 2 секунды (как на YouTube)
+    function hideControls() {
+        clearTimeout(controlsTimeout);
+        controlsTimeout = setTimeout(() => {
+            videoPlayer.classList.remove('controls-visible');
+            centerPlayBtn.classList.remove('visible');
+            // Скрываем все элементы управления видеоплеера
+            if (videoControls) {
+                videoControls.style.opacity = '0';
+                videoControls.style.pointerEvents = 'none';
             }
+        }, CONFIG.CONTROLS_HIDE_DELAY);
+    }
 
-            function showControls() {
-                videoPlayer.classList.add('controls-visible');
-                centerPlayBtn.classList.add('visible');
-                hideControls();
-            }
+    function showControls() {
+        videoPlayer.classList.add('controls-visible');
+        centerPlayBtn.classList.add('visible');
+        // Показываем все элементы управления видеоплеера
+        if (videoControls) {
+            videoControls.style.opacity = '1';
+            videoControls.style.pointerEvents = 'auto';
+        }
+        hideControls();
+    }
 
-            // События для показа/скрытия контролов
-            videoPlayer.addEventListener('mousemove', showControls);
-            videoPlayer.addEventListener('mouseleave', () => {
-                if (!video.paused) {
-                    hideControls();
-                }
-            });
-
-            video.addEventListener('click', () => {
-                togglePlayPause();
-                showControls();
-            });
-
-            centerPlayBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                togglePlayPause();
-                showControls();
-            });
-
-            playPauseBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                togglePlayPause();
-                showControls();
-            });
-
-            function togglePlayPause() {
-                if (video.paused) {
-                    video.play();
-                    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                    centerPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                    videoPlayer.classList.add('controls-visible');
-                    hideControls();
-                } else {
-                    video.pause();
-                    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                    centerPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
-                    videoPlayer.classList.add('controls-visible');
-                }
-            }
-
-            video.addEventListener('timeupdate', () => {
-                if (video.duration) {
-                    const percent = (video.currentTime / video.duration) * 100;
-                    progress.style.width = percent + '%';
-                    
-                    const currentTime = formatTime(video.currentTime);
-                    const duration = formatTime(video.duration);
-                    timeDisplay.textContent = `${currentTime} / ${duration}`;
-                }
-            });
-
-            progressBar.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const rect = progressBar.getBoundingClientRect();
-                const percent = (e.clientX - rect.left) / rect.width;
-                video.currentTime = percent * video.duration;
-                showControls();
-            });
-
-            volumeSlider.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const rect = volumeSlider.getBoundingClientRect();
-                const percent = (e.clientX - rect.left) / rect.width;
-                video.volume = Math.max(0, Math.min(1, percent));
-                volumeLevel.style.width = (percent * 100) + '%';
-                updateVolumeIcon(video.volume);
-                showControls();
-            });
-
-            volumeBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (video.volume > 0) {
-                    video.volume = 0;
-                    volumeLevel.style.width = '0%';
-                } else {
-                    video.volume = 1.0;
-                    volumeLevel.style.width = '100%';
-                }
-                updateVolumeIcon(video.volume);
-                showControls();
-            });
-
-            fullscreenBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (!document.fullscreenElement) {
-                    videoPlayer.requestFullscreen().catch(err => {
-                        console.log(`Ошибка при переходе в полноэкранный режим: ${err.message}`);
-                    });
-                } else {
-                    document.exitFullscreen();
-                }
-                showControls();
-            });
-
-            video.addEventListener('ended', () => {
-                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                centerPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
-                videoPlayer.classList.remove('controls-visible');
-                centerPlayBtn.classList.add('visible');
-            });
-
-            // Показываем центральную кнопку при наведении
-            videoPlayer.addEventListener('mouseenter', () => {
-                centerPlayBtn.classList.add('visible');
-                showControls();
-            });
-
-            function formatTime(seconds) {
-                const mins = Math.floor(seconds / 60);
-                const secs = Math.floor(seconds % 60);
-                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            }
-
-            function updateVolumeIcon(volume) {
-                let icon = 'fa-volume-up';
-                if (volume === 0) icon = 'fa-volume-mute';
-                else if (volume < 0.5) icon = 'fa-volume-down';
-                volumeBtn.innerHTML = `<i class="fas ${icon}"></i>`;
-            }
-
-            video.addEventListener('error', (e) => {
-                console.error('Ошибка загрузки видео:', e);
-                videoPlayer.innerHTML = `
-                    <div style="padding: 2rem; text-align: center; color: var(--text-secondary);">
-                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-                        <p>Не удалось загрузить видео</p>
-                        <p><small>Проверьте путь к файлу: ${video.querySelector('source').src}</small></p>
-                    </div>
-                `;
-                showSystemNotification('Ошибка загрузки видео', 'error', 3000);
-            });
-
-            // Инициализация скрытия контролов
+    // События для показа/скрытия контролов
+    videoPlayer.addEventListener('mousemove', showControls);
+    videoPlayer.addEventListener('mouseleave', () => {
+        if (!video.paused) {
             hideControls();
         }
+    });
+
+    // События для элементов управления, которые должны показывать контролы
+    const controlElements = [playPauseBtn, progressBar, volumeBtn, volumeSlider, fullscreenBtn, timeDisplay];
+    controlElements.forEach(element => {
+        if (element) {
+            element.addEventListener('mouseenter', showControls);
+            element.addEventListener('click', showControls);
+        }
+    });
+
+    video.addEventListener('click', () => {
+        togglePlayPause();
+        showControls();
+    });
+
+    centerPlayBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePlayPause();
+        showControls();
+    });
+
+    playPauseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePlayPause();
+        showControls();
+    });
+
+    function togglePlayPause() {
+        if (video.paused) {
+            video.play();
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            centerPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            videoPlayer.classList.add('controls-visible');
+            hideControls();
+        } else {
+            video.pause();
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            centerPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
+            videoPlayer.classList.add('controls-visible');
+        }
+    }
+
+    video.addEventListener('timeupdate', () => {
+        if (video.duration) {
+            const percent = (video.currentTime / video.duration) * 100;
+            progress.style.width = percent + '%';
+            
+            const currentTime = formatTime(video.currentTime);
+            const duration = formatTime(video.duration);
+            timeDisplay.textContent = `${currentTime} / ${duration}`;
+        }
+    });
+
+    progressBar.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const rect = progressBar.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+        video.currentTime = percent * video.duration;
+        showControls();
+    });
+
+    volumeSlider.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const rect = volumeSlider.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+        video.volume = Math.max(0, Math.min(1, percent));
+        volumeLevel.style.width = (percent * 100) + '%';
+        updateVolumeIcon(video.volume);
+        showControls();
+    });
+
+    volumeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (video.volume > 0) {
+            video.volume = 0;
+            volumeLevel.style.width = '0%';
+        } else {
+            video.volume = 1.0;
+            volumeLevel.style.width = '100%';
+        }
+        updateVolumeIcon(video.volume);
+        showControls();
+    });
+
+    fullscreenBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!document.fullscreenElement) {
+            videoPlayer.requestFullscreen().catch(err => {
+                console.log(`Ошибка при переходе в полноэкранный режим: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+        showControls();
+    });
+
+    video.addEventListener('ended', () => {
+        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        centerPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
+        videoPlayer.classList.remove('controls-visible');
+        centerPlayBtn.classList.add('visible');
+        // При окончании видео скрываем контролы
+        if (videoControls) {
+            videoControls.style.opacity = '0';
+            videoControls.style.pointerEvents = 'none';
+        }
+    });
+
+    // Показываем центральную кнопку при наведении
+    videoPlayer.addEventListener('mouseenter', () => {
+        centerPlayBtn.classList.add('visible');
+        showControls();
+    });
+
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function updateVolumeIcon(volume) {
+        let icon = 'fa-volume-up';
+        if (volume === 0) icon = 'fa-volume-mute';
+        else if (volume < 0.5) icon = 'fa-volume-down';
+        volumeBtn.innerHTML = `<i class="fas ${icon}"></i>`;
+    }
+
+    video.addEventListener('error', (e) => {
+        console.error('Ошибка загрузки видео:', e);
+        videoPlayer.innerHTML = `
+            <div style="padding: 2rem; text-align: center; color: var(--text-secondary);">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <p>Не удалось загрузить видео</p>
+                <p><small>Проверьте путь к файлу: ${video.querySelector('source').src}</small></p>
+            </div>
+        `;
+        showSystemNotification('Ошибка загрузки видео', 'error', 3000);
+    });
+
+    // Инициализация скрытия контролов
+    hideControls();
+}
 
         // ==================== РЕДАКТОР ПРОЕКТОВ ====================
 
