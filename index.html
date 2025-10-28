@@ -202,8 +202,6 @@
             display: none;
         }
 
-        /* Остальные стили остаются без изменений... */
-
         /* Индикатор загрузки для страниц */
         .page-loader {
             position: fixed;
@@ -1223,6 +1221,32 @@
             border-color: rgba(102, 126, 234, 0.3);
         }
 
+        /* Стили для админ-панели в футере */
+        .footer-admin {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .admin-footer-btn {
+            background: rgba(255,255,255,0.1);
+            color: var(--text);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-footer-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
         /* ==================== ВИДЕО И ГАЛЕРЕЯ В ОПИСАНИИ ПРОЕКТОВ ==================== */
         
         /* Стили для видео контейнера ТОЛЬКО в описании проектов */
@@ -1518,13 +1542,13 @@
         }
        
         /* Скрытие курсора для видеоплеера */
-.custom-video-player.cursor-hidden {
-    cursor: none;
-}
+        .custom-video-player.cursor-hidden {
+            cursor: none;
+        }
 
-.custom-video-player.cursor-hidden video {
-    cursor: none;
-}
+        .custom-video-player.cursor-hidden video {
+            cursor: none;
+        }
 
         .custom-video-player:hover .video-controls {
             opacity: 1;
@@ -1658,33 +1682,6 @@
         }
 
         /* ==================== РЕДАКТОР ПРОЕКТОВ ==================== */
-        .admin-panel {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            z-index: 9999;
-        }
-
-        .admin-toggle {
-            background: linear-gradient(45deg, var(--warning), var(--error));
-            color: white;
-            border: none;
-            padding: 1rem 1.5rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .admin-toggle:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
-        }
-
         .editor-modal {
             display: none;
             position: fixed;
@@ -1965,16 +1962,6 @@
                 max-width: none;
             }
 
-            .admin-panel {
-                bottom: 20px;
-                left: 20px;
-            }
-
-            .admin-toggle {
-                padding: 0.8rem 1.2rem;
-                font-size: 0.9rem;
-            }
-
             .editor-modal {
                 padding: 1rem;
             }
@@ -2024,33 +2011,6 @@
     <button class="back-to-top" onclick="scrollToTop()" aria-label="Наверх">
         <i class="fas fa-chevron-up"></i>
     </button>
-
-    <!-- Панель администратора -->
-    <div class="admin-panel">
-        <button class="admin-toggle" onclick="showAuthModal()">
-            <i class="fas fa-cog"></i>Редактор
-        </button>
-    </div>
-
-    <!-- Модальное окно аутентификации -->
-    <div id="auth-modal" class="auth-modal">
-        <div class="auth-container">
-            <h2 class="auth-title">Доступ к редактору</h2>
-            <p class="auth-subtitle">Введите код разработчика для доступа к панели управления</p>
-            
-            <input type="password" id="developer-code" class="auth-input" placeholder="Введите код доступа" autocomplete="off">
-            <button class="auth-btn" onclick="authenticateDeveloper()">
-                <i class="fas fa-lock"></i>Войти
-            </button>
-            <button class="auth-btn auth-btn-secondary" onclick="hideAuthModal()">
-                <i class="fas fa-times"></i>Отмена
-            </button>
-            
-            <div id="auth-error" class="auth-error">
-                <i class="fas fa-exclamation-triangle"></i> Неверный код доступа
-            </div>
-        </div>
-    </div>
 
     <!-- Параллакс фон -->
     <div class="parallax-bg"></div>
@@ -2216,6 +2176,14 @@
                     <i class="fas fa-envelope"></i>Email
                 </a>
             </div>
+            
+            <!-- Панель администратора в футере -->
+            <div class="footer-admin">
+                <button class="admin-footer-btn" onclick="showAuthModal()">
+                    <i class="fas fa-cog"></i> Панель управления
+                </button>
+            </div>
+            
             <p>&copy; 2024 0ptim1st-DK. Все проекты с открытым исходным кодом.</p>
         </div>
     </footer>
@@ -2232,6 +2200,26 @@
         </div>
         <div id="modal-caption" class="modal-caption"></div>
         <div id="gallery-indicator" class="gallery-indicator"></div>
+    </div>
+
+    <!-- Модальное окно аутентификации -->
+    <div id="auth-modal" class="auth-modal">
+        <div class="auth-container">
+            <h2 class="auth-title">Доступ к редактору</h2>
+            <p class="auth-subtitle">Введите код разработчика для доступа к панели управления</p>
+            
+            <input type="password" id="developer-code" class="auth-input" placeholder="Введите код доступа" autocomplete="off">
+            <button class="auth-btn" onclick="authenticateDeveloper()">
+                <i class="fas fa-lock"></i>Войти
+            </button>
+            <button class="auth-btn auth-btn-secondary" onclick="hideAuthModal()">
+                <i class="fas fa-times"></i>Отмена
+            </button>
+            
+            <div id="auth-error" class="auth-error">
+                <i class="fas fa-exclamation-triangle"></i> Неверный код доступа
+            </div>
+        </div>
     </div>
 
     <!-- Редактор проектов -->
@@ -2405,14 +2393,16 @@
         // ==================== КОНФИГУРАЦИЯ ====================
         const CONFIG = {
             GITHUB_USERNAME: '0ptim1st-DK',
-            GITHUB_TOKEN: 'YOUR_GITHUB_TOKEN_HERE',
-            GITHUB_RAW_URL: 'https://raw.githubusercontent.com/0ptim1st-DK/0ptim1st-DK.github.io/main/',
+            GITHUB_TOKEN: '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',
+            GITHUB_REPO: '0ptim1st-DK.github.io',
+            DATA_FILE: 'projects-data.json',
             LAZY_LOAD_OFFSET: 100,
             CONTROLS_HIDE_DELAY: 2000,
-            DEVELOPER_CODE: 'DKDEVELOPER1' // Секретный код для доступа к редактору
+            DEVELOPER_CODE: 'DKDEVELOPER1'
         };
 
         // ==================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ====================
+        let projectsData = {};
         let homeScrollPosition = 0;
         let projectsScrollPosition = 0;
         let currentPage = 'home';
@@ -2426,6 +2416,170 @@
         let controlsTimeout;
         let isEditorOpen = false;
         let isAuthenticated = false;
+
+        // ==================== ПОЛНАЯ ИНТЕГРАЦИЯ С GITHUB API ====================
+
+        async function githubAPIPut(path, content, message = 'Update projects data') {
+            const headers = {
+                'Authorization': `token ${CONFIG.GITHUB_TOKEN}`,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json'
+            };
+
+            try {
+                // Сначала получаем текущий SHA файла (если существует)
+                let sha = null;
+                try {
+                    const getResponse = await fetch(`https://api.github.com/repos/${CONFIG.GITHUB_USERNAME}/${CONFIG.GITHUB_REPO}/contents/${path}`, {
+                        method: 'GET',
+                        headers: headers
+                    });
+                    
+                    if (getResponse.ok) {
+                        const fileData = await getResponse.json();
+                        sha = fileData.sha;
+                    }
+                } catch (e) {
+                    // Файл не существует, это нормально для первого создания
+                    console.log('Файл не существует, будет создан новый');
+                }
+
+                const body = {
+                    message: message,
+                    content: btoa(unescape(encodeURIComponent(content))),
+                    sha: sha
+                };
+
+                const response = await fetch(`https://api.github.com/repos/${CONFIG.GITHUB_USERNAME}/${CONFIG.GITHUB_REPO}/contents/${path}`, {
+                    method: 'PUT',
+                    headers: headers,
+                    body: JSON.stringify(body)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`GitHub API error: ${response.status} - ${errorText}`);
+                }
+
+                const result = await response.json();
+                console.log('Файл успешно сохранен:', result);
+                return result;
+
+            } catch (error) {
+                console.error('Ошибка сохранения на GitHub:', error);
+                throw error;
+            }
+        }
+
+        async function loadProjectsData() {
+            showPageLoader();
+            try {
+                const response = await fetch(`https://raw.githubusercontent.com/${CONFIG.GITHUB_USERNAME}/${CONFIG.GITHUB_REPO}/main/${CONFIG.DATA_FILE}?t=${Date.now()}`);
+                
+                if (response.ok) {
+                    projectsData = await response.json();
+                    console.log('Данные проектов загружены с GitHub:', projectsData);
+                    return true;
+                } else if (response.status === 404) {
+                    // Файл не существует, создаем начальные данные
+                    console.log('Файл не найден, создаем начальные данные');
+                    projectsData = getFallbackProjectsData();
+                    await saveProjectsData(); // Автоматически создаем файл
+                    return true;
+                } else {
+                    throw new Error(`HTTP error: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки данных с GitHub:', error);
+                
+                // Пробуем загрузить из localStorage как резервный вариант
+                const backup = localStorage.getItem('projectsData_backup');
+                if (backup) {
+                    projectsData = JSON.parse(backup);
+                    showSystemNotification('Загружены резервные данные', 'warning', 3000);
+                    return true;
+                }
+                
+                // Используем fallback данные
+                projectsData = getFallbackProjectsData();
+                showSystemNotification('Используются локальные данные', 'error', 3000);
+                return false;
+            } finally {
+                hidePageLoader();
+            }
+        }
+
+        async function saveProjectsData() {
+            if (!isAuthenticated) {
+                showSystemNotification('Требуется авторизация', 'error', 3000);
+                return false;
+            }
+
+            showSystemNotification('Сохранение на GitHub...', 'info', 2000);
+
+            try {
+                const jsonData = JSON.stringify(projectsData, null, 2);
+                
+                await githubAPIPut(CONFIG.DATA_FILE, jsonData, 'Обновление данных проектов через редактор');
+                
+                // Также сохраняем в localStorage как резервную копию
+                localStorage.setItem('projectsData_backup', jsonData);
+                localStorage.setItem('projectsData_timestamp', new Date().toISOString());
+                
+                showSystemNotification('Данные успешно сохранены на GitHub!', 'success', 3000);
+                return true;
+                
+            } catch (error) {
+                console.error('Ошибка сохранения на GitHub:', error);
+                
+                // Сохраняем в localStorage как временное решение
+                const jsonData = JSON.stringify(projectsData, null, 2);
+                localStorage.setItem('projectsData_backup', jsonData);
+                localStorage.setItem('projectsData_timestamp', new Date().toISOString());
+                
+                showSystemNotification('Ошибка сохранения на GitHub. Данные сохранены локально.', 'error', 5000);
+                return false;
+            }
+        }
+
+        function getFallbackProjectsData() {
+            return {
+                games: {
+                    title: "Игры",
+                    icon: "fas fa-gamepad",
+                    subcategories: {
+                        minecraft: {
+                            title: "Minecraft",
+                            icon: "fas fa-cube",
+                            projects: [
+                                {
+                                    id: "autocraft",
+                                    title: "AutoCraft AE2",
+                                    description: "Продвинутая система автоматизации для Minecraft, расширяющая возможности Applied Energistics 2",
+                                    imageType: "github",
+                                    image: "https://raw.githubusercontent.com/0ptim1st-DK/0ptim1st-DK.github.io/main/images/projects/ac8/oblojka.png",
+                                    technologies: ["Java", "Minecraft", "Forge API", "Automation", "AE2"],
+                                    links: [
+                                        { url: "https://github.com/0ptim1st-DK/autocraft-ae2", text: "Исходный код", icon: "fab fa-github" }
+                                    ],
+                                    detailedDescription: `<p>AutoCraft AE2 - это революционный мод для Minecraft...</p>`
+                                }
+                            ]
+                        }
+                    }
+                },
+                programs: {
+                    title: "Программы", 
+                    icon: "fas fa-laptop-code",
+                    subcategories: {}
+                },
+                apps: {
+                    title: "Приложения",
+                    icon: "fas fa-mobile-alt", 
+                    subcategories: {}
+                }
+            };
+        }
 
         // ==================== СИСТЕМА АУТЕНТИФИКАЦИИ ====================
 
@@ -2467,11 +2621,6 @@
 
         // ==================== СИСТЕМНЫЕ УВЕДОМЛЕНИЯ ====================
         function showSystemNotification(message, type = 'info', duration = 4000) {
-            // Отключаем лишние уведомления
-            if (message.includes('Добро пожаловать') || message.includes('Новости успешно загружены')) {
-                return;
-            }
-            
             const notification = document.createElement('div');
             notification.className = `system-notification ${type}`;
             
@@ -2825,16 +2974,12 @@
             }, 1000);
         }
 
-        // ==================== GITHUB API ИНТЕГРАЦИЯ ====================
+        // ==================== GITHUB API ДЛЯ РЕЛИЗОВ ====================
         async function githubAPI(endpoint) {
             const headers = {
                 'Accept': 'application/vnd.github.v3+json',
-                'User-Agent': '0ptim1st-DK-Portfolio'
+                'Authorization': `token ${CONFIG.GITHUB_TOKEN}`
             };
-            
-            if (CONFIG.GITHUB_TOKEN && CONFIG.GITHUB_TOKEN !== 'YOUR_GITHUB_TOKEN_HERE') {
-                headers['Authorization'] = `token ${CONFIG.GITHUB_TOKEN}`;
-            }
             
             try {
                 const response = await fetch(`https://api.github.com${endpoint}`, { headers });
@@ -2855,48 +3000,61 @@
         }
 
         async function getRecentReleases() {
-            const releases = await githubAPI(`/users/${CONFIG.GITHUB_USERNAME}/repos?sort=updated&per_page=10`);
-            
-            if (!releases) {
-                return getFallbackReleases();
-            }
-            
-            const recentReleases = [];
-            const oneMonthAgo = new Date();
-            oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-            
-            for (const repo of releases) {
-                const repoReleases = await githubAPI(`/repos/${CONFIG.GITHUB_USERNAME}/${repo.name}/releases`);
+            try {
+                const repos = await githubAPI(`/users/${CONFIG.GITHUB_USERNAME}/repos?sort=updated&per_page=10`);
                 
-                if (repoReleases && repoReleases.length > 0) {
-                    const latestRelease = repoReleases[0];
-                    const releaseDate = new Date(latestRelease.published_at || latestRelease.created_at);
+                if (!repos) {
+                    return getFallbackReleases();
+                }
+                
+                const recentReleases = [];
+                const oneMonthAgo = new Date();
+                oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+                
+                for (const repo of repos) {
+                    // Пропускаем форки
+                    if (repo.fork) continue;
                     
-                    if (releaseDate > oneMonthAgo) {
-                        recentReleases.push({
-                            name: latestRelease.name || repo.name,
-                            description: latestRelease.body || repo.description || 'Новый релиз доступен!',
-                            url: latestRelease.html_url,
-                            repoUrl: repo.html_url,
-                            date: releaseDate,
-                            tag: latestRelease.tag_name
-                        });
+                    const repoReleases = await githubAPI(`/repos/${CONFIG.GITHUB_USERNAME}/${repo.name}/releases`);
+                    
+                    if (repoReleases && repoReleases.length > 0) {
+                        const latestRelease = repoReleases[0];
+                        const releaseDate = new Date(latestRelease.published_at || latestRelease.created_at);
+                        
+                        if (releaseDate > oneMonthAgo) {
+                            recentReleases.push({
+                                name: latestRelease.name || repo.name,
+                                description: latestRelease.body ? latestRelease.body.substring(0, 150) + '...' : (repo.description || 'Новый релиз доступен!'),
+                                url: latestRelease.html_url,
+                                repoUrl: repo.html_url,
+                                date: releaseDate,
+                                tag: latestRelease.tag_name,
+                                repoName: repo.name
+                            });
+                        }
                     }
                 }
+                
+                // Сортируем по дате (новые сначала)
+                recentReleases.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                return recentReleases.slice(0, 3);
+            } catch (error) {
+                console.error('Error fetching releases:', error);
+                return getFallbackReleases();
             }
-            
-            return recentReleases.slice(0, 3);
         }
 
         function getFallbackReleases() {
             return [
                 {
                     name: "AutoCraft AE2 v1.2.0",
-                    description: "Добавлена поддержка новых версий Minecraft и улучшена производительность",
+                    description: "Добавлена поддержка новых версий Minecraft и улучшена производительность. Теперь с расширенной системой автоматизации крафта.",
                     url: "https://github.com/0ptim1st-DK/autocraft-ae2/releases/latest",
                     repoUrl: "https://github.com/0ptim1st-DK/autocraft-ae2",
                     date: new Date(),
-                    tag: "v1.2.0"
+                    tag: "v1.2.0",
+                    repoName: "autocraft-ae2"
                 }
             ];
         }
@@ -2911,7 +3069,6 @@
                 if (response.ok) {
                     const newsText = await response.text();
                     document.getElementById('news-content').innerHTML = parseMarkdown(newsText);
-                    // Убрано уведомление о загрузке новостей
                 } else {
                     document.getElementById('news-content').innerHTML = `
                         <p>Новости скоро появятся! Следите за обновлениями.</p>
@@ -2923,7 +3080,6 @@
                     <p>Не удалось загрузить новости. Проверьте подключение к интернету.</p>
                     <p><em>Файл news.md должен находиться в корне репозитория</em></p>
                 `;
-                showSystemNotification('Ошибка загрузки новостей', 'error', 3000);
             } finally {
                 hidePageLoader();
             }
@@ -3033,12 +3189,6 @@
                 .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
         }
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
         // Обновлённая функция загрузки обновлений
         async function loadUpdates() {
             const updatesContent = document.getElementById('updates-content');
@@ -3066,19 +3216,24 @@
                 let updatesHTML = '';
                 
                 releases.forEach(release => {
+                    const date = new Date(release.date).toLocaleDateString('ru-RU');
                     updatesHTML += `
                         <div class="project-card" onclick="window.open('${release.url}', '_blank')">
                             <div class="project-image" style="background: linear-gradient(45deg, #28a745, #20c997);">
                                 <i class="fas fa-rocket"></i>
                             </div>
                             <h3>${release.name}</h3>
-                            <p>${release.description.substring(0, 120)}${release.description.length > 120 ? '...' : ''}</p>
+                            <p>${release.description}</p>
                             <div class="tech-stack">
-                                <span class="tech-tag" style="background: rgba(40, 167, 69, 0.3);">Новый релиз</span>
-                                <span class="tech-tag">${release.tag}</span>
+                                <span class="tech-tag" style="background: rgba(40, 167, 69, 0.3);">
+                                    <i class="fas fa-tag"></i> ${release.tag}
+                                </span>
+                                <span class="tech-tag">
+                                    <i class="fas fa-calendar"></i> ${date}
+                                </span>
                             </div>
                             <button class="project-link" onclick="event.stopPropagation(); window.open('${release.url}', '_blank')">
-                                <i class="fas fa-download"></i>Скачать
+                                <i class="fas fa-download"></i> Скачать релиз
                             </button>
                         </div>
                     `;
@@ -3102,229 +3257,556 @@
                         <small>Проверьте подключение к интернету</small>
                     </div>
                 `;
-                showSystemNotification('Ошибка загрузки обновлений', 'error', 3000);
             }
         }
 
-        // Данные проектов по категориям
-        let projectsData = {
-            games: {
-                title: "Игры",
-                icon: "fas fa-gamepad",
-                subcategories: {
-                    minecraft: {
-                        title: "Minecraft",
-                        icon: "fas fa-cube",
-                        projects: [
-                            {
-                                id: "autocraft",
-                                title: "AutoCraft AE2",
-                                description: "Продвинутая система автоматизации для Minecraft, расширяющая возможности Applied Energistics 2",
-                                imageType: "github",
-                                image: "https://raw.githubusercontent.com/0ptim1st-DK/0ptim1st-DK.github.io/main/images/projects/ac8/oblojka.png",
-                                technologies: ["Java", "Minecraft", "Forge API", "Automation", "AE2"],
-                                links: [
-                                    { url: "https://github.com/0ptim1st-DK/autocraft-ae2", text: "Исходный код", icon: "fab fa-github" },
-                                    { url: "https://github.com/0ptim1st-DK/autocraft-ae2/blob/main/README.md", text: "Документация", icon: "fas fa-book" }
-                                ],
-                                detailedDescription: `
-                                    <p>AutoCraft AE2 - это революционный мод для Minecraft, который выводит автоматизацию крафта на совершенно новый уровень. Проект расширяет функциональность Applied Energistics 2, предоставляя мощные инструменты для оптимизации производственных процессов.</p>
-                                    
-                                    <!-- ВИДЕО ДЕМОНСТРАЦИЯ -->
-                                    <div class="custom-video-player" id="autocraft-video-player">
-                                        <video id="project-video" poster="images/projects/ac8/oblojka.png">
-                                            <source src="videos/titri.mp4" type="video/mp4">
-                                            Ваш браузер не поддерживает видео. Скачайте <a href="videos/titri.mp4">здесь</a>.
-                                        </video>
-                                        <div class="video-center-play">
-                                            <i class="fas fa-play"></i>
-                                        </div>
-                                        <div class="video-controls">
-                                            <button class="control-btn play-pause">
-                                                <i class="fas fa-play"></i>
-                                            </button>
-                                            <div class="progress-bar">
-                                                <div class="progress"></div>
-                                            </div>
-                                            <div class="time-display">00:00 / 00:00</div>
-                                            <div class="volume-control">
-                                                <button class="control-btn volume-btn">
-                                                    <i class="fas fa-volume-up"></i>
-                                                </button>
-                                                <div class="volume-slider">
-                                                    <div class="volume-level"></div>
-                                                </div>
-                                            </div>
-                                            <button class="control-btn fullscreen-btn">
-                                                <i class="fas fa-expand"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="project-features">
-                                        <div class="feature">
-                                            <h4><i class="fas fa-bolt"></i> Интеллектуальный крафт</h4>
-                                            <p>Автоматическое распределение задач и оптимизация ресурсов</p>
-                                        </div>
-                                        <div class="feature">
-                                            <h4><i class="fas fa-network-wired"></i> Расширенная логистика</h4>
-                                            <p>Сложные цепочки крафта и умное управление предметами</p>
-                                        </div>
-                                        <div class="feature">
-                                            <h4><i class="fas fa-robot"></i> Автоматизация AE2</h4>
-                                            <p>Глубокая интеграция с Applied Energistics 2</p>
-                                        </div>
-                                        <div class="feature">
-                                            <h4><i class="fas fa-chart-line"></i> Мониторинг в реальном времени</h4>
-                                            <p>Детальная статистика производственных процессов</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- ГАЛЕРЕЯ СКРИНШОТОВ -->
-                                    <h3 style="margin: 2rem 0 1rem 0; background: linear-gradient(45deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">📸 Скриншоты проекта</h3>
-                                    
-                                    <div class="project-screenshots">
-                                        <div class="screenshot-item" 
-                                             onclick="openGallery([
-                                                 {src: 'images/projects/ac8/screen1.png', caption: 'Интерфейс AutoCraft AE2 - главное меню'},
-                                                 {src: 'images/projects/ac8/screen2.png', caption: 'Процесс автоматического крафта'}
-                                             ], 0)">
-                                            <img src="images/projects/ac8/screen1.png" alt="Интерфейс AutoCraft AE2">
-                                            <div class="screenshot-caption">Интерфейс AutoCraft AE2 - главное меню</div>
-                                        </div>
-                                        <div class="screenshot-item" 
-                                             onclick="openGallery([
-                                                 {src: 'images/projects/ac8/screen1.png', caption: 'Интерфейс AutoCraft AE2 - главное меню'},
-                                                 {src: 'images/projects/ac8/screen2.png', caption: 'Процесс автоматического крафта'}
-                                             ], 1)">
-                                            <img src="images/projects/ac8/screen2.png" alt="Процесс автоматического крафта">
-                                            <div class="screenshot-caption">Процесс автоматического крафта</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- ТЕХНИЧЕСКИЕ ДЕТАЛИ -->
-                                    <div style="background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%); padding: 1.5rem; border-radius: 15px; border-left: 4px solid var(--primary); margin: 2rem 0;">
-                                        <h4><i class="fas fa-cogs"></i> Технические особенности</h4>
-                                        <ul style="margin: 1rem 0; color: var(--text-secondary); line-height: 1.6;">
-                                            <li>Полная совместимость с Applied Energistics 2</li>
-                                            <li>Оптимизированная работа с большими сетками крафта</li>
-                                            <li>Гибкая система настройки автоматизации</li>
-                                            <li>Поддержка всех версий Minecraft 1.12.2+</li>
-                                        </ul>
-                                    </div>
-                                    
-                                    <p><strong>Проект активно развивается!</strong> Присоединяйтесь к сообществу разработчиков и пользователей для обсуждения новых функций и улучшений.</p>
-                                `
-                            }
-                        ]
-                    }
+        // ==================== ОБНОВЛЕННЫЕ ФУНКЦИИ РЕДАКТОРА ====================
+
+        function toggleEditor() {
+            if (!isAuthenticated) {
+                showAuthModal();
+                return;
+            }
+
+            const editor = document.getElementById('editor-modal');
+            isEditorOpen = !isEditorOpen;
+            
+            if (isEditorOpen) {
+                editor.classList.add('active');
+                loadEditorData();
+                document.body.style.overflow = 'hidden';
+            } else {
+                editor.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        async function loadEditorData() {
+            await loadProjectsData(); // Загружаем актуальные данные
+            updateCategoriesList();
+            updateSubcategoriesList();
+            updateProjectsList();
+            loadCategorySelects();
+            updateExportData();
+        }
+
+        function switchEditorTab(tabName) {
+            // Скрыть все вкладки
+            document.querySelectorAll('.editor-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Убрать активный класс со всех кнопок
+            document.querySelectorAll('.editor-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Показать выбранную вкладку
+            document.getElementById(`${tabName}-section`).classList.add('active');
+            
+            // Активировать кнопку
+            event.target.classList.add('active');
+            
+            // Обновить данные если нужно
+            if (tabName === 'export') {
+                updateExportData();
+            }
+        }
+
+        function loadCategorySelects() {
+            const parentCategory = document.getElementById('parent-category');
+            const projectCategory = document.getElementById('project-category');
+            
+            parentCategory.innerHTML = '';
+            projectCategory.innerHTML = '';
+            
+            for (const [key, category] of Object.entries(projectsData)) {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = category.title;
+                parentCategory.appendChild(option.cloneNode(true));
+                projectCategory.appendChild(option);
+            }
+            
+            updateSubcategories();
+        }
+
+        function updateSubcategories() {
+            const categoryKey = document.getElementById('project-category').value;
+            const subcategorySelect = document.getElementById('project-subcategory');
+            
+            subcategorySelect.innerHTML = '';
+            
+            if (projectsData[categoryKey]) {
+                for (const [key, subcategory] of Object.entries(projectsData[categoryKey].subcategories)) {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.textContent = subcategory.title;
+                    subcategorySelect.appendChild(option);
                 }
-            },
-            programs: {
-                title: "Программы",
-                icon: "fas fa-laptop-code",
-                subcategories: {
-                    python: {
-                        title: "На Python",
-                        icon: "fab fa-python",
-                        projects: [
-                            {
-                                id: "python-tool1",
-                                title: "Python Утилита 1",
-                                description: "Полезная утилита для автоматизации повседневных задач",
-                                imageType: "icon",
-                                image: "fab fa-python",
-                                technologies: ["Python", "Automation", "CLI"],
-                                links: [
-                                    { url: "https://github.com/0ptim1st-DK", text: "Скоро будет", icon: "fab fa-github" }
-                                ],
-                                detailedDescription: `<p>Проект в разработке. Скоро здесь появится что-то интересное!</p>`
-                            }
-                        ]
-                    },
-                    cpp: {
-                        title: "На C++",
-                        icon: "fas fa-cogs",
-                        projects: [
-                            {
-                                id: "cpp-app1",
-                                title: "C++ Приложение",
-                                description: "Высокопроизводительное приложение на C++",
-                                imageType: "icon",
-                                image: "fas fa-cogs",
-                                technologies: ["C++", "Performance", "Desktop"],
-                                links: [
-                                    { url: "https://github.com/0ptim1st-DK", text: "В разработке", icon: "fab fa-github" }
-                                ],
-                                detailedDescription: `<p>Проект в разработке. Скоро здесь появится что-то интересное!</p>`
-                            }
-                        ]
-                    }
+            }
+        }
+
+        async function addCategory() {
+            const title = document.getElementById('category-title').value;
+            const icon = document.getElementById('category-icon').value;
+            const key = document.getElementById('category-key').value;
+            
+            if (!title || !icon || !key) {
+                showSystemNotification('Заполните все поля', 'error', 3000);
+                return;
+            }
+            
+            if (projectsData[key]) {
+                showSystemNotification('Категория с таким ключом уже существует', 'error', 3000);
+                return;
+            }
+            
+            projectsData[key] = {
+                title: title,
+                icon: icon,
+                subcategories: {}
+            };
+            
+            const saved = await saveProjectsData();
+            if (saved) {
+                showSystemNotification('Категория добавлена и сохранена', 'success', 3000);
+                loadEditorData();
+                clearCategoryForm();
+                
+                // Обновляем страницу проектов если она открыта
+                if (currentPage === 'projects') {
+                    loadProjectsPage();
                 }
-            },
-            apps: {
-                title: "Приложения",
-                icon: "fas fa-mobile-alt",
-                subcategories: {
-                    android: {
-                        title: "Для Android",
-                        icon: "fab fa-android",
-                        projects: [
-                            {
-                                id: "android-app1",
-                                title: "Android Приложение",
-                                description: "Мобильное приложение для Android с современным дизайном",
-                                imageType: "icon",
-                                image: "fab fa-android",
-                                technologies: ["Kotlin", "Android", "Material Design"],
-                                links: [
-                                    { url: "https://github.com/0ptim1st-DK", text: "В планах", icon: "fab fa-github" }
-                                ],
-                                detailedDescription: `<p>Проект в разработке. Скоро здесь появится что-то интересное!</p>`
-                            }
-                        ]
-                    },
-                    windows: {
-                        title: "Для Windows",
-                        icon: "fab fa-windows",
-                        projects: [
-                            {
-                                id: "windows-app1",
-                                title: "Windows Утилита",
-                                description: "Десктопное приложение для Windows",
-                                imageType: "icon",
-                                image: "fab fa-windows",
-                                technologies: ["C#", "WPF", "Windows"],
-                                links: [
-                                    { url: "https://github.com/0ptim1st-DK", text: "В разработке", icon: "fab fa-github" }
-                                ],
-                                detailedDescription: `<p>Проект в разработке. Скоро здесь появится что-то интересное!</p>`
-                            }
-                        ]
-                    },
-                    linux: {
-                        title: "Для Linux",
-                        icon: "fab fa-linux",
-                        projects: [
-                            {
-                                id: "linux-tool1",
-                                title: "Linux Инструмент",
-                                description: "Консольная утилита для Linux систем",
-                                imageType: "icon",
-                                image: "fab fa-linux",
-                                technologies: ["Bash", "Linux", "CLI"],
-                                links: [
-                                    { url: "https://github.com/0ptim1st-DK", text: "В планах", icon: "fab fa-github" }
-                                ],
-                                detailedDescription: `<p>Проект в разработке. Скоро здесь появится что-то интересное!</p>`
-                            }
-                        ]
+            }
+        }
+
+        async function addSubcategory() {
+            const parentKey = document.getElementById('parent-category').value;
+            const title = document.getElementById('subcategory-title').value;
+            const icon = document.getElementById('subcategory-icon').value;
+            const key = document.getElementById('subcategory-key').value;
+            
+            if (!parentKey || !title || !icon || !key) {
+                showSystemNotification('Заполните все поля', 'error', 3000);
+                return;
+            }
+            
+            if (projectsData[parentKey].subcategories[key]) {
+                showSystemNotification('Подкатегория с таким ключом уже существует', 'error', 3000);
+                return;
+            }
+            
+            projectsData[parentKey].subcategories[key] = {
+                title: title,
+                icon: icon,
+                projects: []
+            };
+            
+            const saved = await saveProjectsData();
+            if (saved) {
+                showSystemNotification('Подкатегория добавлена и сохранена', 'success', 3000);
+                loadEditorData();
+                clearSubcategoryForm();
+                
+                if (currentPage === 'projects') {
+                    loadProjectsPage();
+                }
+            }
+        }
+
+        async function addProject() {
+            const categoryKey = document.getElementById('project-category').value;
+            const subcategoryKey = document.getElementById('project-subcategory').value;
+            const id = document.getElementById('project-id').value;
+            const title = document.getElementById('project-title').value;
+            const description = document.getElementById('project-description').value;
+            const imageType = document.getElementById('project-image-type').value;
+            const image = document.getElementById('project-image').value;
+            const detailedDescription = document.getElementById('project-detailed-description').value;
+            
+            if (!categoryKey || !subcategoryKey || !id || !title || !description) {
+                showSystemNotification('Заполните обязательные поля', 'error', 3000);
+                return;
+            }
+            
+            // Сбор технологий
+            const technologies = [];
+            document.querySelectorAll('.tech-input').forEach(input => {
+                if (input.value.trim()) {
+                    technologies.push(input.value.trim());
+                }
+            });
+            
+            // Сбор ссылок
+            const links = [];
+            document.querySelectorAll('.array-item').forEach(item => {
+                const url = item.querySelector('.link-url').value;
+                const text = item.querySelector('.link-text').value;
+                const icon = item.querySelector('.link-icon').value;
+                
+                if (url && text) {
+                    links.push({
+                        url: url,
+                        text: text,
+                        icon: icon || 'fas fa-external-link-alt'
+                    });
+                }
+            });
+            
+            const project = {
+                id: id,
+                title: title,
+                description: description,
+                imageType: imageType,
+                image: image,
+                technologies: technologies,
+                links: links,
+                detailedDescription: detailedDescription
+            };
+            
+            // Проверяем, существует ли уже проект с таким ID
+            const subcategory = projectsData[categoryKey].subcategories[subcategoryKey];
+            const existingIndex = subcategory.projects.findIndex(p => p.id === id);
+            
+            let message = '';
+            if (existingIndex !== -1) {
+                // Обновляем существующий проект
+                subcategory.projects[existingIndex] = project;
+                message = 'Проект обновлен и сохранен';
+            } else {
+                // Добавляем новый проект
+                subcategory.projects.push(project);
+                message = 'Проект добавлен и сохранен';
+            }
+            
+            const saved = await saveProjectsData();
+            if (saved) {
+                showSystemNotification(message, 'success', 3000);
+                loadEditorData();
+                clearProjectForm();
+                
+                if (currentPage === 'projects') {
+                    loadProjectsPage();
+                }
+            }
+        }
+
+        function addTech() {
+            const container = document.getElementById('technologies-container');
+            const newItem = document.createElement('div');
+            newItem.className = 'array-item';
+            newItem.innerHTML = `
+                <input type="text" class="form-input tech-input" placeholder="Java">
+                <button class="action-btn delete" onclick="removeTech(this)">×</button>
+            `;
+            container.appendChild(newItem);
+        }
+
+        function removeTech(button) {
+            button.parentElement.remove();
+        }
+
+        function addLink() {
+            const container = document.getElementById('links-container');
+            const newItem = document.createElement('div');
+            newItem.className = 'array-item';
+            newItem.innerHTML = `
+                <input type="text" class="form-input link-url" placeholder="URL">
+                <input type="text" class="form-input link-text" placeholder="Текст">
+                <input type="text" class="form-input link-icon" placeholder="fab fa-github">
+                <button class="action-btn delete" onclick="removeLink(this)">×</button>
+            `;
+            container.appendChild(newItem);
+        }
+
+        function removeLink(button) {
+            button.parentElement.remove();
+        }
+
+        function updateCategoriesList() {
+            const list = document.getElementById('categories-list');
+            list.innerHTML = '';
+            
+            for (const [key, category] of Object.entries(projectsData)) {
+                const item = document.createElement('div');
+                item.className = 'project-item';
+                item.innerHTML = `
+                    <div>
+                        <strong>${category.title}</strong>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Ключ: ${key}</div>
+                    </div>
+                    <div class="project-actions">
+                        <button class="action-btn edit" onclick="editCategory('${key}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteCategory('${key}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                list.appendChild(item);
+            }
+        }
+
+        function updateSubcategoriesList() {
+            const list = document.getElementById('subcategories-list');
+            list.innerHTML = '';
+            
+            for (const [catKey, category] of Object.entries(projectsData)) {
+                for (const [subKey, subcategory] of Object.entries(category.subcategories)) {
+                    const item = document.createElement('div');
+                    item.className = 'project-item';
+                    item.innerHTML = `
+                        <div>
+                            <strong>${subcategory.title}</strong>
+                            <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                Категория: ${category.title} | Ключ: ${subKey}
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="action-btn edit" onclick="editSubcategory('${catKey}', '${subKey}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteSubcategory('${catKey}', '${subKey}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    list.appendChild(item);
+                }
+            }
+        }
+
+        function updateProjectsList() {
+            const list = document.getElementById('projects-list');
+            list.innerHTML = '';
+            
+            for (const [catKey, category] of Object.entries(projectsData)) {
+                for (const [subKey, subcategory] of Object.entries(category.subcategories)) {
+                    subcategory.projects.forEach(project => {
+                        const item = document.createElement('div');
+                        item.className = 'project-item';
+                        item.innerHTML = `
+                            <div>
+                                <strong>${project.title}</strong>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    ${category.title} → ${subcategory.title} | ID: ${project.id}
+                                </div>
+                            </div>
+                            <div class="project-actions">
+                                <button class="action-btn edit" onclick="editProject('${catKey}', '${subKey}', '${project.id}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteProject('${catKey}', '${subKey}', '${project.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        `;
+                        list.appendChild(item);
+                    });
+                }
+            }
+        }
+
+        function editCategory(key) {
+            const category = projectsData[key];
+            document.getElementById('category-title').value = category.title;
+            document.getElementById('category-icon').value = category.icon;
+            document.getElementById('category-key').value = key;
+            
+            switchEditorTab('categories');
+            showSystemNotification('Редактирование категории', 'info', 3000);
+        }
+
+        function editSubcategory(catKey, subKey) {
+            const subcategory = projectsData[catKey].subcategories[subKey];
+            document.getElementById('parent-category').value = catKey;
+            document.getElementById('subcategory-title').value = subcategory.title;
+            document.getElementById('subcategory-icon').value = subcategory.icon;
+            document.getElementById('subcategory-key').value = subKey;
+            
+            switchEditorTab('subcategories');
+            showSystemNotification('Редактирование подкатегории', 'info', 3000);
+        }
+
+        function editProject(catKey, subKey, projectId) {
+            const project = projectsData[catKey].subcategories[subKey].projects.find(p => p.id === projectId);
+            
+            document.getElementById('project-category').value = catKey;
+            updateSubcategories();
+            document.getElementById('project-subcategory').value = subKey;
+            document.getElementById('project-id').value = project.id;
+            document.getElementById('project-title').value = project.title;
+            document.getElementById('project-description').value = project.description;
+            document.getElementById('project-image-type').value = project.imageType;
+            document.getElementById('project-image').value = project.image;
+            document.getElementById('project-detailed-description').value = project.detailedDescription;
+            
+            // Загрузка технологий
+            const techContainer = document.getElementById('technologies-container');
+            techContainer.innerHTML = '';
+            project.technologies.forEach(tech => {
+                const newItem = document.createElement('div');
+                newItem.className = 'array-item';
+                newItem.innerHTML = `
+                    <input type="text" class="form-input tech-input" value="${tech}">
+                    <button class="action-btn delete" onclick="removeTech(this)">×</button>
+                `;
+                techContainer.appendChild(newItem);
+            });
+            
+            // Загрузка ссылок
+            const linksContainer = document.getElementById('links-container');
+            linksContainer.innerHTML = '';
+            project.links.forEach(link => {
+                const newItem = document.createElement('div');
+                newItem.className = 'array-item';
+                newItem.innerHTML = `
+                    <input type="text" class="form-input link-url" value="${link.url}">
+                    <input type="text" class="form-input link-text" value="${link.text}">
+                    <input type="text" class="form-input link-icon" value="${link.icon}">
+                    <button class="action-btn delete" onclick="removeLink(this)">×</button>
+                `;
+                linksContainer.appendChild(newItem);
+            });
+            
+            switchEditorTab('projects');
+            showSystemNotification('Редактирование проекта', 'info', 3000);
+        }
+
+        async function deleteCategory(key) {
+            if (confirm(`Удалить категорию "${projectsData[key].title}"? Все подкатегории и проекты также будут удалены.`)) {
+                delete projectsData[key];
+                const saved = await saveProjectsData();
+                if (saved) {
+                    showSystemNotification('Категория удалена', 'success', 3000);
+                    loadEditorData();
+                    
+                    if (currentPage === 'projects') {
+                        loadProjectsPage();
                     }
                 }
             }
-        };
+        }
 
-        // Функции навигации
+        async function deleteSubcategory(catKey, subKey) {
+            if (confirm(`Удалить подкатегорию "${projectsData[catKey].subcategories[subKey].title}"? Все проекты также будут удалены.`)) {
+                delete projectsData[catKey].subcategories[subKey];
+                const saved = await saveProjectsData();
+                if (saved) {
+                    showSystemNotification('Подкатегория удалена', 'success', 3000);
+                    loadEditorData();
+                    
+                    if (currentPage === 'projects') {
+                        loadProjectsPage();
+                    }
+                }
+            }
+        }
+
+        async function deleteProject(catKey, subKey, projectId) {
+            const project = projectsData[catKey].subcategories[subKey].projects.find(p => p.id === projectId);
+            if (confirm(`Удалить проект "${project.title}"?`)) {
+                projectsData[catKey].subcategories[subKey].projects = 
+                    projectsData[catKey].subcategories[subKey].projects.filter(p => p.id !== projectId);
+                const saved = await saveProjectsData();
+                if (saved) {
+                    showSystemNotification('Проект удален', 'success', 3000);
+                    loadEditorData();
+                    
+                    if (currentPage === 'projects') {
+                        loadProjectsPage();
+                    }
+                }
+            }
+        }
+
+        function clearCategoryForm() {
+            document.getElementById('category-title').value = '';
+            document.getElementById('category-icon').value = '';
+            document.getElementById('category-key').value = '';
+        }
+
+        function clearSubcategoryForm() {
+            document.getElementById('subcategory-title').value = '';
+            document.getElementById('subcategory-icon').value = '';
+            document.getElementById('subcategory-key').value = '';
+        }
+
+        function clearProjectForm() {
+            document.getElementById('project-id').value = '';
+            document.getElementById('project-title').value = '';
+            document.getElementById('project-description').value = '';
+            document.getElementById('project-image').value = '';
+            document.getElementById('project-detailed-description').value = '';
+            document.getElementById('technologies-container').innerHTML = `
+                <div class="array-item">
+                    <input type="text" class="form-input tech-input" placeholder="Java">
+                    <button class="action-btn delete" onclick="removeTech(this)">×</button>
+                </div>
+            `;
+            document.getElementById('links-container').innerHTML = `
+                <div class="array-item">
+                    <input type="text" class="form-input link-url" placeholder="URL">
+                    <input type="text" class="form-input link-text" placeholder="Текст">
+                    <input type="text" class="form-input link-icon" placeholder="fab fa-github">
+                    <button class="action-btn delete" onclick="removeLink(this)">×</button>
+                </div>
+            `;
+        }
+
+        function updateExportData() {
+            document.getElementById('export-data').value = JSON.stringify(projectsData, null, 2);
+        }
+
+        function exportData() {
+            const exportData = document.getElementById('export-data');
+            exportData.select();
+            document.execCommand('copy');
+            showSystemNotification('Данные скопированы в буфер обмена', 'success', 3000);
+        }
+
+        function importData() {
+            const data = prompt('Вставьте JSON данные:');
+            if (data) {
+                try {
+                    const parsedData = JSON.parse(data);
+                    projectsData = parsedData;
+                    showSystemNotification('Данные успешно импортированы', 'success', 3000);
+                    loadEditorData();
+                } catch (e) {
+                    showSystemNotification('Ошибка при импорте данных', 'error', 3000);
+                }
+            }
+        }
+
+        function resetData() {
+            if (confirm('ВНИМАНИЕ! Это действие полностью сбросит все данные проектов. Продолжить?')) {
+                projectsData = {
+                    games: {
+                        title: "Игры",
+                        icon: "fas fa-gamepad",
+                        subcategories: {}
+                    },
+                    programs: {
+                        title: "Программы",
+                        icon: "fas fa-laptop-code", 
+                        subcategories: {}
+                    },
+                    apps: {
+                        title: "Приложения",
+                        icon: "fas fa-mobile-alt",
+                        subcategories: {}
+                    }
+                };
+                showSystemNotification('Данные сброшены', 'success', 3000);
+                loadEditorData();
+            }
+        }
+
+        // ==================== ФУНКЦИИ НАВИГАЦИИ ====================
+
         function showPage(pageId) {
             showPageLoader();
             
@@ -3369,11 +3851,27 @@
             }, 300);
         }
 
-        function loadProjectsPage() {
+        async function loadProjectsPage() {
+            await loadProjectsData(); // Загружаем актуальные данные
+            
             const projectsContent = document.getElementById('projects-content');
+            
+            if (Object.keys(projectsData).length === 0) {
+                projectsContent.innerHTML = `
+                    <div class="no-updates">
+                        <i class="fas fa-exclamation-triangle"></i><br>
+                        Не удалось загрузить проекты<br>
+                        <small>Проверьте подключение к интернету</small>
+                    </div>
+                `;
+                return;
+            }
+
             let html = '';
 
             for (const [categoryKey, category] of Object.entries(projectsData)) {
+                if (Object.keys(category.subcategories).length === 0) continue;
+                
                 html += `
                     <div class="category" id="category-${categoryKey}">
                         <div class="category-header">
@@ -3383,6 +3881,8 @@
                 `;
 
                 for (const [subKey, subcategory] of Object.entries(category.subcategories)) {
+                    if (subcategory.projects.length === 0) continue;
+                    
                     html += `
                         <div class="subcategory">
                             <div class="subcategory-header">
@@ -3398,7 +3898,6 @@
                             project.image : 
                             (project.imageType === 'file' ? project.image : '');
                         
-                        // ИСПРАВЛЕНИЕ: убираем дублирование иконок
                         let imageContent = '';
                         if (hasImage) {
                             imageContent = `
@@ -3438,7 +3937,13 @@
                 html += `</div>`;
             }
 
-            projectsContent.innerHTML = html;
+            projectsContent.innerHTML = html || `
+                <div class="no-updates">
+                    <i class="fas fa-info-circle"></i><br>
+                    Проекты пока не добавлены<br>
+                    <small>Используйте панель управления для добавления проектов</small>
+                </div>
+            `;
             
             setTimeout(() => {
                 const { categoryObserver, cardObserver } = initIntersectionObservers();
@@ -3744,712 +4249,218 @@
 
         // ==================== КАСТОМНЫЙ ВИДЕОПЛЕЕР ====================
         function initVideoPlayer() {
-    const videoPlayer = document.querySelector('.custom-video-player');
-    if (!videoPlayer) return;
+            const videoPlayer = document.querySelector('.custom-video-player');
+            if (!videoPlayer) return;
 
-    const video = videoPlayer.querySelector('video');
-    const playPauseBtn = videoPlayer.querySelector('.play-pause');
-    const centerPlayBtn = videoPlayer.querySelector('.video-center-play');
-    const videoControls = videoPlayer.querySelector('.video-controls'); // ВАЖНО: добавьте эту строку
-    const progressBar = videoPlayer.querySelector('.progress-bar');
-    const progress = videoPlayer.querySelector('.progress');
-    const timeDisplay = videoPlayer.querySelector('.time-display');
-    const volumeBtn = videoPlayer.querySelector('.volume-btn');
-    const volumeSlider = videoPlayer.querySelector('.volume-slider');
-    const volumeLevel = videoPlayer.querySelector('.volume-level');
-    const fullscreenBtn = videoPlayer.querySelector('.fullscreen-btn');
+            const video = videoPlayer.querySelector('video');
+            const playPauseBtn = videoPlayer.querySelector('.play-pause');
+            const centerPlayBtn = videoPlayer.querySelector('.video-center-play');
+            const videoControls = videoPlayer.querySelector('.video-controls');
+            const progressBar = videoPlayer.querySelector('.progress-bar');
+            const progress = videoPlayer.querySelector('.progress');
+            const timeDisplay = videoPlayer.querySelector('.time-display');
+            const volumeBtn = videoPlayer.querySelector('.volume-btn');
+            const volumeSlider = videoPlayer.querySelector('.volume-slider');
+            const volumeLevel = videoPlayer.querySelector('.volume-level');
+            const fullscreenBtn = videoPlayer.querySelector('.fullscreen-btn');
 
-    if (!video || !playPauseBtn) return;
+            if (!video || !playPauseBtn) return;
 
-    video.volume = 1.0;
-    volumeLevel.style.width = '100%';
-
-    // Скрытие контролов через 2 секунды (как на YouTube)
-    function hideControls() {
-        clearTimeout(controlsTimeout);
-        controlsTimeout = setTimeout(() => {
-            videoPlayer.classList.remove('controls-visible');
-            centerPlayBtn.classList.remove('visible');
-            // Скрываем все элементы управления видеоплеера
-            if (videoControls) {
-                videoControls.style.opacity = '0';
-                videoControls.style.pointerEvents = 'none';
-            }
-            // Скрываем курсор
-            videoPlayer.classList.add('cursor-hidden');
-        }, CONFIG.CONTROLS_HIDE_DELAY);
-    }
-
-    function showControls() {
-        videoPlayer.classList.add('controls-visible');
-        centerPlayBtn.classList.add('visible');
-        // Показываем все элементы управления видеоплеера
-        if (videoControls) {
-            videoControls.style.opacity = '1';
-            videoControls.style.pointerEvents = 'auto';
-        }
-        // Показываем курсор
-        videoPlayer.classList.remove('cursor-hidden');
-        hideControls();
-    }
-
-    // События для показа/скрытия контролов
-    videoPlayer.addEventListener('mousemove', showControls);
-    videoPlayer.addEventListener('mouseleave', () => {
-        if (!video.paused) {
-            hideControls();
-        } else {
-            // Если видео на паузе, не скрываем курсор
-            showControls();
-        }
-    });
-
-    // События для элементов управления, которые должны показывать контролы
-    const controlElements = [playPauseBtn, progressBar, volumeBtn, volumeSlider, fullscreenBtn, timeDisplay];
-    controlElements.forEach(element => {
-        if (element) {
-            element.addEventListener('mouseenter', showControls);
-            element.addEventListener('click', showControls);
-        }
-    });
-
-    video.addEventListener('click', () => {
-        togglePlayPause();
-        showControls();
-    });
-
-    centerPlayBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        togglePlayPause();
-        showControls();
-    });
-
-    playPauseBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        togglePlayPause();
-        showControls();
-    });
-
-    function togglePlayPause() {
-        if (video.paused) {
-            video.play();
-            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-            centerPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
-            videoPlayer.classList.add('controls-visible');
-            hideControls();
-        } else {
-            video.pause();
-            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-            centerPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
-            videoPlayer.classList.add('controls-visible');
-        }
-    }
-
-    video.addEventListener('timeupdate', () => {
-        if (video.duration) {
-            const percent = (video.currentTime / video.duration) * 100;
-            progress.style.width = percent + '%';
-            
-            const currentTime = formatTime(video.currentTime);
-            const duration = formatTime(video.duration);
-            timeDisplay.textContent = `${currentTime} / ${duration}`;
-        }
-    });
-
-    progressBar.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const rect = progressBar.getBoundingClientRect();
-        const percent = (e.clientX - rect.left) / rect.width;
-        video.currentTime = percent * video.duration;
-        showControls();
-    });
-
-    volumeSlider.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const rect = volumeSlider.getBoundingClientRect();
-        const percent = (e.clientX - rect.left) / rect.width;
-        video.volume = Math.max(0, Math.min(1, percent));
-        volumeLevel.style.width = (percent * 100) + '%';
-        updateVolumeIcon(video.volume);
-        showControls();
-    });
-
-    volumeBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (video.volume > 0) {
-            video.volume = 0;
-            volumeLevel.style.width = '0%';
-        } else {
             video.volume = 1.0;
             volumeLevel.style.width = '100%';
-        }
-        updateVolumeIcon(video.volume);
-        showControls();
-    });
 
-    fullscreenBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (!document.fullscreenElement) {
-            videoPlayer.requestFullscreen().catch(err => {
-                console.log(`Ошибка при переходе в полноэкранный режим: ${err.message}`);
-            });
-        } else {
-            document.exitFullscreen();
-        }
-        showControls();
-    });
-
-    video.addEventListener('ended', () => {
-        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-        centerPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
-        videoPlayer.classList.remove('controls-visible');
-        centerPlayBtn.classList.add('visible');
-        // При окончании видео скрываем контролы
-        if (videoControls) {
-            videoControls.style.opacity = '0';
-            videoControls.style.pointerEvents = 'none';
-        }
-        // Скрываем курсор при окончании видео
-        videoPlayer.classList.add('cursor-hidden');
-    });
-
-    // Показываем центральную кнопку при наведении
-    videoPlayer.addEventListener('mouseenter', () => {
-        centerPlayBtn.classList.add('visible');
-        showControls();
-    });
-
-    function formatTime(seconds) {
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    }
-
-    function updateVolumeIcon(volume) {
-        let icon = 'fa-volume-up';
-        if (volume === 0) icon = 'fa-volume-mute';
-        else if (volume < 0.5) icon = 'fa-volume-down';
-        volumeBtn.innerHTML = `<i class="fas ${icon}"></i>`;
-    }
-
-    video.addEventListener('error', (e) => {
-        console.error('Ошибка загрузки видео:', e);
-        videoPlayer.innerHTML = `
-            <div style="padding: 2rem; text-align: center; color: var(--text-secondary);">
-                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-                <p>Не удалось загрузить видео</p>
-                <p><small>Проверьте путь к файлу: ${video.querySelector('source').src}</small></p>
-            </div>
-        `;
-        showSystemNotification('Ошибка загрузки видео', 'error', 3000);
-    });
-
-    // Инициализация скрытия контролов
-    hideControls();
-}
-
-        // ==================== РЕДАКТОР ПРОЕКТОВ ====================
-
-        function toggleEditor() {
-            if (!isAuthenticated) {
-                showAuthModal();
-                return;
-            }
-
-            const editor = document.getElementById('editor-modal');
-            isEditorOpen = !isEditorOpen;
-            
-            if (isEditorOpen) {
-                editor.classList.add('active');
-                loadEditorData();
-                document.body.style.overflow = 'hidden';
-            } else {
-                editor.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        }
-
-        function switchEditorTab(tabName) {
-            // Скрыть все вкладки
-            document.querySelectorAll('.editor-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Убрать активный класс со всех кнопок
-            document.querySelectorAll('.editor-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Показать выбранную вкладку
-            document.getElementById(`${tabName}-section`).classList.add('active');
-            
-            // Активировать кнопку
-            event.target.classList.add('active');
-            
-            // Обновить данные если нужно
-            if (tabName === 'export') {
-                updateExportData();
-            }
-        }
-
-        function loadEditorData() {
-            updateCategoriesList();
-            updateSubcategoriesList();
-            updateProjectsList();
-            loadCategorySelects();
-        }
-
-        function loadCategorySelects() {
-            const parentCategory = document.getElementById('parent-category');
-            const projectCategory = document.getElementById('project-category');
-            
-            parentCategory.innerHTML = '';
-            projectCategory.innerHTML = '';
-            
-            for (const [key, category] of Object.entries(projectsData)) {
-                const option = document.createElement('option');
-                option.value = key;
-                option.textContent = category.title;
-                parentCategory.appendChild(option.cloneNode(true));
-                projectCategory.appendChild(option);
-            }
-            
-            updateSubcategories();
-        }
-
-        function updateSubcategories() {
-            const categoryKey = document.getElementById('project-category').value;
-            const subcategorySelect = document.getElementById('project-subcategory');
-            
-            subcategorySelect.innerHTML = '';
-            
-            if (projectsData[categoryKey]) {
-                for (const [key, subcategory] of Object.entries(projectsData[categoryKey].subcategories)) {
-                    const option = document.createElement('option');
-                    option.value = key;
-                    option.textContent = subcategory.title;
-                    subcategorySelect.appendChild(option);
-                }
-            }
-        }
-
-        function addCategory() {
-            const title = document.getElementById('category-title').value;
-            const icon = document.getElementById('category-icon').value;
-            const key = document.getElementById('category-key').value;
-            
-            if (!title || !icon || !key) {
-                showSystemNotification('Заполните все поля', 'error', 3000);
-                return;
-            }
-            
-            if (projectsData[key]) {
-                showSystemNotification('Категория с таким ключом уже существует', 'error', 3000);
-                return;
-            }
-            
-            projectsData[key] = {
-                title: title,
-                icon: icon,
-                subcategories: {}
-            };
-            
-            showSystemNotification('Категория добавлена', 'success', 3000);
-            loadEditorData();
-            clearCategoryForm();
-        }
-
-        function addSubcategory() {
-            const parentKey = document.getElementById('parent-category').value;
-            const title = document.getElementById('subcategory-title').value;
-            const icon = document.getElementById('subcategory-icon').value;
-            const key = document.getElementById('subcategory-key').value;
-            
-            if (!parentKey || !title || !icon || !key) {
-                showSystemNotification('Заполните все поля', 'error', 3000);
-                return;
-            }
-            
-            if (projectsData[parentKey].subcategories[key]) {
-                showSystemNotification('Подкатегория с таким ключом уже существует', 'error', 3000);
-                return;
-            }
-            
-            projectsData[parentKey].subcategories[key] = {
-                title: title,
-                icon: icon,
-                projects: []
-            };
-            
-            showSystemNotification('Подкатегория добавлена', 'success', 3000);
-            loadEditorData();
-            clearSubcategoryForm();
-        }
-
-        function addProject() {
-            const categoryKey = document.getElementById('project-category').value;
-            const subcategoryKey = document.getElementById('project-subcategory').value;
-            const id = document.getElementById('project-id').value;
-            const title = document.getElementById('project-title').value;
-            const description = document.getElementById('project-description').value;
-            const imageType = document.getElementById('project-image-type').value;
-            const image = document.getElementById('project-image').value;
-            const detailedDescription = document.getElementById('project-detailed-description').value;
-            
-            if (!categoryKey || !subcategoryKey || !id || !title || !description) {
-                showSystemNotification('Заполните обязательные поля', 'error', 3000);
-                return;
-            }
-            
-            // Сбор технологий
-            const technologies = [];
-            document.querySelectorAll('.tech-input').forEach(input => {
-                if (input.value.trim()) {
-                    technologies.push(input.value.trim());
-                }
-            });
-            
-            // Сбор ссылок
-            const links = [];
-            document.querySelectorAll('.array-item').forEach(item => {
-                const url = item.querySelector('.link-url').value;
-                const text = item.querySelector('.link-text').value;
-                const icon = item.querySelector('.link-icon').value;
-                
-                if (url && text) {
-                    links.push({
-                        url: url,
-                        text: text,
-                        icon: icon || 'fas fa-external-link-alt'
-                    });
-                }
-            });
-            
-            const project = {
-                id: id,
-                title: title,
-                description: description,
-                imageType: imageType,
-                image: image,
-                technologies: technologies,
-                links: links,
-                detailedDescription: detailedDescription
-            };
-            
-            // Проверяем, существует ли уже проект с таким ID
-            const existingIndex = projectsData[categoryKey].subcategories[subcategoryKey].projects.findIndex(p => p.id === id);
-            
-            if (existingIndex !== -1) {
-                // Обновляем существующий проект
-                projectsData[categoryKey].subcategories[subcategoryKey].projects[existingIndex] = project;
-                showSystemNotification('Проект обновлен', 'success', 3000);
-            } else {
-                // Добавляем новый проект
-                projectsData[categoryKey].subcategories[subcategoryKey].projects.push(project);
-                showSystemNotification('Проект добавлен', 'success', 3000);
-            }
-            
-            loadEditorData();
-            clearProjectForm();
-        }
-
-        function addTech() {
-            const container = document.getElementById('technologies-container');
-            const newItem = document.createElement('div');
-            newItem.className = 'array-item';
-            newItem.innerHTML = `
-                <input type="text" class="form-input tech-input" placeholder="Java">
-                <button class="action-btn delete" onclick="removeTech(this)">×</button>
-            `;
-            container.appendChild(newItem);
-        }
-
-        function removeTech(button) {
-            button.parentElement.remove();
-        }
-
-        function addLink() {
-            const container = document.getElementById('links-container');
-            const newItem = document.createElement('div');
-            newItem.className = 'array-item';
-            newItem.innerHTML = `
-                <input type="text" class="form-input link-url" placeholder="URL">
-                <input type="text" class="form-input link-text" placeholder="Текст">
-                <input type="text" class="form-input link-icon" placeholder="fab fa-github">
-                <button class="action-btn delete" onclick="removeLink(this)">×</button>
-            `;
-            container.appendChild(newItem);
-        }
-
-        function removeLink(button) {
-            button.parentElement.remove();
-        }
-
-        function updateCategoriesList() {
-            const list = document.getElementById('categories-list');
-            list.innerHTML = '';
-            
-            for (const [key, category] of Object.entries(projectsData)) {
-                const item = document.createElement('div');
-                item.className = 'project-item';
-                item.innerHTML = `
-                    <div>
-                        <strong>${category.title}</strong>
-                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Ключ: ${key}</div>
-                    </div>
-                    <div class="project-actions">
-                        <button class="action-btn edit" onclick="editCategory('${key}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="action-btn delete" onclick="deleteCategory('${key}')">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                `;
-                list.appendChild(item);
-            }
-        }
-
-        function updateSubcategoriesList() {
-            const list = document.getElementById('subcategories-list');
-            list.innerHTML = '';
-            
-            for (const [catKey, category] of Object.entries(projectsData)) {
-                for (const [subKey, subcategory] of Object.entries(category.subcategories)) {
-                    const item = document.createElement('div');
-                    item.className = 'project-item';
-                    item.innerHTML = `
-                        <div>
-                            <strong>${subcategory.title}</strong>
-                            <div style="font-size: 0.9rem; color: var(--text-secondary);">
-                                Категория: ${category.title} | Ключ: ${subKey}
-                            </div>
-                        </div>
-                        <div class="project-actions">
-                            <button class="action-btn edit" onclick="editSubcategory('${catKey}', '${subKey}')">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn delete" onclick="deleteSubcategory('${catKey}', '${subKey}')">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
-                    list.appendChild(item);
-                }
-            }
-        }
-
-        function updateProjectsList() {
-            const list = document.getElementById('projects-list');
-            list.innerHTML = '';
-            
-            for (const [catKey, category] of Object.entries(projectsData)) {
-                for (const [subKey, subcategory] of Object.entries(category.subcategories)) {
-                    subcategory.projects.forEach(project => {
-                        const item = document.createElement('div');
-                        item.className = 'project-item';
-                        item.innerHTML = `
-                            <div>
-                                <strong>${project.title}</strong>
-                                <div style="font-size: 0.9rem; color: var(--text-secondary);">
-                                    ${category.title} → ${subcategory.title} | ID: ${project.id}
-                                </div>
-                            </div>
-                            <div class="project-actions">
-                                <button class="action-btn edit" onclick="editProject('${catKey}', '${subKey}', '${project.id}')">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-btn delete" onclick="deleteProject('${catKey}', '${subKey}', '${project.id}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        `;
-                        list.appendChild(item);
-                    });
-                }
-            }
-        }
-
-        function editCategory(key) {
-            const category = projectsData[key];
-            document.getElementById('category-title').value = category.title;
-            document.getElementById('category-icon').value = category.icon;
-            document.getElementById('category-key').value = key;
-            
-            switchEditorTab('categories');
-            showSystemNotification('Редактирование категории', 'info', 3000);
-        }
-
-        function editSubcategory(catKey, subKey) {
-            const subcategory = projectsData[catKey].subcategories[subKey];
-            document.getElementById('parent-category').value = catKey;
-            document.getElementById('subcategory-title').value = subcategory.title;
-            document.getElementById('subcategory-icon').value = subcategory.icon;
-            document.getElementById('subcategory-key').value = subKey;
-            
-            switchEditorTab('subcategories');
-            showSystemNotification('Редактирование подкатегории', 'info', 3000);
-        }
-
-        function editProject(catKey, subKey, projectId) {
-            const project = projectsData[catKey].subcategories[subKey].projects.find(p => p.id === projectId);
-            
-            document.getElementById('project-category').value = catKey;
-            updateSubcategories();
-            document.getElementById('project-subcategory').value = subKey;
-            document.getElementById('project-id').value = project.id;
-            document.getElementById('project-title').value = project.title;
-            document.getElementById('project-description').value = project.description;
-            document.getElementById('project-image-type').value = project.imageType;
-            document.getElementById('project-image').value = project.image;
-            document.getElementById('project-detailed-description').value = project.detailedDescription;
-            
-            // Загрузка технологий
-            const techContainer = document.getElementById('technologies-container');
-            techContainer.innerHTML = '';
-            project.technologies.forEach(tech => {
-                const newItem = document.createElement('div');
-                newItem.className = 'array-item';
-                newItem.innerHTML = `
-                    <input type="text" class="form-input tech-input" value="${tech}">
-                    <button class="action-btn delete" onclick="removeTech(this)">×</button>
-                `;
-                techContainer.appendChild(newItem);
-            });
-            
-            // Загрузка ссылок
-            const linksContainer = document.getElementById('links-container');
-            linksContainer.innerHTML = '';
-            project.links.forEach(link => {
-                const newItem = document.createElement('div');
-                newItem.className = 'array-item';
-                newItem.innerHTML = `
-                    <input type="text" class="form-input link-url" value="${link.url}">
-                    <input type="text" class="form-input link-text" value="${link.text}">
-                    <input type="text" class="form-input link-icon" value="${link.icon}">
-                    <button class="action-btn delete" onclick="removeLink(this)">×</button>
-                `;
-                linksContainer.appendChild(newItem);
-            });
-            
-            switchEditorTab('projects');
-            showSystemNotification('Редактирование проекта', 'info', 3000);
-        }
-
-        function deleteCategory(key) {
-            if (confirm(`Удалить категорию "${projectsData[key].title}"? Все подкатегории и проекты также будут удалены.`)) {
-                delete projectsData[key];
-                showSystemNotification('Категория удалена', 'success', 3000);
-                loadEditorData();
-            }
-        }
-
-        function deleteSubcategory(catKey, subKey) {
-            if (confirm(`Удалить подкатегорию "${projectsData[catKey].subcategories[subKey].title}"? Все проекты также будут удалены.`)) {
-                delete projectsData[catKey].subcategories[subKey];
-                showSystemNotification('Подкатегория удалена', 'success', 3000);
-                loadEditorData();
-            }
-        }
-
-        function deleteProject(catKey, subKey, projectId) {
-            const project = projectsData[catKey].subcategories[subKey].projects.find(p => p.id === projectId);
-            if (confirm(`Удалить проект "${project.title}"?`)) {
-                projectsData[catKey].subcategories[subKey].projects = 
-                    projectsData[catKey].subcategories[subKey].projects.filter(p => p.id !== projectId);
-                showSystemNotification('Проект удален', 'success', 3000);
-                loadEditorData();
-            }
-        }
-
-        function clearCategoryForm() {
-            document.getElementById('category-title').value = '';
-            document.getElementById('category-icon').value = '';
-            document.getElementById('category-key').value = '';
-        }
-
-        function clearSubcategoryForm() {
-            document.getElementById('subcategory-title').value = '';
-            document.getElementById('subcategory-icon').value = '';
-            document.getElementById('subcategory-key').value = '';
-        }
-
-        function clearProjectForm() {
-            document.getElementById('project-id').value = '';
-            document.getElementById('project-title').value = '';
-            document.getElementById('project-description').value = '';
-            document.getElementById('project-image').value = '';
-            document.getElementById('project-detailed-description').value = '';
-            document.getElementById('technologies-container').innerHTML = `
-                <div class="array-item">
-                    <input type="text" class="form-input tech-input" placeholder="Java">
-                    <button class="action-btn delete" onclick="removeTech(this)">×</button>
-                </div>
-            `;
-            document.getElementById('links-container').innerHTML = `
-                <div class="array-item">
-                    <input type="text" class="form-input link-url" placeholder="URL">
-                    <input type="text" class="form-input link-text" placeholder="Текст">
-                    <input type="text" class="form-input link-icon" placeholder="fab fa-github">
-                    <button class="action-btn delete" onclick="removeLink(this)">×</button>
-                </div>
-            `;
-        }
-
-        function updateExportData() {
-            document.getElementById('export-data').value = JSON.stringify(projectsData, null, 2);
-        }
-
-        function exportData() {
-            const exportData = document.getElementById('export-data');
-            exportData.select();
-            document.execCommand('copy');
-            showSystemNotification('Данные скопированы в буфер обмена', 'success', 3000);
-        }
-
-        function importData() {
-            const data = prompt('Вставьте JSON данные:');
-            if (data) {
-                try {
-                    const parsedData = JSON.parse(data);
-                    projectsData = parsedData;
-                    showSystemNotification('Данные успешно импортированы', 'success', 3000);
-                    loadEditorData();
-                } catch (e) {
-                    showSystemNotification('Ошибка при импорте данных', 'error', 3000);
-                }
-            }
-        }
-
-        function resetData() {
-            if (confirm('ВНИМАНИЕ! Это действие полностью сбросит все данные проектов. Продолжить?')) {
-                projectsData = {
-                    games: {
-                        title: "Игры",
-                        icon: "fas fa-gamepad",
-                        subcategories: {}
-                    },
-                    programs: {
-                        title: "Программы",
-                        icon: "fas fa-laptop-code", 
-                        subcategories: {}
-                    },
-                    apps: {
-                        title: "Приложения",
-                        icon: "fas fa-mobile-alt",
-                        subcategories: {}
+            // Скрытие контролов через 2 секунды (как на YouTube)
+            function hideControls() {
+                clearTimeout(controlsTimeout);
+                controlsTimeout = setTimeout(() => {
+                    videoPlayer.classList.remove('controls-visible');
+                    centerPlayBtn.classList.remove('visible');
+                    // Скрываем все элементы управления видеоплеера
+                    if (videoControls) {
+                        videoControls.style.opacity = '0';
+                        videoControls.style.pointerEvents = 'none';
                     }
-                };
-                showSystemNotification('Данные сброшены', 'success', 3000);
-                loadEditorData();
+                    // Скрываем курсор
+                    videoPlayer.classList.add('cursor-hidden');
+                }, CONFIG.CONTROLS_HIDE_DELAY);
             }
+
+            function showControls() {
+                videoPlayer.classList.add('controls-visible');
+                centerPlayBtn.classList.add('visible');
+                // Показываем все элементы управления видеоплеера
+                if (videoControls) {
+                    videoControls.style.opacity = '1';
+                    videoControls.style.pointerEvents = 'auto';
+                }
+                // Показываем курсор
+                videoPlayer.classList.remove('cursor-hidden');
+                hideControls();
+            }
+
+            // События для показа/скрытия контролов
+            videoPlayer.addEventListener('mousemove', showControls);
+            videoPlayer.addEventListener('mouseleave', () => {
+                if (!video.paused) {
+                    hideControls();
+                } else {
+                    // Если видео на паузе, не скрываем курсор
+                    showControls();
+                }
+            });
+
+            // События для элементов управления, которые должны показывать контролы
+            const controlElements = [playPauseBtn, progressBar, volumeBtn, volumeSlider, fullscreenBtn, timeDisplay];
+            controlElements.forEach(element => {
+                if (element) {
+                    element.addEventListener('mouseenter', showControls);
+                    element.addEventListener('click', showControls);
+                }
+            });
+
+            video.addEventListener('click', () => {
+                togglePlayPause();
+                showControls();
+            });
+
+            centerPlayBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                togglePlayPause();
+                showControls();
+            });
+
+            playPauseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                togglePlayPause();
+                showControls();
+            });
+
+            function togglePlayPause() {
+                if (video.paused) {
+                    video.play();
+                    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    centerPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    videoPlayer.classList.add('controls-visible');
+                    hideControls();
+                } else {
+                    video.pause();
+                    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    centerPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    videoPlayer.classList.add('controls-visible');
+                }
+            }
+
+            video.addEventListener('timeupdate', () => {
+                if (video.duration) {
+                    const percent = (video.currentTime / video.duration) * 100;
+                    progress.style.width = percent + '%';
+                    
+                    const currentTime = formatTime(video.currentTime);
+                    const duration = formatTime(video.duration);
+                    timeDisplay.textContent = `${currentTime} / ${duration}`;
+                }
+            });
+
+            progressBar.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const rect = progressBar.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                video.currentTime = percent * video.duration;
+                showControls();
+            });
+
+            volumeSlider.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const rect = volumeSlider.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                video.volume = Math.max(0, Math.min(1, percent));
+                volumeLevel.style.width = (percent * 100) + '%';
+                updateVolumeIcon(video.volume);
+                showControls();
+            });
+
+            volumeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (video.volume > 0) {
+                    video.volume = 0;
+                    volumeLevel.style.width = '0%';
+                } else {
+                    video.volume = 1.0;
+                    volumeLevel.style.width = '100%';
+                }
+                updateVolumeIcon(video.volume);
+                showControls();
+            });
+
+            fullscreenBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (!document.fullscreenElement) {
+                    videoPlayer.requestFullscreen().catch(err => {
+                        console.log(`Ошибка при переходе в полноэкранный режим: ${err.message}`);
+                    });
+                } else {
+                    document.exitFullscreen();
+                }
+                showControls();
+            });
+
+            video.addEventListener('ended', () => {
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                centerPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
+                videoPlayer.classList.remove('controls-visible');
+                centerPlayBtn.classList.add('visible');
+                // При окончании видео скрываем контролы
+                if (videoControls) {
+                    videoControls.style.opacity = '0';
+                    videoControls.style.pointerEvents = 'none';
+                }
+                // Скрываем курсор при окончании видео
+                videoPlayer.classList.add('cursor-hidden');
+            });
+
+            // Показываем центральную кнопку при наведении
+            videoPlayer.addEventListener('mouseenter', () => {
+                centerPlayBtn.classList.add('visible');
+                showControls();
+            });
+
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            function updateVolumeIcon(volume) {
+                let icon = 'fa-volume-up';
+                if (volume === 0) icon = 'fa-volume-mute';
+                else if (volume < 0.5) icon = 'fa-volume-down';
+                volumeBtn.innerHTML = `<i class="fas ${icon}"></i>`;
+            }
+
+            video.addEventListener('error', (e) => {
+                console.error('Ошибка загрузки видео:', e);
+                videoPlayer.innerHTML = `
+                    <div style="padding: 2rem; text-align: center; color: var(--text-secondary);">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <p>Не удалось загрузить видео</p>
+                        <p><small>Проверьте путь к файлу: ${video.querySelector('source').src}</small></p>
+                    </div>
+                `;
+            });
+
+            // Инициализация скрытия контролов
+            hideControls();
         }
 
         // ==================== ИНИЦИАЛИЗАЦИЯ ====================
 
         document.addEventListener('DOMContentLoaded', function() {
-            updateEventIcon();
+            // Загружаем данные проектов при запуске
+            loadProjectsData().then(() => {
+                console.log('Данные проектов загружены');
+            });
             
+            updateEventIcon();
             initSmoothScroll();
             initIntersectionObservers();
             initLazyLoading();
@@ -4460,8 +4471,6 @@
             loadUpdates();
             
             window.addEventListener('scroll', handleScroll);
-            
-            // Убрано приветственное уведомление
 
             window.addEventListener('beforeunload', () => {
                 observers.forEach(observer => {
