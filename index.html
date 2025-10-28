@@ -111,6 +111,99 @@
             font-size: 1.2rem;
         }
 
+        /* Модальное окно аутентификации */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(7, 7, 17, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 10004;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .auth-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .auth-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .auth-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
+        }
+
+        .auth-btn {
+            width: 100%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .auth-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
+
+        .auth-error {
+            color: var(--error);
+            margin-top: 1rem;
+            display: none;
+        }
+
+        /* Остальные стили остаются без изменений... */
+
         /* Индикатор загрузки для страниц */
         .page-loader {
             position: fixed;
@@ -1879,6 +1972,11 @@
             .editor-container {
                 padding: 1.5rem;
             }
+
+            .auth-container {
+                padding: 2rem;
+                margin: 1rem;
+            }
         }
 
         /* Тёмная тема системных элементов */
@@ -1919,9 +2017,29 @@
 
     <!-- Панель администратора -->
     <div class="admin-panel">
-        <button class="admin-toggle" onclick="toggleEditor()">
+        <button class="admin-toggle" onclick="showAuthModal()">
             <i class="fas fa-cog"></i>Редактор
         </button>
+    </div>
+
+    <!-- Модальное окно аутентификации -->
+    <div id="auth-modal" class="auth-modal">
+        <div class="auth-container">
+            <h2 class="auth-title">Доступ к редактору</h2>
+            <p class="auth-subtitle">Введите код разработчика для доступа к панели управления</p>
+            
+            <input type="password" id="developer-code" class="auth-input" placeholder="Введите код доступа" autocomplete="off">
+            <button class="auth-btn" onclick="authenticateDeveloper()">
+                <i class="fas fa-lock"></i>Войти
+            </button>
+            <button class="auth-btn auth-btn-secondary" onclick="hideAuthModal()">
+                <i class="fas fa-times"></i>Отмена
+            </button>
+            
+            <div id="auth-error" class="auth-error">
+                <i class="fas fa-exclamation-triangle"></i> Неверный код доступа
+            </div>
+        </div>
     </div>
 
     <!-- Параллакс фон -->
@@ -2280,7 +2398,8 @@
             GITHUB_TOKEN: 'YOUR_GITHUB_TOKEN_HERE',
             GITHUB_RAW_URL: 'https://raw.githubusercontent.com/0ptim1st-DK/0ptim1st-DK.github.io/main/',
             LAZY_LOAD_OFFSET: 100,
-            CONTROLS_HIDE_DELAY: 3000
+            CONTROLS_HIDE_DELAY: 3000,
+            DEVELOPER_CODE: 'DKDEVELOPER1' // Секретный код для доступа к редактору
         };
 
         // ==================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ====================
@@ -2296,6 +2415,45 @@
         let observers = [];
         let controlsTimeout;
         let isEditorOpen = false;
+        let isAuthenticated = false;
+
+        // ==================== СИСТЕМА АУТЕНТИФИКАЦИИ ====================
+
+        function showAuthModal() {
+            const authModal = document.getElementById('auth-modal');
+            authModal.classList.add('active');
+            document.getElementById('developer-code').focus();
+        }
+
+        function hideAuthModal() {
+            const authModal = document.getElementById('auth-modal');
+            authModal.classList.remove('active');
+            document.getElementById('developer-code').value = '';
+            document.getElementById('auth-error').style.display = 'none';
+        }
+
+        function authenticateDeveloper() {
+            const inputCode = document.getElementById('developer-code').value;
+            const authError = document.getElementById('auth-error');
+            
+            if (inputCode === CONFIG.DEVELOPER_CODE) {
+                isAuthenticated = true;
+                hideAuthModal();
+                toggleEditor();
+                showSystemNotification('Доступ к редактору разрешен', 'success', 3000);
+            } else {
+                authError.style.display = 'block';
+                document.getElementById('developer-code').value = '';
+                document.getElementById('developer-code').focus();
+            }
+        }
+
+        // Обработка нажатия Enter в поле ввода кода
+        document.getElementById('developer-code').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                authenticateDeveloper();
+            }
+        });
 
         // ==================== СИСТЕМНЫЕ УВЕДОМЛЕНИЯ ====================
         function showSystemNotification(message, type = 'info', duration = 4000) {
@@ -3749,6 +3907,11 @@
         // ==================== РЕДАКТОР ПРОЕКТОВ ====================
 
         function toggleEditor() {
+            if (!isAuthenticated) {
+                showAuthModal();
+                return;
+            }
+
             const editor = document.getElementById('editor-modal');
             isEditorOpen = !isEditorOpen;
             
