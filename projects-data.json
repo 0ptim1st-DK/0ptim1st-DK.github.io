@@ -1,0 +1,30 @@
+{
+  "games": {
+    "title": "Игры",
+    "icon": "fas fa-gamepad",
+    "subcategories": {
+      "minecraft": {
+        "title": "Minecraft", 
+        "icon": "fas fa-cube",
+        "projects": [
+          {
+            "id": "autocraft",
+            "title": "AutoCraft AE2",
+            "description": "Продвинутая система автоматизации для Minecraft, расширяющая возможности Applied Energistics 2",
+            "imageType": "github",
+            "image": "https://raw.githubusercontent.com/0ptim1st-DK/0ptim1st-DK.github.io/main/images/projects/ac8/oblojka.png",
+            "technologies": ["Java", "Minecraft", "Forge API", "Automation", "AE2"],
+            "links": [
+              {
+                "url": "https://github.com/0ptim1st-DK/autocraft-ae2",
+                "text": "Исходный код",
+                "icon": "fab fa-github"
+              }
+            ],
+            "detailedDescription": "<p>AutoCraft AE2 - это революционный мод для Minecraft...</p>"
+          }
+        ]
+      }
+    }
+  }
+}
