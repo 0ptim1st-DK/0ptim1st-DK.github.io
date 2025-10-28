@@ -1516,6 +1516,15 @@
             pointer-events: auto;
             z-index: 10;
         }
+       
+        /* Скрытие курсора для видеоплеера */
+.custom-video-player.cursor-hidden {
+    cursor: none;
+}
+
+.custom-video-player.cursor-hidden video {
+    cursor: none;
+}
 
         .custom-video-player:hover .video-controls {
             opacity: 1;
@@ -3741,7 +3750,7 @@
     const video = videoPlayer.querySelector('video');
     const playPauseBtn = videoPlayer.querySelector('.play-pause');
     const centerPlayBtn = videoPlayer.querySelector('.video-center-play');
-    const videoControls = videoPlayer.querySelector('.video-controls'); // ДОБАВИТЬ эту строку
+    const videoControls = videoPlayer.querySelector('.video-controls'); // ВАЖНО: добавьте эту строку
     const progressBar = videoPlayer.querySelector('.progress-bar');
     const progress = videoPlayer.querySelector('.progress');
     const timeDisplay = videoPlayer.querySelector('.time-display');
@@ -3766,6 +3775,8 @@
                 videoControls.style.opacity = '0';
                 videoControls.style.pointerEvents = 'none';
             }
+            // Скрываем курсор
+            videoPlayer.classList.add('cursor-hidden');
         }, CONFIG.CONTROLS_HIDE_DELAY);
     }
 
@@ -3777,6 +3788,8 @@
             videoControls.style.opacity = '1';
             videoControls.style.pointerEvents = 'auto';
         }
+        // Показываем курсор
+        videoPlayer.classList.remove('cursor-hidden');
         hideControls();
     }
 
@@ -3785,6 +3798,9 @@
     videoPlayer.addEventListener('mouseleave', () => {
         if (!video.paused) {
             hideControls();
+        } else {
+            // Если видео на паузе, не скрываем курсор
+            showControls();
         }
     });
 
@@ -3893,6 +3909,8 @@
             videoControls.style.opacity = '0';
             videoControls.style.pointerEvents = 'none';
         }
+        // Скрываем курсор при окончании видео
+        videoPlayer.classList.add('cursor-hidden');
     });
 
     // Показываем центральную кнопку при наведении
