@@ -4,7 +4,7 @@
     "icon": "fas fa-gamepad",
     "subcategories": {
       "minecraft": {
-        "title": "Minecraft", 
+        "title": "Minecraft",
         "icon": "fas fa-cube",
         "projects": [
           {
@@ -21,10 +21,20 @@
                 "icon": "fab fa-github"
               }
             ],
-            "detailedDescription": "<p>AutoCraft AE2 - это революционный мод для Minecraft...</p>"
+            "detailedDescription": "<div class=\"project-description\"><h2>AutoCraft AE2 - революционный мод для Minecraft</h2><p>Этот проект представляет собой расширенную систему автоматизации для Minecraft, которая интегрируется с Applied Energistics 2.</p><div class=\"project-features\"><div class=\"feature\"><h3>🚀 Автоматизация крафта</h3><p>Полная автоматизация процессов крафта с интеллектуальным распределением ресурсов</p></div><div class=\"feature\"><h3>🔧 Интеграция с AE2</h3><p>Глубокая интеграция с Applied Energistics 2 для управления ресурсами</p></div><div class=\"feature\"><h3>⚡ Высокая производительность</h3><p>Оптимизированная работа даже на больших серверах</p></div></div><div class=\"project-screenshots\"><div class=\"screenshot-item\"><img src=\"https://raw.githubusercontent.com/0ptim1st-DK/0ptim1st-DK.github.io/main/images/projects/ac8/screen1.png\" alt=\"Интерфейс AutoCraft\"></div><div class=\"screenshot-item\"><img src=\"https://raw.githubusercontent.com/0ptim1st-DK/0ptim1st-DK.github.io/main/images/projects/ac8/screen2.png\" alt=\"Система автоматизации\"></div></div><div class=\"video-container\"><video controls style=\"width: 100%; border-radius: 10px;\"><source src=\"https://raw.githubusercontent.com/0ptim1st-DK/0ptim1st-DK.github.io/main/videos/titri.mp4\" type=\"video/mp4\">Ваш браузер не поддерживает видео.</video></div></div>"
           }
         ]
       }
     }
+  },
+  "programs": {
+    "title": "Программы",
+    "icon": "fas fa-laptop-code",
+    "subcategories": {}
+  },
+  "apps": {
+    "title": "Приложения",
+    "icon": "fas fa-mobile-alt",
+    "subcategories": {}
   }
 }
